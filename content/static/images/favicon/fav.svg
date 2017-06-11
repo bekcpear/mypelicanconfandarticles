@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg2"
+   height="500mm"
+   width="500mm"
+   version="1.1"
+   viewBox="0 0 1771.6535 1771.6535"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="fav.svg"
+   inkscape:export-filename="/home/royuz/Documents/i.ume.ink/content/static/images/favicon/android-chrome-144x144.png"
+   inkscape:export-xdpi="7.3200002"
+   inkscape:export-ydpi="7.3200002">
+  <defs
+     id="defs4212" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1918"
+     inkscape:window-height="1158"
+     id="namedview4210"
+     showgrid="false"
+     inkscape:zoom="0.52662667"
+     inkscape:cx="885.82677"
+     inkscape:cy="809.87163"
+     inkscape:window-x="0"
+     inkscape:window-y="20"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer5" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="Layer 1">
+    <g
+       id="layer1"
+       transform="translate(7.9999992,719.29009)">
+      <path
+         id="rect4136"
+         d="m 262.82,201.67 0,1000 999.98,0 0,-1000 -999.98,-0.03 z m 837.88,629.04 a 100,100 0 0 1 100,100 100,100 0 0 1 -100,99.99 100,100 0 0 1 -100,-99.99 100,100 0 0 1 100,-100 z"
+         transform="translate(0,-719.29)"
+         inkscape:connector-curvature="0"
+         style="fill:#3c3a52" />
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="Layer 2">
+    <g
+       id="layer2"
+       transform="translate(7.9999992,0)">
+      <rect
+         id="rect4138"
+         transform="matrix(0.54549,-0.83812,0.72721,0.68642,0,0)"
+         height="549.06"
+         width="448.91"
+         y="1423.3"
+         x="-321.79001"
+         style="fill:#e88067" />
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer6"
+     inkscape:label="Layer 3">
+    <g
+       id="layer3"
+       transform="translate(7.9999992,0)">
+      <path
+         id="rect5772"
+         d="m 1172,860.64 a 100,100 0 0 1 28.666,70.045 100,100 0 0 1 -75.211,96.691 c 3.4623,12.61 5.7578,20.963 9.4258,34.326 15.316,55.798 28.459,103.64 38.168,138.96 l 89.783,0 0,-340.02 -90.832,0 z"
+         inkscape:connector-curvature="0"
+         style="fill:#3c3a52" />
+    </g>
+  </g>
+</svg>

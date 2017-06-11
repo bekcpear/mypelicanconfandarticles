@@ -1,0 +1,10 @@
+output
+pelican-bootstrap3
+plugins
+__pycache__
+cache
+content/favicon.ico
+content/images/ditaa_*
+content/static/highlightjs
+content/static/images/avatar.png
+publish.sh
