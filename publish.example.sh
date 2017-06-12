@@ -10,8 +10,8 @@ find ./output/en/ -iname '*-zh.*' | xargs /bin/rm -f
 find ./output/zht/ -iname '*-zh.*' | xargs /bin/rm -f
 find ./output/zht/ -iname '*-en.*' | xargs /bin/rm -f
 
-a=($(diff -r ./output/ /path/to/a/output/ | grep '^diff -r ./output/' | cut -d ' ' -f 3))
-b=($(diff -r ./output/ /path/to/a/output/ | grep '^diff -r ./output/' | cut -d ' ' -f 4))
+a=($(diff -r ./output/ /path/to/a/output/ | grep -a '^diff -r ./output/' | grep '^diff -r ./output/' | cut -d ' ' -f 3))
+b=($(diff -r ./output/ /path/to/a/output/ | grep -a '^diff -r ./output/' | grep '^diff -r ./output/' | cut -d ' ' -f 4))
 
 if [ ${#a[@]} == ${#b[@]} ]; then
   for i in $(seq 0 $((${#a[@]} - 1)));do
@@ -41,7 +41,7 @@ function prepPath(){
 }
 
 
-a=($(diff -r ./output/ /path/to/a/output/ | grep '^Only in ./output' | awk -F 'Only in ./' '{printf $2"\n"}' | sed -e 's#/:\s#/#' -e 's#\([^/]\+\):\s#\1/#'))
+a=($(diff -r ./output/ /path/to/a/output/ | grep -a '^Only in ./output' | grep '^Only in ./output' | awk -F 'Only in ./' '{printf $2"\n"}' | sed -e 's#/:\s#/#' -e 's#\([^/]\+\):\s#\1/#'))
 
 for i in $(seq 0 $((${#a[@]} - 1)));do
   eval "prepPath '${a[$i]}'"

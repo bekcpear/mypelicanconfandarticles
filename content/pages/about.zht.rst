@@ -27,7 +27,7 @@
 
 注：目前的頭像為《夏目友人帳 陸》 OP 視訊截圖，如果由任何版權問題，請及時聯絡我，秒刪。
 
-Logo 則為本人自行設計製作。
+Logo 則為本人自行設計製作，本人宣告僅授權給 ume.ink 及其子域名使用。
 
 
 .. _`reStructuredText`: http://docutils.sourceforge.net/rst.html

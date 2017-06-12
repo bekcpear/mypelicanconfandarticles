@@ -5,7 +5,7 @@ CentOS7通过源码编译安装Zabbix3.0（PHP+Mysql+Nginx）
 :slug: build_zabbix_3_0_from_source_code
 :lang: zh
 :date: 2016-08-22 22:05
-:tags: zabbix, server, installation
+:tags: zabbix, service, installation
 
 .. contents::
 
