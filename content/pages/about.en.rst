@@ -28,7 +28,7 @@ My email is this domain, don't forget to replace :code:`i. -> i@` .
 
 Note: My current avatar is the screenshot of anamition, 《夏目友人帳 陸》, please contact me in time if there are any copyright issues, and I will immediately delete it.
 
-The logo is my own works. And I declare that the logo is only authorized for 'ume.ink' and its subdomains.
+The logo is my own works. And I declare that the logo is only authorized for this site.
 
 
 .. _`reStructuredText`: http://docutils.sourceforge.net/rst.html

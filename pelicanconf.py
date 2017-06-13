@@ -4,8 +4,8 @@ from __future__ import unicode_literals
 
 AUTHOR = 'Bekcpear'
 SITENAME = '未墨轻梅'
-SITEURL = 'https://i.ume.ink'
-MAINSITEURL = 'https://i.ume.ink'
+SITEURL = 'https://nifume.com'
+MAINSITEURL = 'https://nifume.com'
 
 PAGE_URL = "{slug}.html"
 PAGE_SAVE_AS = "{slug}.html"
@@ -98,7 +98,7 @@ CATEGORY_FEED_ATOM = None
 DISQUS_SITENAME = 'whatever'
 DISQUS_DISPLAY_COUNTS = True
 #GOOGLE_ANALYTICS_URL = 'https://www.google-analytics.com'
-GOOGLE_ANALYTICS_URL = 'https://i.ume.ink'
+GOOGLE_ANALYTICS_URL = 'https://nifume.com'
 GOOGLE_ANALYTICS_UNIVERSAL = 'UA-100810522-1'
 GOOGLE_ANALYTICS_UNIVERSAL_PROPERTY = 'auto'
 
