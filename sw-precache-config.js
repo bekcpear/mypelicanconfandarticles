@@ -1,0 +1,20 @@
+module.exports = {
+  staticFileGlobs: [
+    "!(tags|categories|search).html",
+    "!(drafts|tag|category)/!(tags|categories|search).html",
+    "**/!(drafts|tag|category)/!(tags|categories|search).html",
+    "images/**.*",
+    "images/**/**.*",
+    "static/**.*",
+    "static/!(highlightjs)/**.*",
+    "static/!(highlightjs)/**/**.*",
+    "theme/css/bootstrap.min.css",
+    "theme/css/pygments/github.css",
+    "theme/js/bootstrap.min.js",
+    "theme/js/jquery.slim.min.js",
+  ],
+  navigateFallback: '/offline.html',
+  navigateFallbackWhitelist: [
+  ],
+  templateFilePath: 'service-worker.tmpl'
+}

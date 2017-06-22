@@ -78,11 +78,15 @@ publishtest: rmcc rmdrafts cc
 	echo $(SITEURL) > content/static/CNAME
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONFTEST) $(PELICANOPTS)
 	$(MAKE) rsthtml
+	cp -fR content/static output/
+	cp -fR content/images output/
 
 publish: rmcc rmdrafts cc
 	echo $(SITEURL) > content/static/CNAME
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONF) $(PELICANOPTS)
 	$(MAKE) rsthtml
+	cp -fR content/static output/
+	cp -fR content/images output/
 
 rsthtml:
 	(cd output && find -iname "*.rst" | parallel -I@ pygmentize -f html -o @.html @)

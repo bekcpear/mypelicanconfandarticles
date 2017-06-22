@@ -23,7 +23,7 @@
 
 如果需要聯絡我，請上 Telegram `@Bekcpear`_ , 或者 keybase 地址 https://keybase.io/iyi
 
-也可以發郵件到本域名，:code:`i. -> i@` 即可
+也可以發郵件到 :code:`aUB1bWUuaW5rCg==` （需要 base64 解碼）
 
 注：目前的頭像為《夏目友人帳 陸》 OP 視訊截圖，如果由任何版權問題，請及時聯絡我，秒刪。
 

@@ -27,15 +27,12 @@ DATE_FORMATS = {
     'zht': ((u'zh_TW', 'utf8'), u'%Y年%m月%d日(週%a)',),
 }
 
-STATIC_PATHS = ['static',
-                'images',
-                'favicon.ico',
-                'static/CNAME']
+STATIC_PATHS = []
 
 I18N_SUBSITES = {
     'en': dict(
         LOCALE='en_US.utf8',
-        SITENAME="I.UME.INK",
+        SITENAME="n.i.f.UME",
         STATIC_PATHS=STATIC_PATHS
     ),
     'zht': dict(
@@ -104,7 +101,7 @@ GOOGLE_ANALYTICS_UNIVERSAL_PROPERTY = 'auto'
 
 # Theme options
 
-
+SERVICEWORKER = True
 DOCUTIL_CSS = False
 TYPOGRIFY = False
 PYGMENTS_STYLE = 'github'
@@ -127,7 +124,7 @@ DIRECT_TEMPLATES = (('search', 'index', 'categories', 'authors', 'archives',
 
 AVATAR = '/static/images/avatar.png'
 ABOUT_PAGE = "about.html"
-FRIENDS_PAGE = "friends.html"
+BLOGROLL_PAGE = "blogroll.html"
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True

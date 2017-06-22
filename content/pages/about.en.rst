@@ -24,7 +24,7 @@ If you have something need to contact me, `@Bekcpear`_ on Telegram.
 
 I also have a keybase account: https://keybase.io/iyi .
 
-My email is this domain, don't forget to replace :code:`i. -> i@` .
+My email is :code:`aUB1bWUuaW5rCg==` (base64-encoded)
 
 Note: My current avatar is the screenshot of anamition, 《夏目友人帳 陸》, please contact me in time if there are any copyright issues, and I will immediately delete it.
 
