@@ -1,5 +1,5 @@
 ==============================
-重新安裝Gentoo
+重新安裝Gentoo Linux
 ==============================
 
 :slug: reinstall_gentoo
@@ -7,6 +7,7 @@
 :date: 2016-05-22 23:24
 :modified: 2016-05-29 13:56
 :tags: gentoo, installation
+:description: 安裝 Gentoo Linux 的最主要步驟，以方便參考。完整的步驟還是應該去看官方的 wiki。
 
 .. contents::
 

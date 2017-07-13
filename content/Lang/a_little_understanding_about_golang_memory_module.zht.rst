@@ -6,6 +6,7 @@
 :lang: zht
 :date: 2017-02-19 23:19
 :tags: golang, reference, gochannel
+:description: Go 語言 channel 在傳送/接收時如何動作
 
 .. contents::
 

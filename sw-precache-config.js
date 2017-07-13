@@ -9,9 +9,11 @@ module.exports = {
     "static/!(highlightjs)/**.*",
     "static/!(highlightjs)/**/**.*",
     "theme/css/bootstrap.min.css",
+    "theme/css/imageviewer.css",
     "theme/css/pygments/github.css",
     "theme/js/bootstrap.min.js",
     "theme/js/jquery.slim.min.js",
+    "theme/js/imageviewer.min.js",
   ],
   navigateFallback: '/offline.html',
   navigateFallbackWhitelist: [

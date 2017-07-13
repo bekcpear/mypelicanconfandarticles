@@ -1,6 +1,13 @@
 #!/bin/bash
 #
 
+t=$(find /usr -path '*/docutils/parsers/rst/__init__.py' -exec grep 'tools\.ietf\.org' '{}' \; | wc -l)
+
+if [ "$t"x != 4x ]; then
+  echo "The default rfc url is not under tools.ietf.org, abort!";
+  exit 1;
+fi
+
 make publish
 
 cp -f ./sw-precache-config.js ./output/
@@ -68,3 +75,4 @@ diff -r ./output /path/to/webroot/output | grep '^Only in /path/to/webroot/outpu
 
 cd /path/to/webroot/output/
 ~/node_modules/.bin/sw-precache --config sw-precache-config.js
+

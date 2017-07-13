@@ -4,8 +4,10 @@ Q&A 启用 SELinux 的情况下，在 CentOS 上搭建 NextCloud/ownCloud 服务
 
 :slug: q_a_build_nextcloud_service_on_centos_with_selinux
 :date: 2017-06-12 21:21
+:modified: 2017-07-10 08:28
 :lang: zh
 :tags: service, selinux, nginx, php-fpm, installation, redis, memcache
+:description: 整理了我在安装 NextCloud / ownCloud 服务时候遇到的各种问题，非常具有参考价值。
 
 .. contents::
 
@@ -222,7 +224,7 @@ Q: 客户端每次都需要输入密码，报错 No keychain service available
 
 去 #archlinux-cn Telegram 群询问了一下被告知使用 dbus-monitor 查看是否有 :code:`org.freedesktop.secrets` 相关信息，但是并没有。
 
-后尝试安装 kwalletd 能否解决。 **确实解决了**，而且只能在启用了 kwalletd 的情况下有效，也就是不支持 KDE5 的 kwalletd...... 
+后尝试安装 kwalletd 能否解决。 **确实解决了**，而且只能在启用了 kwalletd 的情况下有效，也就是不支持 KDE5 的 kwalletd...... (这边解释有问题)
 
 最后对 3 种情况下的 dbus-monitor 信息进行了对比，发现 NextCloud-Client 根本不请求 gnome-keyring ，只请求 org.kde.kwalletd。简直了，估计是会先读取当前环境，不匹配两者的情况下就默认请求 kwalletd 了... 真的不能太笨了。对比信息：
 

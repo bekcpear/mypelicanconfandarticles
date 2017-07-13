@@ -6,6 +6,7 @@
 :lang: zht
 :date: 2017-01-09 10:09
 :tags: tunnelbroker, IPv6, DNS
+:description: 如何使用 IPv6 翻牆，需要有公網 IPv4 地址才能設定成功。本文圍繞路由器設定 HE 的 Tunnelbroker 來說明。
 
 .. contents::
 

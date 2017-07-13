@@ -7,6 +7,8 @@ SITENAME = '未墨轻梅'
 SITEURL = 'https://nifume.com'
 MAINSITEURL = 'https://nifume.com'
 
+SITEDESC = "万维网上的又一个技术博客，内容会涉及 Linux 系统/网络管理及安全，Go/Python 开发以及一些其它非主线技术任务。"
+
 PAGE_URL = "{slug}.html"
 PAGE_SAVE_AS = "{slug}.html"
 
@@ -33,11 +35,13 @@ I18N_SUBSITES = {
     'en': dict(
         LOCALE='en_US.utf8',
         SITENAME="n.i.f.UME",
+        SITEDESC = "全球資訊網上的又一個技術部落格，內容會涉及 Linux 系統/網路管理及安全，Go/Python 開發以及一些其它非主線技術任務。",
         STATIC_PATHS=STATIC_PATHS
     ),
     'zht': dict(
         LOCALE='zh_TW.utf8',
         SITENAME = '未墨輕梅',
+        SITEDESC = "Another technical blog in the world wide web.",
         STATIC_PATHS=STATIC_PATHS
     ),
 }
@@ -72,6 +76,7 @@ PLUGINS = ["i18n_subsites",
            'tag_cloud',
            'extract_toc',
            'sitemap',
+           'representative_image',
            'summary']
 
 SITEMAP = {
@@ -125,6 +130,17 @@ DIRECT_TEMPLATES = (('search', 'index', 'categories', 'authors', 'archives',
 AVATAR = '/static/images/avatar.png'
 ABOUT_PAGE = "about.html"
 BLOGROLL_PAGE = "blogroll.html"
+
+BREADCRUMBLIST_OL   = ''
+BREADCRUMBLIST_LI   = ''
+BREADCRUMBLIST_A    = ''
+BREADCRUMBLIST_NAME = ''
+BREADCRUMBLIST_IMG  = ''
+#BREADCRUMBLIST_OL   = 'itemscope itemtype="http://schema.org/BreadcrumbList"'
+#BREADCRUMBLIST_LI   = 'itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"'
+#BREADCRUMBLIST_A    = 'itemscope itemtype="http://schema.org/Thing" itemprop="item"'
+#BREADCRUMBLIST_NAME = 'itemprop="name"'
+#BREADCRUMBLIST_IMG  = 'itemprop="image"'
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True

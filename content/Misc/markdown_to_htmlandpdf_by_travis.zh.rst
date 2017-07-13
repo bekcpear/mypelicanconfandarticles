@@ -7,6 +7,7 @@
 :date: 2016-06-10 18:33
 :modified: 2017-06-09 13:55
 :tags: pandoc, travis
+:description: 一篇关于使用 travis-ci 的文章，通过使用 pandoc 工具转换 markdown 标记语言为例来说明。
 
 .. contents::
 

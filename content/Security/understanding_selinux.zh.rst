@@ -6,6 +6,7 @@
 :date: 2017-06-22 18:21
 :lang: zh
 :tags: selinux
+:description: 以 CentOS 为平台整理了入门 SELinux 所需要掌握的最基本知识，围绕例子来进行说明。
 
 .. contents::
 
@@ -44,6 +45,7 @@ Subject
 ------------------------------------------------------------
 
 .. ditaa::
+  :alt: selinux 处理流程
 
                       +-------------------------------------------------------------------+
      User Space       |                              Kernel Space                         |    User Space
