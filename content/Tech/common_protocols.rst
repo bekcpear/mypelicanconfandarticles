@@ -5,7 +5,7 @@
 :slug: common_network_protocols
 :lang: zh
 :date: 2017-04-18 16:31
-:modified: 2017-06-09 14:36
+:modified: 2017-07-18 20:01
 :tags: protocol, tcp, ip, udp
 :description: 本文是一篇关于基础网络协议，比如 TCP, IP, UDP 等的归纳介绍，以便于系统化地理解。（还没写完）
 :license: 本文以译文形式引用了一些 https://en.wikipedia.org & https://tools.ietf.org/html/ 上的相关内容
@@ -573,7 +573,9 @@ Identification
 TCP
 ==============================
 
-未完
+:ruby:`传输控制协议|Transmission Control Protocol` 是 TCP/IP 模型的一个主要协议，它为 IP 网络下的程序通讯提供了可靠、有序、带错误检查的字节流传输。TCP 优化了传输的准确性（确保所有收到的字节与发送时候的字节一致且顺序一样）而并非及时性，可能会因为等待乱序的消息或者需要重传的消息而耗费好多秒，所以不适用于诸如语音之类的要求实时性高的场景。
+
+直接看 wikipedia 吧，有时间再整理了。 下同
 
 UDP
 ==============================

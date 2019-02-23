@@ -3,9 +3,9 @@
 from __future__ import unicode_literals
 
 AUTHOR = 'Bekcpear'
-SITENAME = '未雨未歇'
-SITEURL = 'https://moego.me'
-MAINSITEURL = 'https://moego.me'
+SITENAME = 'moego'
+SITEURL = 'file:///home/u/d/moego.me/output'
+MAINSITEURL = 'file:///home/u/d/moego.me/output'
 
 SITEDESC = ""
 
@@ -68,12 +68,12 @@ MARKDOWN = {'extension_configs': {
 
 PLUGIN_PATHS = ['plugins']
 #PLUGINS = ["i18n_subsites",
-PLUGINS = ["better_codeblock_line_numbering",
-           "plantuml",
+PLUGINS = ['better_codeblock_line_numbering',
+           'twitter_bootstrap_rst_directives',
+           'plantuml',
            'tipue_search',
            'neighbors',
            'bootstrapify',
-           'twitter_bootstrap_rst_directives',
            'tag_cloud',
            'extract_toc',
            'sitemap',
@@ -133,14 +133,13 @@ CC_LICENSE_NAME = ""
 CC_LICENSE_COMMERCIAL = False
 CC_LICENSE_DERIVATIVES = "sharealike"
 DISPLAY_TAGS_INLINE = True
-TAG_CLOUD_BADGE = True
 OUTPUT_SOURCES = True
 OUTPUT_SOURCES_EXTENSION = '.rst'
 
 DIRECT_TEMPLATES = (('search', 'index', 'categories', 'authors', 'archives',
                      'tags'))
 
-AVATAR = 'https://avatars1.githubusercontent.com/u/6622239'
+AVATAR = '/static/images/avatar.png'
 ABOUT_PAGE = "about.html"
 BLOGROLL_PAGE = "blogroll.html"
 

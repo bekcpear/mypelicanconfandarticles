@@ -26,9 +26,9 @@
 
 列出一条查看当前文件（夹） SELinux 上下文属性的命令:
 
-.. code-block:: bash
+.. code-block:: shell-session
 
-  ls -Z test
+  # ls -Z test
   -rwxr-xr-x. root root unconfined_u:object_r:admin_home_t:s0 test
 
 一个相当熟悉的命令 :code:`ls` ，就像平常使用 :code:`ls -l` 查看文件的详细信息一样。所以由此让我对 SELinux 的理解变成了其为组成 Linux 系统安全的最基本的一部分，必须掌握。

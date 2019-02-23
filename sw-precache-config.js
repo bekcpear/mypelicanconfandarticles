@@ -1,5 +1,6 @@
 module.exports = {
   staticFileGlobs: [
+    "!index.html",
     "!(tags|categories|search).html",
     "!(drafts|tag|category)/!(tags|categories|search).html",
     "**/!(drafts|tag|category)/!(tags|categories|search).html",

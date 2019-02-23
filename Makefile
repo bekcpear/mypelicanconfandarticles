@@ -6,6 +6,7 @@ BASEDIR=$(CURDIR)
 INPUTDIR=$(BASEDIR)/content
 OUTPUTDIR=$(BASEDIR)/output
 CONFFILE=$(BASEDIR)/pelicanconf.py
+CONFFILETEST=$(BASEDIR)/pelicanconf-t.py
 PUBLISHCONF=$(BASEDIR)/publishconf.py
 PUBLISHCONFTEST=$(BASEDIR)/publishconf-t.py
 
@@ -31,6 +32,9 @@ help:
 
 html:
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
+
+htmlt:
+	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILETEST) $(PELICANOPTS)
 
 drafts:
 	cp -r drafts content
@@ -74,14 +78,16 @@ theme:
 	(cd theme && (scons -Q || make) )
 
 	#[ ! -d $(OUTPUTDIR) ] || (cd $(OUTPUTDIR) && find -not -type d -not -wholename "*/.git*"  -not -iname "*.pdf" -not -iname "*.png" -delete)
-publishtest: rmcc rmdrafts cc
+#publishtest: rmcc rmdrafts cc
+publishtest: rmdrafts
 	echo $(SITEURL) > content/static/CNAME
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONFTEST) $(PELICANOPTS)
 	$(MAKE) rsthtml
 	cp -fR content/static output/
 	cp -fR content/images output/
 
-publish: rmcc rmdrafts cc
+#publish: rmcc rmdrafts cc
+publish: rmdrafts
 	echo $(SITEURL) > content/static/CNAME
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONF) $(PELICANOPTS)
 	$(MAKE) rsthtml

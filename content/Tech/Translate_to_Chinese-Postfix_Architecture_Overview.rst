@@ -2,7 +2,7 @@
 [原文翻译] Postfix Architecture Overview
 ========================================================================
 
-:slug: -Translate_to_Chinese-Postfix_Architecture_Overview
+:slug: Translate_to_Chinese-Postfix_Architecture_Overview
 :lang: zh
 :date: 2016-07-25 03:23
 :tags: postfix, server

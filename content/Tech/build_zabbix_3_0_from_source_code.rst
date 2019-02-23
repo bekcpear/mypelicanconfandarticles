@@ -1,48 +1,35 @@
 ========================================================================
-CentOS7通過原始碼編譯安裝Zabbix3.0（PHP+Mysql+Nginx）
+CentOS7通过源码编译安装Zabbix3.0（PHP+Mysql+Nginx）
 ========================================================================
 
 :slug: build_zabbix_3_0_from_source_code
-:lang: zht
+:lang: zh
 :date: 2016-08-22 22:05
 :tags: zabbix, service, installation
 
 .. contents::
 
-開始學習如何使用Zabbix，從最基礎的安裝做起。CentOS上預設的Zabbix是預設Apache的，且版本較低，我比較追求新版本，明明白白安裝軟體的感覺，遂自行編譯更加合適。
+开始学习如何使用Zabbix，从最基础的安装做起。CentOS上默认的Zabbix是默认Apache的，且版本较低，我比较追求新版本，明明白白安装软件的感觉，遂自行编译更加合适。
 
-準備工作
+准备工作
 ------------------------------------------------------
 
-* yum 安裝的mysql（mariadb-server），這個不多說。
-* 編譯安裝的php7.0.10 和 nginx1.10
+* yum 安装的mysql（mariadb-server），这个不多说。
+* 编译安装的php7.0.10 和 nginx1.10
 
-Q：如何編譯安裝php7呢？
+Q：如何编译安装php7呢？
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A：難點在於編譯選項和依賴關係，整理步驟如下：
+A：难点在于编译选项和依赖关系，整理步骤如下：
 
-1. 下載 `PHP原始碼包 <http://cn.php.net/distributions/php-7.0.10.tar.xz>`_ 到 :code:`/usr/local/src` 目錄下，解壓後進入安裝目錄。（sha256sum：348476ff7ba8d95a1e28e1059430c10470c5f8110f6d9133d30153dda4cdf56a）
-2. 使用yum安裝epel-release
-3. 編譯安裝我寫了一個指令碼如下（php-fpm）：
+1. 下载 `PHP源码包 <http://cn.php.net/distributions/php-7.0.10.tar.xz>`_ 到 :code:`/usr/local/src` 目录下，解压后进入安装目录。（sha256sum：348476ff7ba8d95a1e28e1059430c10470c5f8110f6d9133d30153dda4cdf56a）
+2. 使用yum安装epel-release
+3. 编译安装我写了一个脚本如下（php-fpm）：
 
 .. code-block:: bash
 
   #!/bin/bash
   #
-  # created by Bekcpear
-  # 2016-08-21 CST(China Standard Time)
-  # 
-  # This script is created to configuring and install php-7.0.10 from source code. 
-  # When installation finished, the php installed will meet the requirments of the Laravel framework 5.2.
-  # It's my first shell script, being served for my Blog with nginx.
-
-  # update 160822 add support function for Zabbix 3.0.4
-
-  # !Make sure you have installed mariadb-server
-
-  # If you installed mariadb/mysql server from source code, please uncomment the line below and modify to correct path to mysql/mariadb. This is wrong. Ignore it.
-  # CUS_MYSQLPATH = /usr/local/mysql
 
   CONF="--prefix=/usr/local/php/ \
     --enable-fpm \
@@ -111,15 +98,15 @@ A：難點在於編譯選項和依賴關係，整理步驟如下：
     ./configure $CONF && make && make install
   fi
 
-Q：如何配置php並使之適合zabbix3.0.4？
+Q：如何配置php并使之适合zabbix3.0.4？
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A：配置專案其實很少，如下：
+A：配置项目其实很少，如下：
 
-1. 複製啟動檔案 :code:`/usr/local/src/php-7.0.10/sapi/fpm/php-fpm.service` 到 :code:`/lib/systemd/system/php-fpm.service` ，並修改裡面的路徑到程式主目錄
-2. 新建使用者php-fpm和組php-fpm
-3. 兩個示例檔案 :code:`/usr/local/php/etc/php-fpm.conf.example` 和 :code:`/usr/local/php/etc/php-fpm.d/www.conf.example` ，去掉example字樣
-4. 一些基本的修改不贅述了，應zabbix要求，需要在 :code:`/usr/local/php/etc/php-fpm.d/www.conf` 結尾加入如下內容，之後就可以運行了：
+1. 复制启动文件 :code:`/usr/local/src/php-7.0.10/sapi/fpm/php-fpm.service` 到 :code:`/lib/systemd/system/php-fpm.service` ，并修改里面的路径到程序主目录
+2. 新建用户php-fpm和组php-fpm
+3. 两个示例文件 :code:`/usr/local/php/etc/php-fpm.conf.example` 和 :code:`/usr/local/php/etc/php-fpm.d/www.conf.example` ，去掉example字样
+4. 一些基本的修改不赘述了，应zabbix要求，需要在 :code:`/usr/local/php/etc/php-fpm.d/www.conf` 结尾加入如下内容，之后就可以运行了：
 
 ::
 
@@ -127,13 +114,13 @@ A：配置專案其實很少，如下：
   php_value[post_max_size] = 16M
   php_value[date.timezone] = "Asia/Shanghai"
 
-Q：如何編譯安裝nginx1.10stable？
+Q：如何编译安装nginx1.10stable？
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A：這個相對來說就很簡單了，如下：
+A：这个相对来说就很简单了，如下：
 
-1. 下載 `Nginx原始碼包 <http://nginx.org/download/nginx-1.10.1.tar.gz>`_ 並解壓。關於校驗，官網有 `pgp檔案 <http://nginx.org/download/nginx-1.10.1.tar.gz.asc>`_ ，公鑰用 `這個 <http://nginx.org/keys/mdounin.key>`_ 。
-2. 進入原始碼目錄下編譯，可能需要解決寫依賴關係：
+1. 下载 `Nginx源码包 <http://nginx.org/download/nginx-1.10.1.tar.gz>`_ 并解压。关于校验，官网有 `pgp文件 <http://nginx.org/download/nginx-1.10.1.tar.gz.asc>`_ ，公钥用 `这个 <http://nginx.org/keys/mdounin.key>`_ 。
+2. 进入源码目录下编译，可能需要解决写依赖关系：
 
 ::
 
@@ -148,13 +135,13 @@ A：這個相對來說就很簡單了，如下：
 
   ./configure $CUS_CONF && make && make install
 
-Q：如何配置啟動nginx？
+Q：如何配置启动nginx？
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A：依舊是nginx配置檔案 + systemd啟動服務檔案。
+A：依旧是nginx配置文件 + systemd启动服务文件。
 
-1. 啟動服務檔案可以從 `nginx.com <https://www.nginx.com/resources/wiki/start/topics/examples/systemd/>`_ 上覆制：
-2. 配置檔案在 :code:`/usr/local/nginx/conf/nginx.conf` ，安裝需求修改，比如針對Zabbix的一段內容，之後就可以啟動nginx了：
+1. 启动服务文件可以从 `nginx.com <https://www.nginx.com/resources/wiki/start/topics/examples/systemd/>`_ 上复制：
+2. 配置文件在 :code:`/usr/local/nginx/conf/nginx.conf` ，安装需求修改，比如针对Zabbix的一段内容，之后就可以启动nginx了：
 
 
 .. code-block:: nginx
@@ -188,27 +175,27 @@ A：依舊是nginx配置檔案 + systemd啟動服務檔案。
       }
   }
 
-準備工作結束了，如何編譯安裝Zabbix呢？
+准备工作结束了，如何编译安装Zabbix呢？
 ------------------------------------------------------
 
-其實可以參考 `官方網站 <https://www.zabbix.com/documentation/3.0/manual/installation/install#installation_from_sources>`_ 的內容，也很簡單。
+其实可以参考 `官方网站 <https://www.zabbix.com/documentation/3.0/manual/installation/install#installation_from_sources>`_ 的内容，也很简单。
 
 整理了一下如下：
 
-下載
+下载
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-`Zabbix原始碼包 <http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/3.0.4/zabbix-3.0.4.tar.gz/download>`_ ，解壓並進入。這個我沒有找到校驗檔案...
+`Zabbix源码包 <http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/3.0.4/zabbix-3.0.4.tar.gz/download>`_ ，解压并进入。这个我没有找到校验文件...
 
-建立使用者
+创建用户
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-一般就建立一個組為zabbix的zabbix使用者即可，注意的是，當Zabbix的server和agent同時執行在一臺主機上時，推薦是將server的執行使用者獨立於agent的執行使用者的，不然agent可以訪問server的配置檔案，甚至資料庫。
+一般就创建一个组为zabbix的zabbix用户即可，注意的是，当Zabbix的server和agent同时运行在一台主机上时，推荐是将server的运行用户独立于agent的运行用户的，不然agent可以访问server的配置文件，甚至数据库。
 
-建立資料庫
+创建数据库
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-這個在原始碼包裡面有現成的指令碼，一般這樣子使用（針對我的Mysql資料庫）：
+这个在源码包里面有现成的脚本，一般这样子使用（针对我的Mysql数据库）：
 
 .. code-block:: mysql
 
@@ -218,25 +205,25 @@ A：依舊是nginx配置檔案 + systemd啟動服務檔案。
   mysql> quit;
   shell> cd database/mysql
   shell> mysql -uzabbix -p<password> zabbix < schema.sql
-  # 如果僅僅是執行一個agent代理的話，下面的資料庫檔案不需要匯入
+  # 如果仅仅是运行一个agent代理的话，下面的数据库文件不需要导入
   shell> mysql -uzabbix -p<password> zabbix < images.sql
   shell> mysql -uzabbix -p<password> zabbix < data.sql
 
-配置編譯安裝
+配置编译安装
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-配置選項
+配置选项
 
 ::
 
   --prefix=/usr/local/zabbix --enable-server --enable-agent --with-mysql --enable-ipv6 --with-net-snmp --with-libcurl --with-libxml2
 
-將安裝上server和agent兩個功能
+将安装上server和agent两个功能
 
-編輯Zabbix目錄etc目錄下的配置檔案
+编辑Zabbix目录etc目录下的配置文件
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-因為我是在一臺機器上同時執行伺服器和代理的，所以兩個配置檔案都需要配置。這邊貼出來的刪除了大量沒有配置的選項及其註釋，但是對於已經配置的選項的註釋並沒有刪除。
+因为我是在一台机器上同时运行服务器和代理的，所以两个配置文件都需要配置。这边贴出来的删除了大量没有配置的选项及其注释，但是对于已经配置的选项的注释并没有删除。
 
 ::
 
@@ -476,7 +463,7 @@ A：依舊是nginx配置檔案 + systemd啟動服務檔案。
   # Default:
   User=zabbix
 
-啟動 zabbix server 和 zabbix agentd
+启动 zabbix server 和 zabbix agentd
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
@@ -484,16 +471,16 @@ A：依舊是nginx配置檔案 + systemd啟動服務檔案。
   # zabbix_server
   # zabbix_agentd
 
-接下來就是安裝 Zabbix 的 Web 介面了
+接下来就是安装 Zabbix 的 Web 接口了
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-這個非常簡單，把原始碼目錄下的 :code:`frontends/php` 這個目錄整個拷貝到 nginx 配置的根目錄下，然後網頁訪問後，根據提示配置即可。注意防火牆許可權，注意複製過去後，將目錄許可權開放給 PHP 的使用者，我這裡是 php-fpm 這個使用者。不然可能無法配置成功。
+这个非常简单，把源码目录下的 :code:`frontends/php` 这个目录整个拷贝到 nginx 配置的根目录下，然后网页访问后，根据提示配置即可。注意防火墙权限，注意复制过去后，将目录权限开放给 PHP 的用户，我这里是 php-fpm 这个用户。不然可能无法配置成功。
 
-配置安裝時候遇到的幾個問題
+配置安装时候遇到的几个问题
 ------------------------------------------------------
 
-* "configure: error: MySQL library not found"，這個是因為沒有安裝 mariadb-devel 導致的。
-* "configure: error: Invalid NET-SNMP directory - unable to find net-snmp-config"，這個是因為沒有安裝 net-snmp net-snmp-devel 導致的。
-* 配置到資料庫的時候，出現"Error connecting to database: No such file or directory"，最後發現是因為 mysqli 下使用 localhost 作為地址連線 mysql 資料庫的問題，真奇怪，改成 127.0.0.1 就好了...
+* "configure: error: MySQL library not found"，这个是因为没有安装 mariadb-devel 导致的。
+* "configure: error: Invalid NET-SNMP directory - unable to find net-snmp-config"，这个是因为没有安装 net-snmp net-snmp-devel 导致的。
+* 配置到数据库的时候，出现"Error connecting to database: No such file or directory"，最后发现是因为 mysqli 下使用 localhost 作为地址连接 mysql 数据库的问题，真奇怪，改成 127.0.0.1 就好了...
 
 以上。

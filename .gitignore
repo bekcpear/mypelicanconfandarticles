@@ -8,6 +8,9 @@ content/images/ditaa_*
 content/static/highlightjs
 content/static/images/avatar.png
 content/static/images/favicon/g-logo.*
+spublish.sh
 publish.sh
 googlec2c479f86246c0d1.html
 keybase.txt
+o.tgz
+node_modules
