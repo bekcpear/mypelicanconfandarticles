@@ -29,7 +29,7 @@ Archlinuxer, AwesomeWM user
 
 * Github `Bekcpear`_
 * Telegram `@Bekcpear`_
-* 发邮件到 :code:`moego@本站域名`
+* Mailto :code:`moego@本站域名`
 
 
 .. _`reStructuredText`: http://docutils.sourceforge.net/rst.html

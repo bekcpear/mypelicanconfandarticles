@@ -5,7 +5,7 @@
 :slug: access_google_by_ipv6_in_China
 :lang: zh
 :date: 2017-01-09 10:09
-:tags: tunnelbroker, IPv6, DNS
+:tags: tunnelbroker, IPv6, DNS, breakwall
 :description: 如何使用 IPv6 翻墙，需要有公网 IPv4 地址才能设置成功。本文围绕路由器设置 HE 的 Tunnelbroker 来说明。
 
 .. contents::
