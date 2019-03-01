@@ -1,5 +1,6 @@
 output
 pelican-bootstrap3
+pelican-bootstrap3-old
 plugins
 __pycache__
 cache

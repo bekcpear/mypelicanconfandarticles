@@ -14,5 +14,5 @@ Pelican 配置实例，同时也充当本人[博客][blog]文章源码的存档�
 其中 plugins 下针对 Plantuml 的 rst 实现有改动，改完后的在[这里][plant]。
 
 [blog]: https://moego.me
-[by-sa]: https://creativecommons.org/licenses/by-nc-sa/4.0/
+[by-nc-sa]: https://creativecommons.org/licenses/by-nc-sa/4.0/
 [plant]: https://gist.github.com/Bekcpear/c24e1e6d00f9d7d5884c55bb2d2645ef
