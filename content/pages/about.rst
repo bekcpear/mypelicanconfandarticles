@@ -25,13 +25,9 @@ Archlinuxer, AwesomeWM user
 
 目前对生活不满意，会继续努力
 
-如果需要联系我：
+如果需要联系我，请查看我的 `主页`_ 。
 
-* Github `Bekcpear`_
-* Telegram `@Bekcpear`_
-* Mailto :code:`moego@本站域名`
-
-
+.. _`主页`: https://ume.ink/
 .. _`reStructuredText`: http://docutils.sourceforge.net/rst.html
 .. _`Pelican`: https://pelican.readthedocs.io/en/stable/
 .. _`GitHub`: https://github.com/Bekcpear/pelican-bootstrap3

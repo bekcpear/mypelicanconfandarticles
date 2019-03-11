@@ -71,13 +71,13 @@ PLUGIN_PATHS = ['plugins']
 PLUGINS = ['better_codeblock_line_numbering',
            'twitter_bootstrap_rst_directives',
            'plantuml',
-           'tipue_search',
            'neighbors',
            'bootstrapify',
            'tag_cloud',
            'extract_toc',
            'sitemap',
            'summary']
+           #'tipue_search',
            #'representative_image',
 
 SITEMAP = {
@@ -136,7 +136,7 @@ DISPLAY_TAGS_INLINE = True
 OUTPUT_SOURCES = True
 OUTPUT_SOURCES_EXTENSION = '.rst'
 
-DIRECT_TEMPLATES = (('search', 'index', 'categories', 'authors', 'archives',
+DIRECT_TEMPLATES = (('index', 'categories', 'authors', 'archives',
                      'tags'))
 
 AVATAR = '/static/images/avatar.png'

@@ -70,7 +70,6 @@ PLUGIN_PATHS = ['plugins']
 #PLUGINS = ["i18n_subsites",
 PLUGINS = ["better_codeblock_line_numbering",
            "plantuml",
-           'tipue_search',
            'neighbors',
            'bootstrapify',
            'twitter_bootstrap_rst_directives',
@@ -78,6 +77,7 @@ PLUGINS = ["better_codeblock_line_numbering",
            'extract_toc',
            'sitemap',
            'summary']
+           #'tipue_search',
            #'representative_image',
 
 SITEMAP = {
@@ -137,7 +137,7 @@ TAG_CLOUD_BADGE = True
 OUTPUT_SOURCES = True
 OUTPUT_SOURCES_EXTENSION = '.rst'
 
-DIRECT_TEMPLATES = (('search', 'index', 'categories', 'authors', 'archives',
+DIRECT_TEMPLATES = (('index', 'categories', 'authors', 'archives',
                      'tags'))
 
 AVATAR = 'https://avatars1.githubusercontent.com/u/6622239'
