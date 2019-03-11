@@ -4,34 +4,113 @@
 
 :slug: yubikey_5_nfc_functions
 :lang: zh
-:date: 2019-02-25 07:00
+:date: 2019-03-09 21:03
 :notoriginal: true
 :tags: yubikey, security, 2fa, otp, openpgp
 :description: 最近新入了 Yubikey 5 NFC，就想把之前沒弄懂的功能和实现原理全部理清楚。本文主要做整理和归纳，说明 Yubikey 5 NFC 的各项功能，包括 U2F 的工作原理和密钥生成方式
 :license: 本文所有内容整理自 FIDO, Yubico, Archlinux Wiki, Wikipedia，本站不声明版权。
 :noindent: true
-:status: draft
 
 .. contents::
 
+* 操作温度：   0 °C - 40 °C 
+* 存储温度： -20 °C - 85 °C 
+
+USB 接口
+==========================================
+
+USB 2.0 接口，当连接计算机时，它会把自己表现为除了其它单独 USB 接口外额外的一个 USB 综合设备。其 USB PID 和 iProduct 字符串会根据配置的 USB 接口类型改变，如下表。 Vendor ID 是 0x1050
+
++-----------------+--------+-----------------------+
+|  USB Interface  | PID    | iProduct String       |
++=================+========+=======================+
+| OTP             | 0x0401 | YubiKey OTP           |
++-----------------+--------+-----------------------+
+| FIDO            | 0x0402 | YubiKey FIDO          |
++-----------------+--------+-----------------------+
+| CCID            | 0x0404 | YubiKey CCID          |
++-----------------+--------+-----------------------+
+| OTP, FIDO       | 0x0403 | YubiKey OTP+FIDO      |
++-----------------+--------+-----------------------+
+| OTP, CCID       | 0x0405 | YubiKey OTP+CCID      |
++-----------------+--------+-----------------------+
+| FIDO, CCID      | 0x0406 | YubiKey FIDO+CCID     |
++-----------------+--------+-----------------------+
+| OTP, FIDO, CCID | 0x0407 | YubiKey OTP+FIDO+CCID |
++-----------------+--------+-----------------------+
+
+但是我这里当 USB 接口为 OPT, FIDO, CCID 时， iProduct String 为 YubiKey 4 OPT+FIDO+CCID, 不知道是不是历史遗留问题。
+
+使用 Yubikey Manager 可以配置功能的启用与关闭。
+
+OTP 接口
+-------------------------------------------------------------
+
+OTP 接口把自己作为 USB 键盘呈现给操作系统，输出是来自虚拟键盘的一系列击键。
+
+OTP 应用使用 OTP 接口，有 2 个可编程的槽，每个可以持有以下凭据中的一种：
+
+* Yubico OTP
+* HMAC-SHA1 Challenge Response
+* Static Password
+* OATH-HOTP **注意和 CCID 接口的区分**
+
+FIDO 接口
+-------------------------------------------------------------
+
+FIDO 接口提供对 `FIDO2`_ 和 `U2F`_ 应用的访问，它把自己作为 HID 呈现。
+
+CCID 接口
+-------------------------------------------------------------
+
+CCID 接口提供了对 `OATH(HOTP/TOTP)`_ ， `PIV`_ /智能卡和 `OpenPGP`_ 应用的通讯，他把自己作为 USB 智能卡读卡器呈现给操作系统，每个应用都会把自己作为连接对应读卡器的单独的智能卡来呈现。
+
+YubiKey 5 系列可以持有最多 32 个 OATH 凭证，并同时支持 TOTP 和 HOTP，访问这个小程序需要使用到 Yubico Authenticator.
+
+其余看对应说明。
+
+NFC
+==========================================
+
+USB 接口以外的一种无线接口。详细的标准我不关注了。
+
+NFC Data Exchange Format (NDEF) URI 使用了新格式，比如 OTP 值获取如下::
+
+  https://my.yubico.com/yk/#<OTP>
+
+对于需要触摸的请求会有 20s 的操作时间。一段时间不活动后，放置在台式 NFC 读取器上的 YubiKey 可能会断电以避免设备被意外访问。重新放置一下就可以激活。有些读取器会周期性供电来避免设备断电。
+
+
 Secure static passwords
 ==========================================
+
+一个基本的 Yubikey 功能，它可以生成一个 38 字符的静态密码。
+
+.. code-block:: bash
+
+  ykman otp static -h  # 查看使用说明
 
 Yubico OTP
 ==========================================
 
 Yubico OTP 是 44 个字符组成的、仅使用一次、安全的、128 位 AES 对称加密的公共 ID 和密码字符串，几乎不可能伪造。前 12 个字符是不变的代表着设备的公共 ID。剩下的 32 个字符则是每次生成的唯一的密码。密码中附加了一个计数器值，当验证密码时， Yubico Cloud 会对获取的计数器与当前服务器存储的针对这个 ID 的计数器做比较，只有在获取的计数器大于服务器保存的计数器时，才判断有效。所以过期的 OTP 是无效的。
 
-因为这个是对称加密，且需要连接 Yubico Cloud 来做验证，个人认为安全性相对较弱，尽量不用。
+因为这个是对称加密，且需要连接 Yubico Cloud 来做验证，个人认为安全性相对较弱，尽量不用。需要的时候再深入理解。
+
+.. _`OATH(HOTP/TOTP)`:
 
 OATH-HOTP/TOTP
 ==========================================
 
 一个用于登录支持其服务的 6-8 位数字的一次性密码。
 
-TOTP 是通过 :code:`HMAC(sharedSecret, timestamp)` 生成的，其中 timestamp 每 30 秒变化一次，而 sharedSecret 通常通过二维码提供或者已经预编写在了硬件令牌里（这里就是预编写在 Yubikey 中了）。但是因为 Yubikey 不带内置时钟，所以需要利用 `帮助应用`_ 来生成。 **看到 Play Store 里面该应用支持多个服务，好奇是怎么做到的，需要解决**
+TOTP 是通过 :code:`HMAC(sharedSecret, timestamp)` 生成的，其中 timestamp 每 30 秒变化一次，而 sharedSecret 通常通过二维码提供或者已经预编写在了硬件令牌里（这里就是预编写在 Yubikey 中了）。但是因为 Yubikey 不带内置时钟，所以需要利用 `帮助应用`_ 来生成。
 
-HOTP 工作原理和 TOTP 类似，只是把时间戳替换成了一个验证计数器，这样的好处是不需要额外的时钟。不过因为很容易和对应的服务器丢失计数器同步，所以服务在验证这种一次性密码的时候应该扩大计数器的范围多试几次。在按下 Yubikey 的按钮时， HOTP 代码会被发送，可以通过 `Yubikey 个性化工具`_ 来做配置。
+HOTP 工作原理和 TOTP 类似，只是把时间戳替换成了一个验证计数器，这样的好处是不需要额外的时钟。不过因为很容易和对应的服务器丢失计数器同步，所以服务在验证这种一次性密码的时候应该扩大计数器的范围多试几次。在按下 Yubikey 的按钮时， HOTP 代码会被发送，可以通过 `Yubikey 个性化工具`_ 来做配置（这里指代的应该是 OTP 接口的 HOTP）。
+
+.. code-block:: bash
+
+  ykman oath -h # 查看使用说明
 
 Challenge and Response
 ==========================================
@@ -43,8 +122,18 @@ Yubikey 的实现原理是一个挑战码被客户端发给 Yubikey，然后 Yub
 Yubico OTP 模式
   在这个模式下，客户端会发送一个 6 字节的挑战码，然后 Yubikey 使用 Yubico OTP 算法来创建一个反馈码，创建过程会用到一些变量字段，所以就算是同一个挑战码，每次创建的也是不同的。
 
+.. code-block:: bash
+
+  ykman otp yubiotp -h # 查看使用说明
+
 HMAC-SHA1 模式
   在这个模式下，客户端会发送一个 0 - 64 字节的挑战码，然后 Yubikey 使用 HMAC-SHA1 算法结合一个 20 字节的密钥来创建一个反馈码，创建过程不会用到其它变量字段，所以针对同一个挑战码，每次创建的都是相同的。
+
+.. code-block:: bash
+
+  ykman otp chalresp -h # 查看使用说明
+
+.. _`PIV`:
 
 Smart-Card(PIV-compliant)
 ==========================================
@@ -106,10 +195,49 @@ PIV :ruby:`认证|Attestation`
 
 认证是通过对需要被证明的密钥创建一个 X.509 证书来实现的，这只有在该密钥是在设备上被生成时才会完成。且这个证书只应该被用于验证密钥是在设备内生成的这 **一个** 目的。
 
+使用
+-------------------------------------------------------------
+
+创建密钥对可以使用工具 YubiKey Manager, Archlinux 下安装 :code:`yubikey-manager` 包就可以了，如果需要 GUI 的话，可以安装 :code:`yubikey-manager-gui` 。
+
+大致的使用方法就是，先在 PIV 证书槽创建私钥和证书，然后就可以通过像 PSCK#11 这样的接口来对其进行访问了，在 Linux 上需要安装 :code:`opensc` 库来使用。
+
+使用 PIV 验证 SSH 可以参考 ArchWiki https://wiki.archlinux.org/index.php/YubiKey#Using_a_YubiKey_with_SSH ，注意的是 OpenSSH 的 PKCS#11 接口目前不支持 ECDSA：
+
+* https://github.com/OpenSC/OpenSC/issues/803#issuecomment-227067408
+* https://bugs.launchpad.net/ubuntu/+source/openssh/+bug/1665695
+* https://bugzilla.redhat.com/show_bug.cgi?id=1354510
+
+之前有人做了补丁（ https://bugzilla.mindrot.org/show_bug.cgi?id=2474 ）来支持。根据 OpenSSH 维护者 Damien Miller 的说法， 8.0 版本计划支持 ECDSA。
+
+其它功能参见这里： https://developers.yubico.com/PIV/Guides/ 整理后觉得如果不是专门使用 PIV 的场景就不用 PIV 了。 一个关于 EC 的应用： https://www.smartcard-hsm.com/2014/08/22/using-smartcard-hsm-with-ecc-and-opensc.html
+
+.. _`OpenPGP`:
+
 OpenPGP
 ==========================================
 
-OpenPGP 是一个用于签名和加密的开放标准。
+OpenPGP 是一个用于签名和加密的开放标准。它通过像 PKCS#11 这样的接口，使用存储在智能卡上的私钥来启用 RSA 或 ECC 签名/加密操作。这个应用可以为验证、签名和加密各存一个 PGP 密钥。和 PIV 触摸策略类似， openPGP 应用也可以设置需要接触金属触点来允许一个操作。
+
+* Yubikey 仅支持 RSA 密钥，不支持 ECC 密钥
+* PGP 不用于 web 验证
+
+支持的算法有：
+
+* RSA 1024
+* RSA 2048
+* RSA 3072
+* RSA 4096
+
+RSA 3072 和 RSA 4096 需要 GnuPG 版本 2.0 及以上。
+
+一个别人整理的使用手册： https://github.com/drduh/YubiKey-Guide
+
+文中有一个没有指出的在 :code:`admin` 命令下，使用 :code:`passwd` 做密码修改操作时，有一个 :code:`set the Reset Code` 选项，查阅如下所属资料后得知，其用于普通用户在忘记 PIN 且不知道 Admin PIN 时 对自己的 PIN 做重置时使用，一般在有管理员统一管理时有用，当卡本身属于自己时因为可以直接使用 Admin PIN 所以无需设置这个选项。
+
+Functional Specification of the OpenPGP application on ISO Smart Card Operating Systems: https://gnupg.org/ftp/specs/OpenPGP-smart-card-application-3.3.1.pdf
+
+.. _`U2F`:
 
 FIDO U2F(Universal Second Factor)
 ==========================================
@@ -170,7 +298,7 @@ U2F 的优点（Yubico 网站指出的）
                   |                                                   |                                 |     Verify Password    |
                   |                                                   |                                 +------------------------+
                   |                                                   |                                 |   Generate Challenge   |
-                  |                                                   |                                 +---------------------=--+
+                  |                                                   |                                 +------------------------+
                   |                                                   |                                 |     Lookup pub_key     |
                   |                                                   |                                 | associated with handle |
                   |                                                   |                                 +-----------+------------+
@@ -183,10 +311,10 @@ U2F 的优点（Yubico 网站指出的）
     +-------------+-----------+                                       |                                             |
     |   Lookup the priv_key   |                                       |                                             |
     |  associated with handle |                                       |                                             |
-    +-------------+---------=-+                                       |                                             |
+    +-------------+-----------+                                       |                                             |
     |         counter++       |                                       |                                             |
     +-------------+-----------+                                       |                                             |
-                  |                                                   |                                                      |
+                  |                                                   |                                             |
                   |       counter, signature(a,c,counter) as 's'      |                                             |
                   |-------------------------------------------------->|                                             |
                   |                                                   |                                             |
@@ -212,6 +340,8 @@ Yubikey 里面有一个随机数生成器(RNG)和一个在出场就配置好的�
 
 当需要验证的时候，也是需要重新通过 APPID 生成一下，此时会先验证 handle 是否未被修改，利用其 MAC，然后把提取的随机数和 Device secret 与 APPID 一起传给 HMAC 再生成一遍私钥，之后做相关操作。这里会对一个全局计数器进行操作，每次验证都会加 1，这也是在这个步骤中唯一会修改的状态。计数器是在所有凭据间共享的。
 
+.. _`FIDO2`:
+
 FIDO2
 ==========================================
 
@@ -219,25 +349,33 @@ FIDO2
 
 FIDO2 支持无密码、第二因素和多因素的用户体验模式，包括嵌入式（或绑定的）验证器（如生物识别或 PIN ）或外部的（或漫游的）验证器（如 FIDO 安全密钥、移动设备、可穿戴设备等）。
 
-W3C WebAuthn
-------------------------------------------------------------------------
+FIDO2 基于公钥密码学，提供了和 U2F 同等级别的安全性。它还允许存储 :ruby:`驻留凭据|resident credentials` 。因为驻留凭据可以保存用户名和其它数据，所以就支持了真正的无密码验证。 Yubikey 5 系列可以持有最多 25 个驻留密钥。如果使用了 RSA 密钥的话，那么 RSA 最多 3 个，其它需为 ECC。
 
-定义了内置到浏览器和平台内的标准 web API，这个 API 对 FIDO 验证提供支持。
+驻留凭据可以是无锁的以提供强单因素验证，也可以被一个 PIN 保护以提供双因素验证。 PIN 可以长达 128 字符。 PIN 一旦设置就不能移除只能修改，除非重置整个 FIDO2 应用。
+
+**重置 FIDO2 应用也会重置 U2F 密钥。使用 U2F 注册了 YubiKey 的网站都将无法使用，直到 YubiKey 重新注册该网站**
+
+默认值
+  PIN： 未设置的。
+
+W3C WebAuthn
+  定义了内置到浏览器和平台内的标准 web API，这个 API 对 FIDO 验证提供支持。
 
 CTAP2
-------------------------------------------------------------------------
-
-允许在启用了 FIDO2 的浏览器和操作系统上通过 USB, NFC 或 BLE 来使用外部验证器做验证以提供无密码、第二因素或多因素验证体验。
+  允许在启用了 FIDO2 的浏览器和操作系统上通过 USB, NFC 或 BLE 来使用外部验证器做验证以提供无密码、第二因素或多因素验证体验。
 
 CTAP1
-------------------------------------------------------------------------
-
-是 FIDO U2F 的新名字，和 CTAP2 类似，但 CTAP1 只对现有 FIDO U2F 设备提供第二因素验证，可以理解为向下的兼容协议。
+  是 FIDO U2F 的新名字，和 CTAP2 类似，但 CTAP1 只对现有 FIDO U2F 设备提供第二因素验证，可以理解为向下的兼容协议。
 
 
-Secure Element
+一些链接
 ==========================================
 
+* [Github Repo] Scripts to encrypt/decrypt files using OpenSSL: https://github.com/koljaschleich/file-encryption
+* [PDF.slide] Using Cryptographic Hardware to Secure Applications: https://momjian.us/main/writings/crypto_hw_use.pdf
+* [Github Repo] GPG asymmetric (YubiKey) password manager: https://github.com/drduh/Purse
+* [Yubico] YubiKey 5 Series Technical Manual: https://support.yubico.com/support/solutions/articles/15000014219-yubikey-5-series-technical-manual
+* [Github Wiki] US PIV of OpenSC: https://github.com/OpenSC/OpenSC/wiki/US-PIV
 
 
 

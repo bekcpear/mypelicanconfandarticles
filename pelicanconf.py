@@ -104,10 +104,10 @@ LOAD_CONTENT_CACHE = True
 CACHE_CONTENT = True
 
 # Feed generation is usually not desired when developing
-TAG_FEED_ATOM = None
-FEED_ATOM = None
-FEED_ALL_ATOM = None
-CATEGORY_FEED_ATOM = None
+#FEED_RSS = None
+#FEED_ALL_RSS = None
+#CATEGORY_FEED_RSS = None
+#TAG_FEED_RSS = None
 
 DISQUS_SITENAME = 'whatever'
 DISQUS_DISPLAY_COUNTS = True

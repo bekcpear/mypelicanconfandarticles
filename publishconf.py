@@ -20,9 +20,13 @@ USE_LESS = False
 
 #DISQUS_SITENAME = ""
 #GOOGLE_ANALYTICS = ""
-TAG_FEED_ATOM = 'feeds/tag-%s.atom.xml'
-FEED_ALL_ATOM = 'feeds/all.atom.xml'
-FEED_ATOM = 'feeds/atom.xml'
-CATEGORY_FEED_ATOM = 'feeds/%s.atom.xml'
+#FEED_ATOM = 'feeds/atom.xml'
+#FEED_ALL_ATOM = 'feeds/all.atom.xml'
+#TAG_FEED_ATOM = 'feeds/tag-{slug}.atom.xml'
+#CATEGORY_FEED_ATOM = 'feeds/{slug}.atom.xml'
+FEED_RSS = 'feeds/rss.xml'
+FEED_ALL_RSS = 'feeds/all.rss.xml'
+TAG_FEED_RSS = 'feeds/tag-{slug}.rss.xml'
+CATEGORY_FEED_RSS = 'feeds/{slug}.rss.xml'
 
 LOAD_CONTENT_CACHE = False
