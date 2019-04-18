@@ -3,7 +3,6 @@
 ======================================================================
 
 :slug: mail-server-architecture
-:lang: zh
 :date: 2016-06-10 15:04
 :tags: postfix, server, mail
 :status: draft

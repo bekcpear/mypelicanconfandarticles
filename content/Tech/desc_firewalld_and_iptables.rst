@@ -3,7 +3,6 @@
 ====================================
 
 :slug: desc_firewalld_and_iptables
-:lang: zh
 :date: 2017-07-19
 :tags: firewalld, iptables, netfilter
 :description: 本文介绍了 Firewalld 和 iptables(8) 的异同以及用法，理解其原理。

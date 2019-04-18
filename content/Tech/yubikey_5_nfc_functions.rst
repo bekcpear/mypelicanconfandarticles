@@ -3,7 +3,6 @@
 ==================================================
 
 :slug: yubikey_5_nfc_functions
-:lang: zh
 :date: 2019-03-09 21:03
 :notoriginal: true
 :tags: yubikey, security, 2fa, otp, openpgp
@@ -138,7 +137,7 @@ HMAC-SHA1 模式
 Smart-Card(PIV-compliant)
 ==========================================
 
-智能卡包含了一个代理数据交换的计算机芯片。 其功能基于行业标准的 :code:`个人身份与验证卡|Personal Identity and Verification Card` （PIV）接口，这个接口在 CCID 协议上实现。
+智能卡包含了一个代理数据交换的计算机芯片。 其功能基于行业标准的 :ruby:`个人身份与验证卡|Personal Identity and Verification Card` （PIV）接口，这个接口在 CCID 协议上实现。
 
 PIV，也叫做 FIPS 201，是一个美国政府标准，它利用存储在智能卡上的一个私钥通过像 PKCS#11 这样的通用接口来启用 RSA 或 ECC 签名/加密操作。
 
@@ -376,6 +375,7 @@ CTAP1
 * [Github Repo] GPG asymmetric (YubiKey) password manager: https://github.com/drduh/Purse
 * [Yubico] YubiKey 5 Series Technical Manual: https://support.yubico.com/support/solutions/articles/15000014219-yubikey-5-series-technical-manual
 * [Github Wiki] US PIV of OpenSC: https://github.com/OpenSC/OpenSC/wiki/US-PIV
+* [Yubico] Accidentally Triggering OTP Codes: https://support.yubico.com/support/solutions/articles/15000006440-accidentally-triggering-otp-codes-with-your-nano-yubikey
 
 
 

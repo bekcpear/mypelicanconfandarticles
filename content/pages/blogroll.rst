@@ -4,7 +4,6 @@
 
 :slug: blogroll
 :date: 2017-06-13
-:lang: zh
 
 **这里会放一些我喜欢的博客**
 
@@ -12,11 +11,20 @@
 
 ****
 
-|saltedfish| https://v2bv.net/ (Sth. - Just a blog.) by SaltedFish/RedL0tus/Kay - 厉害的咸鱼，Gentooer，擅长 Android
+SaltedFish/RedL0tus/Kay
+-----------------------------------------------------
 
-|farseerfc| https://farseerfc.me (Farseerfc的小窩) by Farseerfc - Arch Linux 的 TU，大坂大学的助教，知道東西特別多
+|saltedfish| https://v2bv.net/ (Sth. - Just a blog.) Gentooer，擅长 Android
 
-|lilydjwg| https://blog.lilydjwg.me/ (依云's Blog) by lilydjwg - #archlinuxcn 社區管理者之一，博客裏面內容特別豐富
+Farseerfc
+-----------------------------------------------------
+
+|farseerfc| https://farseerfc.me (Farseerfc的小窩) Arch Linux 的 TU，大坂大学的助教
+
+lilydjwg
+-----------------------------------------------------
+
+|lilydjwg| https://blog.lilydjwg.me/ (依云's Blog) #archlinuxcn 社區管理者之一，博客裏面內容特別豐富
 
 
 

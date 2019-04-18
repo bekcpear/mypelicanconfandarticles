@@ -77,18 +77,13 @@ stopserver:
 theme:
 	(cd theme && (scons -Q || make) )
 
-	#[ ! -d $(OUTPUTDIR) ] || (cd $(OUTPUTDIR) && find -not -type d -not -wholename "*/.git*"  -not -iname "*.pdf" -not -iname "*.png" -delete)
-#publishtest: rmcc rmdrafts cc
 publishtest: rmdrafts
-	echo $(SITEURL) > content/static/CNAME
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONFTEST) $(PELICANOPTS)
 	$(MAKE) rsthtml
 	cp -fR content/static output/
 	cp -fR content/images output/
 
-#publish: rmcc rmdrafts cc
 publish: rmdrafts
-	echo $(SITEURL) > content/static/CNAME
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONF) $(PELICANOPTS)
 	$(MAKE) rsthtml
 	cp -fR content/static output/

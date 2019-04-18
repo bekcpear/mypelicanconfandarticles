@@ -4,13 +4,12 @@
 
 :slug: build_nextcloud_service_on_centos_with_selinux
 :date: 2017-06-12 17:01
-:lang: zh
 :tags: service, selinux, nginx, php-fpm, installation, redis, memcache
 :description: 如果你需要搭建 NextCloud 或者 ownCloud 服务，那本文是一篇非常好的参考文。
 
 .. contents::
 
-因为 AWS 下的服务到期了，速度太慢也不准备继续使用，转而更换到 Google TW 线路。也准备在启用 SELinux 的情况下重新搭一下 ownCloud 服务，之后又经 `KayMW`_ 推荐换搭了 NextCloud ，两者配置基本相同，少许的我发现的配置差异会在文中说明。
+因为 AWS 下的服务到期了，速度太慢也不准备继续使用，转而更换到 Google TW 线路。也准备在启用 SELinux 的情况下重新搭一下 ownCloud 服务，之后又经 `Kay`_ 推荐换搭了 NextCloud ，两者配置基本相同，少许的我发现的配置差异会在文中说明。
 
 本次搭建同时使用 redis 作为 Transactional Locking 的数据库，并使用 APCu 作为本地 memcache 过程。
 
@@ -217,7 +216,7 @@ SELinux 下默认对 http 服务有一系列的策略，我简单归纳为属于
 以上。
 
 
-.. _`KayMW`: https://v2bv.win/about/
+.. _`Kay`: /blogroll.html#saltedfish-redl0tus-kay
 .. _`Enabling MLS in SELinux`: https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/SELinux_Users_and_Administrators_Guide/mls.html#enabling-mls-in-selinux
 .. _`Setting up MariaDB Repositories`: https://downloads.mariadb.org/mariadb/repositories/#mirror=tuna&distro=CentOS
 .. _`install nginx and php-fpm from source`: https://github.com/Bekcpear/my-bash-scripts/tree/master/nginx_and_php-fpm_install_from_source_with_verification

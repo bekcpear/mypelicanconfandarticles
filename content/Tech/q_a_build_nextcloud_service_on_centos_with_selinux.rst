@@ -5,7 +5,6 @@ Q&A 启用 SELinux 的情况下，在 CentOS 上搭建 NextCloud/ownCloud 服务
 :slug: q_a_build_nextcloud_service_on_centos_with_selinux
 :date: 2017-06-12 21:21
 :modified: 2017-07-10 08:28
-:lang: zh
 :tags: service, selinux, nginx, php-fpm, installation, redis, memcache, Q&A
 :description: 整理了我在安装 NextCloud / ownCloud 服务时候遇到的各种问题，非常具有参考价值。
 

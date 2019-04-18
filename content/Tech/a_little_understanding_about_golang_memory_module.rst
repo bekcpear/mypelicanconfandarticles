@@ -3,7 +3,6 @@
 ==============================
 
 :slug: a_little_understanding_about_golang_memory_module
-:lang: zh
 :date: 2017-02-19 23:19
 :tags: golang, reference, gochannel
 :description: Go 语言 channel 在发送/接收时如何动作

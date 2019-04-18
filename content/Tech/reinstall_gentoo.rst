@@ -3,7 +3,6 @@
 ==============================
 
 :slug: reinstall_gentoo
-:lang: zh
 :date: 2016-05-22 23:24
 :modified: 2016-05-29 13:56
 :tags: gentoo, installation

@@ -1,12 +1,15 @@
 {
   "name": "未雨未歇",
   "short_name": "moego",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#fdfdfd",
+  "theme_color": "#162d50",
+  "background_color": "#fff",
+  "description": "一个格物致知的技术博客。",
   "icons": [
     {
-      "src": "\/static\/images\/favicon\/android-chrome-192x192.png",
-      "sizes": "192x192",
+      "src": "\/static\/images\/fav.png",
+      "sizes": "600x600",
       "type": "image\/png",
       "density": 4
     }

@@ -3,7 +3,6 @@
 ==================================================
 
 :slug: fighting_insomnia
-:lang: zh
 :date: 2019-02-27 04:37
 :notoriginal: true
 :tags: insomnia

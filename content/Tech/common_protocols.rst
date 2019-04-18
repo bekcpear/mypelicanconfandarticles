@@ -3,7 +3,6 @@
 ====================================
 
 :slug: common_network_protocols
-:lang: zh
 :date: 2017-04-18 16:31
 :modified: 2017-07-18 20:01
 :tags: protocol, tcp, ip, udp

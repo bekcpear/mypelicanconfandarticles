@@ -21,7 +21,7 @@ USE_LESS = False
 # Following items are often useful when publishing
 
 #DISQUS_SITENAME = ""
-#GOOGLE_ANALYTICS = ""
+GOOGLE_ANALYTICS = ""
 FEED_RSS = 'feeds/rss.xml'
 TAG_FEED_RSS = 'feeds/tag-{slug}.rss.xml'
 FEED_ALL_RSS = 'feeds/all.rss.xml'

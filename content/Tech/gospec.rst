@@ -1,14 +1,13 @@
 ==================================================
-【译】Go 编程语言规范
+Go 编程语言规范【译】
 ==================================================
 
 :slug: golang_spec
-:lang: zh
 :date: 2019-02-23 03:47
 :modified: 2019-03-01 08:11
 :tags: doc, golang, 翻译
 :notoriginal: true
-:license: 本文翻译自 The Go Programming Language Specification (https://golang.org/ref/spec),原文采用 Creative Commons Attribution 3.0 协议，文档内代码采用 BSD 协议 (https://golang.org/LICENSE)。 本文采用 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 许可协议，文档内代码继用相同协议，如果你需要发布本文（或衍生品），也需要注明本文原始链接 (https://moego.me/golang_spec.html) 及译者 Bekcpear。
+:license: 本文翻译自 The Go Programming Language Specification (https://golang.org/ref/spec)，原文采用 Creative Commons Attribution 3.0 协议，文档内代码采用 BSD 协议 (https://golang.org/LICENSE)。 本文采用 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 许可协议，文档内代码继用相同协议，如果你需要发布本文（或衍生品），也需要注明本文原始链接 (https://moego.me/golang_spec.html) 及译者 Bekcpear。
 :description: 最新版 Go 编程语言规范， The Go Programming Language Specification 的中文译文，译者 Bekcpear。
 :noindent: true
 
@@ -54,13 +53,13 @@ Go 是一个在设计时便考虑到系统编程的通用语言。它是强类�
 
 :code:`a … b` 这样子的格式表示从 :code:`a` 连续到 :code:`b` 的字符集。水平省略号 :code:`…` 也会用在其它一些地方非正式地表示枚举或者不再进一步说明的代码片段。 字符 :code:`…` （与三个单独字符 :code:`...` 所不同）并不是 Go 语言里的一种记号。
 
-  译注： :ruby:`扩展巴科斯-瑙尔范式|Extended Backus-Naur form` 是一种 :ruby:`元语法|metasyntax` 符号标记法，可以用于表示 :ruby:`上下文无关文法|Context-free grammar` 。 
+  译注： :ruby:`扩展巴科斯-瑙尔范式|extended Backus-Naur form` 是一种 :ruby:`元语法|metasyntax` 符号标记法，可以用于表示 :ruby:`上下文无关文法|Context-free grammar` 。 
   
   针对本文简单说明，其产生式规则由非终结符和终结符所构成，左侧是一个非终结符，右侧则是该非终结符所代表的终结符和非终结符。终结符包括字母数字字符、标点符号和空格字符，其不可再分；非终结符最终指代某种序列组合的多个终结符。
   
   本文用到的上述未说明的范式符号说明： :code:`=` 定义； :code:`,` 级联； :code:`.` 表示表达式终结； :code:`" .. "` 表示除双引号外的终结符； :code:`\` .. \`` 表示除反引号外的终结符； :code:`? .. ?` 表示特殊序列，用于解释 EBNF 标准以外的文本。
 
-  又注：觉得原文的 EBNF 格式写的并不规范，我将根据维基百科 `Extended Backus-Naur form`_ 上说明对原文表达式进行最小程度修改。更详细的 EBNF 说明可以下载 `ISO/IEC 14977:1996 PDF 压缩档`_ 查看。
+  又注：觉得原文的 EBNF 格式写的并不规范，我将根据维基百科 `extended Backus-Naur form`_ 上说明对原文表达式进行最小程度修改。更详细的 EBNF 说明可以下载 `ISO/IEC 14977:1996 PDF 压缩档`_ 查看。
 
   段落名若为中文且在语法标记块中使用英文书写的，均会在段落名上一并附上英文。
 
@@ -2644,53 +2643,53 @@ LiteralType 的潜在类型必须是结构体、数组、分片或者映射类�
 
 1. 转换带/不带符号的整数值到字符串类型会产生包含该数 UTF-8 表示形式的字符串。超过有效 Unicode 代码点范围的值会被转换为 :code:`\\uFFFD` 。
 
-  .. code-block:: go
+.. code-block:: go
 
-    string('a')       // "a"
-    string(-1)        // "\ufffd" == "\xef\xbf\xbd"
-    string(0xf8)      // "\u00f8" == "ø" == "\xc3\xb8"
-    type MyString string
-    MyString(0x65e5)  // "\u65e5" == "日" == "\xe6\x97\xa5"
+  string('a')       // "a"
+  string(-1)        // "\ufffd" == "\xef\xbf\xbd"
+  string(0xf8)      // "\u00f8" == "ø" == "\xc3\xb8"
+  type MyString string
+  MyString(0x65e5)  // "\u65e5" == "日" == "\xe6\x97\xa5"
 
 2. 转换字节分片到字符串类型会产生一个以该分片的元素作为连续字节的字符串。
 
-  .. code-block:: go
+.. code-block:: go
 
-    string([]byte{'h', 'e', 'l', 'l', '\xc3', '\xb8'})   // "hellø"
-    string([]byte{})                                     // ""
-    string([]byte(nil))                                  // ""
+  string([]byte{'h', 'e', 'l', 'l', '\xc3', '\xb8'})   // "hellø"
+  string([]byte{})                                     // ""
+  string([]byte(nil))                                  // ""
 
-    type MyBytes []byte
-    string(MyBytes{'h', 'e', 'l', 'l', '\xc3', '\xb8'})  // "hellø"
+  type MyBytes []byte
+  string(MyBytes{'h', 'e', 'l', 'l', '\xc3', '\xb8'})  // "hellø"
 
 3. 转换 rune 分片到字符串会产生一个把独立的 rune 值转换为 string 后再级联的字符串。
 
-  .. code-block:: go
+.. code-block:: go
 
-    string([]rune{0x767d, 0x9d6c, 0x7fd4})   // "\u767d\u9d6c\u7fd4" == "白鵬翔"
-    string([]rune{})                         // ""
-    string([]rune(nil))                      // ""
+  string([]rune{0x767d, 0x9d6c, 0x7fd4})   // "\u767d\u9d6c\u7fd4" == "白鵬翔"
+  string([]rune{})                         // ""
+  string([]rune(nil))                      // ""
 
-    type MyRunes []rune
-    string(MyRunes{0x767d, 0x9d6c, 0x7fd4})  // "\u767d\u9d6c\u7fd4" == "白鵬翔"
+  type MyRunes []rune
+  string(MyRunes{0x767d, 0x9d6c, 0x7fd4})  // "\u767d\u9d6c\u7fd4" == "白鵬翔"
 
 4. 转换字符串类型的值到字节类型的分片会产生一个以该字符串的字节作为连续元素的分片。
 
-  .. code-block:: go
+.. code-block:: go
 
-    []byte("hellø")   // []byte{'h', 'e', 'l', 'l', '\xc3', '\xb8'}
-    []byte("")        // []byte{}
+  []byte("hellø")   // []byte{'h', 'e', 'l', 'l', '\xc3', '\xb8'}
+  []byte("")        // []byte{}
 
-    MyBytes("hellø")  // []byte{'h', 'e', 'l', 'l', '\xc3', '\xb8'}
+  MyBytes("hellø")  // []byte{'h', 'e', 'l', 'l', '\xc3', '\xb8'}
 
 5. 转换字符串类型到 rune 类型分片会产生一个包含该字符串独立 Unicode 代码点的分片。
 
-  .. code-block:: go
+.. code-block:: go
 
-    []rune(MyString("白鵬翔"))  // []rune{0x767d, 0x9d6c, 0x7fd4}
-    []rune("")                 // []rune{}
+  []rune(MyString("白鵬翔"))  // []rune{0x767d, 0x9d6c, 0x7fd4}
+  []rune("")                 // []rune{}
 
-    MyRunes("白鵬翔")           // []rune{0x767d, 0x9d6c, 0x7fd4}
+  MyRunes("白鵬翔")           // []rune{0x767d, 0x9d6c, 0x7fd4}
 
 .. _`常量表达式`:
 
@@ -3429,38 +3428,38 @@ Return 语句
 
 1. 返回值会明确地列在 "return" 语句中。每个表达式一定是单一值的且是 `可分配`_ 给对应的函数返回类型的元素。
 
-  .. code-block:: go
+.. code-block:: go
 
-    func simpleF() int {
-      return 2
-    }
+  func simpleF() int {
+    return 2
+  }
 
-    func complexF1() (re float64, im float64) {
-      return -7.0, -4.0
-    }
+  func complexF1() (re float64, im float64) {
+    return -7.0, -4.0
+  }
 
 2. 在 "return" 语句中的表达式列表可以是对多值函数的单一调用。效果就犹如从这个函数返回的值被分配给带对应值类型的一个临时变量，然后这些变量会跟随在 "return" 语句后，并适用上述情况指明的规则。
 
-  .. code-block:: go
+.. code-block:: go
 
-    func complexF2() (re float64, im float64) {
-      return complexF1()
-    }
+  func complexF2() (re float64, im float64) {
+    return complexF1()
+  }
 
 3. 如果函数结果值对其 `结果参数`_ 规定了名字，那么表达式列表可以为空。结果参数会作为本地变量，函数也可以在需要时给它们赋值。 "return" 语句会返回这些变量的值。
 
-  .. code-block:: go
+.. code-block:: go
 
-    func complexF3() (re float64, im float64) {
-      re = 7.0
-      im = 4.0
-      return
-    }
+  func complexF3() (re float64, im float64) {
+    re = 7.0
+    im = 4.0
+    return
+  }
 
-    func (devnull) Write(p []byte) (n int, _ error) {
-      n = len(p)
-      return
-    }
+  func (devnull) Write(p []byte) (n int, _ error) {
+    n = len(p)
+    return
+  }
 
 不管它们是如何声明的，在进入函数时，所有结果值都会被初始化为其类型的 `零值`_ 。指定结果的 "return" 语句会在任何推迟函数执行前设置结果参数。
 

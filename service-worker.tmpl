@@ -119,7 +119,16 @@ self.addEventListener('activate', function(event) {
       });
     }).then(function() {
       <% if (clientsClaim) { %>
-      return self.clients.claim();
+      return self.clients.claim().then(function() {
+        console.log("ServiceWorker installation and activation successful, all clients have been controlled.");
+        self.clients.matchAll().then(function (clients){
+          clients.forEach(function(client){
+            client.postMessage({
+              msg: "newInstalled",
+            });
+          });
+        });
+      });
       <% } %>
     })
   );

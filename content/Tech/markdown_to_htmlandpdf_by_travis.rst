@@ -3,7 +3,6 @@
 ======================================================================
 
 :slug: markdown_to_htmlandpdf_by_travis
-:lang: zh
 :date: 2016-06-10 18:33
 :modified: 2017-06-09 13:55
 :tags: pandoc, travis
