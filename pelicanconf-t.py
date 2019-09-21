@@ -83,7 +83,7 @@ DISQUS_DISPLAY_COUNTS = True
 
 # Theme options
 
-SERVICEWORKER = True
+SERVICEWORKER = False
 DOCUTIL_CSS = False
 TYPOGRIFY = False
 PYGMENTS_STYLE = 'github'

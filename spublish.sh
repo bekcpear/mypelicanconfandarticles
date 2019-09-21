@@ -14,9 +14,12 @@ cp -f ./sw-precache-config.js ./output/
 cp -f ./service-worker.tmpl ./output/
 cp -f ./keybase.txt ./output/
 cp -f ./content/static/count.js ./output
+cp -f ./content/static/robots.txt ./output
 
 pushd ./output/
 rm -f theme/css/*.map theme/css/*.scss
 ~/node_modules/.bin/sw-precache --config sw-precache-config.js
 
 popd
+
+cp -R output/* ~/Nextcloud/moego/output/

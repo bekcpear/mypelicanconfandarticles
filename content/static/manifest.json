@@ -1,6 +1,6 @@
 {
   "name": "未雨未歇",
-  "short_name": "moego",
+  "short_name": "未雨",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#162d50",
@@ -9,7 +9,7 @@
   "icons": [
     {
       "src": "\/static\/images\/fav.png",
-      "sizes": "600x600",
+      "sizes": "340x340",
       "type": "image\/png",
       "density": 4
     }

@@ -6,9 +6,8 @@ AUTHOR = 'Bekcpear'
 SITENAME = '未雨未歇'
 SITEURL = 'https://moego.me'
 MAINSITEURL = 'https://moego.me'
-SITELOGO = '/static/images/logo.png'
-
-SITEDESC = ""
+SITELOGO = '/static/images/logo.svg'
+SITEDESC = "一个格物致知的技术博客。"
 
 PAGE_URL = "{slug}.html"
 PAGE_SAVE_AS = "{slug}.html"
