@@ -13,7 +13,7 @@ PAGE_URL = "{slug}.html"
 PAGE_SAVE_AS = "{slug}.html"
 
 THEME = 'moegoTheme'
-THEMEVERSION = '2020.08.20.383'
+THEMEVERSION = '2020.08.20.382'
 
 PATH = 'content'
 

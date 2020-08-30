@@ -13,6 +13,7 @@ PAGE_URL = "{slug}.html"
 PAGE_SAVE_AS = "{slug}.html"
 
 THEME = 'moegoTheme'
+THEMEVERSION = '2020.08.20.383'
 
 PATH = 'content'
 
@@ -80,7 +81,7 @@ CACHE_CONTENT = True
 DISQUS_SITENAME = 'whatever'
 DISQUS_DISPLAY_COUNTS = True
 GOOGLE_ANALYTICS_URL = 'https://www.google-analytics.com'
-GOOGLE_ANALYTICS_UNIVERSAL = 'UA-135034932-1'
+GOOGLE_ANALYTICS_UNIVERSAL_ASYNC = 'UA-135034932-1'
 GOOGLE_ANALYTICS_UNIVERSAL_PROPERTY = 'auto'
 
 # Theme options
