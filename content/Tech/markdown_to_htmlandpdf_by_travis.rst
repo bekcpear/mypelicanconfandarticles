@@ -7,6 +7,8 @@
 :modified: 2017-06-09 13:55
 :tags: pandoc, travis
 :description: 一篇关于使用 travis-ci 的文章，通过使用 pandoc 工具转换 markdown 标记语言为例来说明。
+:color: #3eaaaf
+:summary:
 
 .. contents::
 
@@ -14,6 +16,7 @@
 
 本文是关于通过pandoc转换markdown格式为html和pdf的，并由 travis-ci.org 自动编译转换生成到Github上。目的是因为我的主页目前没有富文本编辑器，使用markdown写文章是一个不错的选择，转换后再把html代码通过后台发布即可。因为都没有接触过类似的转换，所以花了很多时间，感觉必须要整理一下的。
 
+.. PELICAN_END_SUMMARY
 
 必要的几个条件
 ============================================================

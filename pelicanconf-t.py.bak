@@ -3,23 +3,26 @@
 from __future__ import unicode_literals
 
 AUTHOR = 'Bekcpear'
-SITENAME = 'moego'
-SITEURL = 'file:///home/u/d/moego.me/output'
-MAINSITEURL = 'file:///home/u/d/moego.me/output'
-
-SITEDESC = ""
+SITENAME = 'bitbili'
+SITEURL = 'http://t.qianyaojin.cn'
+MAINSITEURL = 'http://t.qianyaojin.cn'
+SITELOGO = '/static/logo/logo.svg'
+SITEDESC = "一个格物致知的技术博客。"
+MIGVERSION = '2020.09.17.664'
 
 PAGE_URL = "{slug}.html"
 PAGE_SAVE_AS = "{slug}.html"
 
-THEME = 'moegoTheme'
-THEMEVERSION = '2020.08.20.382'
+THEME = 'bitbiliTheme'
+MAINCOLOR = '#dd3b44'
+MAINCSSFILE = 'style.css'
+INDEXCSSFILE = 'index.css'
 
 PATH = 'content'
 
 TIMEZONE = 'Asia/Shanghai'
 
-DEFAULT_PAGINATION = 12
+DEFAULT_PAGINATION = 10
 
 DEFAULT_LANG = 'zh'
 LOCALE = 'zh_CN.utf8'
@@ -37,14 +40,15 @@ MARKDOWN = {'extension_configs': {
 
 PLUGIN_PATHS = ['plugins']
 PLUGINS = ['better_codeblock_line_numbering',
-           'twitter_bootstrap_rst_directives',
            'plantuml',
            'neighbors',
            'bootstrapify',
+           'twitter_bootstrap_rst_directives',
            'tag_cloud',
            'extract_toc',
            'sitemap',
-           'summary']
+           'summary',
+           'related_posts']
 
 SITEMAP = {
     'format': 'xml',
@@ -63,6 +67,8 @@ SITEMAP = {
 
 USE_LESS = False
 
+RELATED_POSTS_TEXT = "相关文章"
+
 # Uncomment following line if you want document-relative URLs when developing
 RELATIVE_URLS = False
 CHECK_MODIFIED_METHOD = "md5"
@@ -70,15 +76,14 @@ LOAD_CONTENT_CACHE = True
 CACHE_CONTENT = True
 
 # Feed generation is usually not desired when developing
-TAG_FEED_ATOM = None
-FEED_ATOM = None
-FEED_ALL_ATOM = None
-CATEGORY_FEED_ATOM = None
+#TAG_FEED_ATOM = None
+#FEED_ATOM = None
+#FEED_ALL_ATOM = None
+#CATEGORY_FEED_ATOM = None
 
 DISQUS_SITENAME = 'whatever'
 DISQUS_DISPLAY_COUNTS = True
 #GOOGLE_ANALYTICS_URL = 'https://www.google-analytics.com'
-#GOOGLE_ANALYTICS_URL = 'https://moego.me'
 #GOOGLE_ANALYTICS_UNIVERSAL = 'UA-135034932-1'
 #GOOGLE_ANALYTICS_UNIVERSAL_PROPERTY = 'auto'
 
@@ -105,7 +110,7 @@ OUTPUT_SOURCES_EXTENSION = '.rst'
 DIRECT_TEMPLATES = (('index', 'categories', 'authors', 'archives',
                      'tags'))
 
-AVATAR = '/static/images/avatar.png'
+AVATAR = 'https://avatars1.githubusercontent.com/u/6622239'
 ABOUT_PAGE = "about.html"
 BLOGROLL_PAGE = "blogroll.html"
 
@@ -122,3 +127,4 @@ BREADCRUMBLIST_IMG  = ''
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
+

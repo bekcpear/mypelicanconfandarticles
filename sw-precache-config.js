@@ -8,6 +8,8 @@ module.exports = {
     "images/**/**.*",
     "static/**.*",
     "static/**/**.*",
+    "theme/css/index.min.css",
+    "theme/css/index.min.css.map",
     "theme/css/style.min.css",
     "theme/css/style.min.css.map",
     "theme/css/page.css",

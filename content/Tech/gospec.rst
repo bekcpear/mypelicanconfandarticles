@@ -7,13 +7,20 @@ Go 编程语言规范【译】
 :modified: 2020-08-01 09:49
 :tags: doc, golang, 翻译
 :notoriginal: true
-:license: 本文翻译自 The Go Programming Language Specification (https://golang.org/ref/spec)，原文采用 Creative Commons Attribution 3.0 协议，文档内代码采用 BSD 协议 (https://golang.org/LICENSE)。 本文采用 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 许可协议，文档内代码继用相同协议，如果你需要发布本文（或衍生品），也需要注明本文原始链接 (https://moego.me/golang_spec.html) 及译者 Bekcpear。
+:license: 本文由本人独立翻译自 The Go Programming Language Specification (https://golang.org/ref/spec)，原文采用 Creative Commons Attribution 3.0 协议，文档内代码采用 BSD 协议 (https://golang.org/LICENSE)。 本文采用 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 许可协议，文档内代码继用相同协议，如果你需要发布本文（或衍生品），也需要注明本文原始链接 (https://bitbili.net/golang_spec.html) 及译者 Bekcpear。
 :description: 最新版 Go 编程语言规范， The Go Programming Language Specification 的中文译文，译者 Bekcpear。
+:summary:
+:color: #7fd5ea
 :noindent: true
 
 .. contents::
 
-* *对应英文原版 为 2020 年 01 月 14 日 版本: golang.org/ref/spec*
+* **对应英文原版 为 2020 年 01 月 14 日 版本: golang.org/ref/spec**
+* **本文完整翻译了官方英文版，且后续会尽全力同步更新**
+* **源代码托管在** `我的 Github`_ **上**
+
+.. PELICAN_END_SUMMARY
+
 * *翻译中针对可能有歧义/不明确/翻译后不易于理解的单词将直接使用原词汇*
 * *为了行文工整，代码块内可能使用英文表述*
 * *因为学习语言需要，所以翻译*
@@ -23,11 +30,15 @@ Go 编程语言规范【译】
 介绍
 ========================================
 
+.. PELICAN_BEGIN_SUMMARY
+
 这是一篇 Go 编程语言的参考手册。访问 `golang.org`_ 以获取更多信息及其它文档。
 
 Go 是一个在设计时便考虑到系统编程的通用语言。它是强类型的、带垃圾回收的且明确支持了并发编程。程序是由包来构建的，包的特性允许对其依赖进行高效管理。
 
 语言语法紧凑且易于解释，便于如集成开发环境（IDE）这样子的自动化工具分析。
+
+.. PELICAN_END_SUMMARY
 
 标记法
 ========================================
@@ -4354,7 +4365,7 @@ Run-time panics
 
 如果结构体或数组没有包含大于零大小的字段（或元素，对数组而言），那么它大大小为零。两个不同的零大小的变量在内存中可能拥有同一个地址。
 
-
+.. _`我的 Github`: https://github.com/Bekcpear/mypelicanconfandarticles/blob/master/content/Tech/gospec.rst
 .. _`golang.org`: https://golang.org/
 .. _`Extended Backus-Naur form`: https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form
 .. _`ISO/IEC 14977:1996 PDF 压缩档`: http://standards.iso.org/ittf/PubliclyAvailableStandards/s026153_ISO_IEC_14977_1996(E).zip

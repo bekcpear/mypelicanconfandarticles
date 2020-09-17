@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+body {
+  height: 2000px;
+  background: #666;
+  padding-top: 100px;
+}
+a {
+  /*display: inline-block;*/
+  background: #ccc;
+}
+div {
+  color: #fdfdfd;
+  width: 100%;
+}
+</style>
+
+</head>
+<body>
+  <h2>
+    <a>test touch event</a>
+  </h2>
+  <div></div>
+  <script>
+    var link = document.querySelector('a');
+    var divE = document.querySelector('div');
+    link.addEventListener('touchstart', function(event){
+      divE.innerText = 'touchstart \n';
+    });    
+    link.addEventListener('touchmove', function(event){
+      divE.innerText += 'touchmove \n';
+    });
+    /*
+    link.addEventListener('touchend', function(event){
+      divE.innerText += 'touchend \n';
+    });
+    */
+  </script>
+</body>
+</html>

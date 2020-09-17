@@ -3,28 +3,36 @@
 from __future__ import unicode_literals
 
 AUTHOR = 'Bekcpear'
-SITENAME = '未雨未歇'
-SITEURL = 'https://moego.me'
-MAINSITEURL = 'https://moego.me'
-SITELOGO = '/static/images/logo.svg'
+SITENAME = 'bitbili'
+SITEURL = 'https://bitbili.net'
+MAINSITEURL = 'https://bitbili.net'
+SITELOGO = '/static/logo/logo.svg'
 SITEDESC = "一个格物致知的技术博客。"
+MIGVERSION = '2020.09.17.664'
 
 PAGE_URL = "{slug}.html"
 PAGE_SAVE_AS = "{slug}.html"
 
-THEME = 'moegoTheme'
-THEMEVERSION = '2020.08.20.382'
+THEME = 'bitbiliTheme'
+MAINCOLOR = '#dd3b44'
+MAINCSSFILE = 'style.min.css'
+INDEXCSSFILE = 'index.min.css'
 
 PATH = 'content'
+ARTICLE_EXCLUDES = [
+    'demos',
+    'static'
+]
 
 TIMEZONE = 'Asia/Shanghai'
 
-DEFAULT_PAGINATION = 10
+DEFAULT_PAGINATION = 9
+#SUMMARY_MAX_LENGTH = 60
 
-DEFAULT_LANG = 'zh'
-LOCALE = 'zh_CN.utf8'
+#DEFAULT_LANG = 'zh'
+LOCALE = 'en_US.utf8'
 
-DEFAULT_DATE_FORMAT = '%Y 年 %m 月 %d 日 「周%a」'
+DEFAULT_DATE_FORMAT = '%Y 年 %m 月 %d 日/%w'
 
 STATIC_PATHS = []
 
@@ -44,8 +52,8 @@ PLUGINS = ["better_codeblock_line_numbering",
            'tag_cloud',
            'extract_toc',
            'sitemap',
-           'related_posts',
-           'summary']
+           'summary',
+           'related_posts']
 
 SITEMAP = {
     'format': 'xml',
@@ -125,3 +133,4 @@ BREADCRUMBLIST_IMG  = ''
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
+

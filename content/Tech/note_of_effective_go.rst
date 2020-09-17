@@ -94,5 +94,5 @@ new 会分配一个内存空间，并把这个空间都归为 **零** （而不�
 ==========================================
 
 .. _`godoc`: https://go.googlesource.com/tools
-.. _`Go 编程语言规范:分号`: https://moego.me/golang_spec.html#id9
-.. _`Go 编程语言规范:语句`: https://moego.me/golang_spec.html#id198
+.. _`Go 编程语言规范:分号`: https://bitbili.net/golang_spec.html#id9
+.. _`Go 编程语言规范:语句`: https://bitbili.net/golang_spec.html#id198

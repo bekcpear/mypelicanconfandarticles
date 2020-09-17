@@ -1,14 +1,14 @@
 {
-  "name": "未雨未歇",
-  "short_name": "未雨",
+  "name": "bitbili",
+  "short_name": "bitbili",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#162d50",
+  "theme_color": "#eb1847",
   "background_color": "#fff",
   "description": "一个格物致知的技术博客。",
   "icons": [
     {
-      "src": "\/static\/images\/fav.png",
+      "src": "\/static\/logo\/fav.png",
       "sizes": "340x340",
       "type": "image\/png",
       "density": 4

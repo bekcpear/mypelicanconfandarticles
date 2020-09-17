@@ -8,24 +8,23 @@ if [ "$t"x != 2x ]; then
   exit 1;
 fi
 
-vernum=$(awk -F '.' '{printf $4+1}' ./moegoTheme/version)
+vernum=$(awk -F '.' '{printf $4+1}' ./version)
 verdate=$(date '+%Y.%m.%d')
-echo -n ${verdate}.${vernum} > ./moegoTheme/version
-sed -i.bak -e "s/THEMEVERSION\s=\s'[\.0-9]*'/THEMEVERSION = '${verdate}.${vernum}'/" ./pelicanconf-t.py
-sed -i.bak -e "s/THEMEVERSION\s=\s'[\.0-9]*'/THEMEVERSION = '${verdate}.${vernum}'/" ./pelicanconf.py
+echo -n ${verdate}.${vernum} > ./version
+sed -i.bak -e "s/MIGVERSION\s=\s'[\.0-9]*'/MIGVERSION = '${verdate}.${vernum}'/" ./pelicanconf-t.py
+sed -i.bak -e "s/MIGVERSION\s=\s'[\.0-9]*'/MIGVERSION = '${verdate}.${vernum}'/" ./pelicanconf.py
 
 make publish
 
-cp -f ./sw-precache-config.js ./output/
-cp -f ./service-worker.tmpl ./output/
-cp -f ./keybase.txt ./output/
-cp -f ./content/static/count.js ./output
-cp -f ./content/static/robots.txt ./output
+rsync -acv ./sw-precache-config.js ./output/
+rsync -acv ./service-worker.tmpl ./output/
+rsync -acv ./keybase.txt ./output/
+rsync -acv ./content/static/count.js ./output/
+rsync -acv ./content/static/robots.txt ./output/
 
 pushd ./output/
 rm -f theme/css/*.scss
 ~/node_modules/.bin/sw-precache --config sw-precache-config.js
 popd
 
-
-cp -R output/* ~/Nextcloud/moego/output/
+rsync --delete -acv output/ ~/Nextcloud/bitbili/output/

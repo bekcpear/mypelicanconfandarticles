@@ -80,14 +80,18 @@ theme:
 publishtest: rmdrafts
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONFTEST) $(PELICANOPTS)
 	$(MAKE) rsthtml
-	cp -fR content/static output/
-	cp -fR content/images output/
+	mkdir -p output/demos output/static output/images
+	rsync --delete -acv content/demos/ output/demos/
+	rsync --delete -acv content/static/ output/static/
+	rsync --delete -acv content/images/ output/images/
 
 publish: rmdrafts
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONF) $(PELICANOPTS)
 	$(MAKE) rsthtml
-	cp -fR content/static output/
-	cp -fR content/images output/
+	mkdir -p output/demos output/static output/images
+	rsync --delete -acv content/demos/ output/demos/
+	rsync --delete -acv content/static/ output/static/
+	rsync --delete -acv content/images/ output/images/
 
 rsthtml:
 	(cd output && find -iname "*.rst" | parallel -I@ pygmentize -f html -o @.html @)

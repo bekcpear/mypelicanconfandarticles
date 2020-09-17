@@ -7,6 +7,8 @@
 :modified: 2016-05-29 13:56
 :tags: gentoo, installation
 :description: 安装 Gentoo Linux 的最主要步骤，以方便参考。完整的步骤还是应该去看官方的 wiki。
+:color: #463c65
+:summary:
 
 .. contents::
 
@@ -18,6 +20,8 @@
 Gentoo和一般的Linux的发行版的对比就是Gentoo从一开始安装到最后的完善都需要自己慢慢配置，所有的内容都可以很方便地定制与个性化（从内核到桌面以及各种管理软件）。刚刚安装好的Gentoo占用的容量在900M左右，是一个非常非常低的占用量（当然也是因为没有庞大的桌面环境造成的，但是这对于需要轻量级窗口管理器Awesome的我来说再适合不过了）。 `About Gentoo`_
 
 本文主旨在于为自己整理一下以备不时之需，同时也希望有网友可以用于参考（但是要装Gentoo的大部分都会自己去看 `官方的wiki`_ 吧=。=）。文档会尽量详细，但是也不会显得很傻冒。
+
+.. PELICAN_END_SUMMARY
 
 **安装顺序是怎样的呢？** （ `Gentoo Wiki原文翻译`_ ）
 

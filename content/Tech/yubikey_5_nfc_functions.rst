@@ -4,11 +4,14 @@
 
 :slug: yubikey_5_nfc_functions
 :date: 2019-03-09 21:03
+:modified: 2020-09-12 03:39
 :notoriginal: true
 :tags: yubikey, security, 2fa, otp, openpgp
 :description: 最近新入了 Yubikey 5 NFC，就想把之前沒弄懂的功能和实现原理全部理清楚。本文主要做整理和归纳，说明 Yubikey 5 NFC 的各项功能，包括 U2F 的工作原理和密钥生成方式
 :license: 本文所有内容整理自 FIDO, Yubico, Archlinux Wiki, Wikipedia，本站不声明版权。
 :noindent: true
+:summary:
+:color: #161616
 
 .. contents::
 
@@ -216,9 +219,11 @@ PIV :ruby:`认证|Attestation`
 OpenPGP
 ==========================================
 
+.. PELICAN_BEGIN_SUMMARY
+
 OpenPGP 是一个用于签名和加密的开放标准。它通过像 PKCS#11 这样的接口，使用存储在智能卡上的私钥来启用 RSA 或 ECC 签名/加密操作。这个应用可以为验证、签名和加密各存一个 PGP 密钥。和 PIV 触摸策略类似， openPGP 应用也可以设置需要接触金属触点来允许一个操作。
 
-* Yubikey 仅支持 RSA 密钥，不支持 ECC 密钥
+* Yubikey 5 NFC 仅支持 RSA 密钥，不支持 ECC 密钥
 * PGP 不用于 web 验证
 
 支持的算法有：
@@ -228,7 +233,11 @@ OpenPGP 是一个用于签名和加密的开放标准。它通过像 PKCS#11 这
 * RSA 3072
 * RSA 4096
 
+.. PELICAN_END_SUMMARY
+
 RSA 3072 和 RSA 4096 需要 GnuPG 版本 2.0 及以上。
+
+  2020.9.12 更： YubiKey 5Ci 固件 5.2.3 版本以上 支持 ECC 了，但是 5 NFC 还是不支持。
 
 一个别人整理的使用手册： https://github.com/drduh/YubiKey-Guide
 

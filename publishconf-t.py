@@ -10,11 +10,13 @@ import sys
 sys.path.append(os.curdir)
 from pelicanconf import *
 
-MAINSITEURL = 'http://localhost:8000'
-SITEURL = 'http://localhost:8000'
+MAINSITEURL = 'http://t.qianyaojin.cn'
+SITEURL = 'http://t.qianyaojin.cn'
 RELATIVE_URLS = False
 FEED_DOMAIN = SITEURL
 DELETE_OUTPUT_DIRECTORY = False
+MAINCSSFILE = 'style.css'
+INDEXCSSFILE = 'index.css'
 
 USE_LESS = False
 
@@ -29,4 +31,4 @@ FEED_ALL_RSS = 'feeds/all.rss.xml'
 CATEGORY_FEED_RSS = 'feeds/{slug}.rss.xml'
 
 LOAD_CONTENT_CACHE = False
-SERVICEWORKER = False
+#SERVICEWORKER = False

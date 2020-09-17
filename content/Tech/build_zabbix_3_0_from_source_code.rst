@@ -5,6 +5,8 @@ CentOS7 通过源码编译安装 Zabbix 3.0 (PHP + Mysql + Nginx)
 :slug: build_zabbix_3_0_from_source_code
 :date: 2016-08-22 22:05
 :tags: zabbix, service, installation
+:summary:
+:color: #3e4b6f
 
 .. contents::
 
@@ -20,6 +22,8 @@ Q：如何编译安装php7呢？
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A：难点在于编译选项和依赖关系，整理步骤如下：
+
+.. PELICAN_END_SUMMARY
 
 1. 下载 `PHP源码包 <http://cn.php.net/distributions/php-7.0.10.tar.xz>`_ 到 :code:`/usr/local/src` 目录下，解压后进入安装目录。（sha256sum：348476ff7ba8d95a1e28e1059430c10470c5f8110f6d9133d30153dda4cdf56a）
 2. 使用yum安装epel-release
