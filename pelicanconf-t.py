@@ -8,7 +8,7 @@ SITEURL = 'http://t.qianyaojin.cn'
 MAINSITEURL = 'http://t.qianyaojin.cn'
 SITELOGO = '/static/logo/logo.svg'
 SITEDESC = "一个格物致知的技术博客。"
-MIGVERSION = '2020.09.29.705'
+MIGVERSION = '2020.09.29.706'
 
 PAGE_URL = "{slug}.html"
 PAGE_SAVE_AS = "{slug}.html"

@@ -366,7 +366,7 @@ MAKEOPTS，这个决定了每次并行运行几个编译进程，一般是 CPU �
 
 .. code-block:: bash
 
-  nano -w /etc/locale.gen # 这里添上需要的语言，支持的语言可以查看 /usr/share/i18n/SUPPORTED 文件
+  vim /etc/locale.gen # 这里添上需要的语言，支持的语言可以查看 /usr/share/i18n/SUPPORTED 文件
   locale-gen
 
 之后选择默认的语言：
@@ -592,12 +592,17 @@ MAKEOPTS，这个决定了每次并行运行几个编译进程，一般是 CPU �
 
 容我后续更新。
 
+TODO: backup luks header
 TODO: understand luks tcrypt encryption option
+TODO: theming grub
+TODO: config awesomeWM and tuning and add Display Manager
+TODO: pay attention to IT8665E driver and look for an other way to get fan speed and other data
+TODO: compare the power consumption between Gentoo and Windows and tuning
+TODO: make operation easier
+TODO: others
 
 
-.. _`About Gentoo`: https://www.gentoo.org/get-started/about/
 .. _`官方的 wiki`: https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/About
-.. _`Gentoo Wiki 原文`: https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation#How_the_installation_is_structured
 .. _`镜像站点`: https://www.gentoo.org/downloads/mirrors/
 .. _`清华的 TUNA 源`: https://mirrors.tuna.tsinghua.edu.cn/gentoo/releases/amd64/autobuilds/current-install-amd64-minimal/
 .. _`公钥`: https://www.gentoo.org/downloads/signatures/
