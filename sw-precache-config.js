@@ -37,5 +37,6 @@ module.exports = {
   navigateFallback: '/offline.html',
   navigateFallbackWhitelist: [
   ],
-  templateFilePath: 'service-worker.tmpl'
+  templateFilePath: 'service-worker.tmpl',
+  ignoreUrlParametersMatching: [/.*/]
 }

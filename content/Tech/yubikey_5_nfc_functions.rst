@@ -5,6 +5,7 @@
 :slug: yubikey_5_nfc_functions
 :date: 2019-03-09 21:03
 :modified: 2020-09-12 03:39
+:lang: zh_hans
 :notoriginal: true
 :tags: yubikey, security, 2fa, otp, openpgp
 :description: 最近新入了 Yubikey 5 NFC，就想把之前沒弄懂的功能和实现原理全部理清楚。本文主要做整理和归纳，说明 Yubikey 5 NFC 的各项功能，包括 U2F 的工作原理和密钥生成方式

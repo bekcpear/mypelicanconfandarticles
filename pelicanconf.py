@@ -7,21 +7,25 @@ SITENAME = 'bitbili'
 SITEURL = 'https://bitbili.net'
 MAINSITEURL = 'https://bitbili.net'
 SITELOGO = '/static/logo/logo.svg'
+SITELOGOPNG = '/static/logo/fav.png'
 SITEDESC = "一个格物致知的技术博客。"
-MIGVERSION = '2020.09.17.665'
+MIGVERSION = '2020.09.29.705'
 
 PAGE_URL = "{slug}.html"
 PAGE_SAVE_AS = "{slug}.html"
 
 THEME = 'bitbiliTheme'
-MAINCOLOR = '#dd3b44'
+MAINCOLOR = '#eb1847'
 MAINCSSFILE = 'style.min.css'
 INDEXCSSFILE = 'index.min.css'
 
 PATH = 'content'
 ARTICLE_EXCLUDES = [
+    'mis',
     'demos',
-    'static'
+    'static',
+    'images',
+    'nocimages'
 ]
 
 TIMEZONE = 'Asia/Shanghai'
@@ -29,7 +33,7 @@ TIMEZONE = 'Asia/Shanghai'
 DEFAULT_PAGINATION = 9
 #SUMMARY_MAX_LENGTH = 60
 
-#DEFAULT_LANG = 'zh'
+DEFAULT_LANG = 'zh_hans'
 LOCALE = 'en_US.utf8'
 
 DEFAULT_DATE_FORMAT = '%Y 年 %m 月 %d 日/%w'

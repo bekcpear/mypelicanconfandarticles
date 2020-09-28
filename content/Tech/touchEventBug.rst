@@ -4,6 +4,7 @@ Chrome 下 touch 事件 inline 元素监听不生效
 
 :slug: chrome_touch_event_bug
 :date: 2020-09-15 10:48
+:lang: zh_hans
 :color: #0066cc
 :tags: web, javascript, chrome
 :description: 

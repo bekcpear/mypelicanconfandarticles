@@ -4,6 +4,7 @@ Windows10下的UEFI引导流程解析和引导修复说明
 
 :slug: Windows10_UEFI_Boot_Process
 :date: 2016-07-14 11:54
+:lang: zh_hans
 :tags: windows, bootloader, UEFI
 :summary:
 :noindent: true

@@ -5,6 +5,7 @@
 :slug: common_network_protocols
 :date: 2017-04-18 16:31
 :modified: 2017-07-18 20:01
+:lang: zh_hans
 :tags: protocol, tcp, ip, udp
 :description: 本文是一篇关于基础网络协议，比如 TCP, IP, UDP 等的归纳介绍，以便于系统化地理解。（还没写完）
 :license: 本文以译文形式引用了一些 https://en.wikipedia.org & https://tools.ietf.org/html/ 上的相关内容

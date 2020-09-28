@@ -1,6 +1,7 @@
 {
   "name": "bitbili",
   "short_name": "bitbili",
+  "lang": "zh-Hans",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#eb1847",
@@ -8,10 +9,22 @@
   "description": "一个格物致知的技术博客。",
   "icons": [
     {
-      "src": "\/static\/logo\/fav.png",
-      "sizes": "340x340",
+      "src": "\/static\/logo\/logoMaskable.png",
+      "sizes": "300x300",
       "type": "image\/png",
-      "density": 4
+      "purpose": "any maskable"
+    },
+    {
+      "src": "\/static\/logo\/logoMonochrome.png",
+      "sizes": "300x300",
+      "type": "image\/png",
+      "purpose": "monochrome"
+    },
+    {
+      "src": "\/static\/logo\/fav.png",
+      "sizes": "600x600",
+      "type": "image\/png",
+      "purpose": "any"
     }
   ]
 }

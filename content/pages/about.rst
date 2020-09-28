@@ -5,6 +5,7 @@
 :slug: about
 :date: 2017-06-10
 :modified: 2020-09-17
+:lang: zh_hans
 
 关于这个博客
 ====================

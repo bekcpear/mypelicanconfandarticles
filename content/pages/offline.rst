@@ -4,6 +4,7 @@ OFFLINE...
 
 :slug: offline
 :date: 2017-06-19
+:lang: zh_hans
 
 您正处于离线状态
 

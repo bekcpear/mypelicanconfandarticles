@@ -4,7 +4,8 @@ Go 编程语言规范【译】
 
 :slug: golang_spec
 :date: 2019-02-23 03:47
-:modified: 2020-08-01 09:49
+:modified: 2020-09-21 01:50
+:lang: zh_hans
 :tags: doc, golang, 翻译
 :notoriginal: true
 :license: 本文由本人独立翻译自 The Go Programming Language Specification (https://golang.org/ref/spec)，原文采用 Creative Commons Attribution 3.0 协议，文档内代码采用 BSD 协议 (https://golang.org/LICENSE)。 本文采用 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 许可协议，文档内代码继用相同协议，如果你需要发布本文（或衍生品），也需要注明本文原始链接 (https://bitbili.net/golang_spec.html) 及译者 Bekcpear。
@@ -18,6 +19,8 @@ Go 编程语言规范【译】
 * **对应英文原版 为 2020 年 01 月 14 日 版本: golang.org/ref/spec**
 * **本文完整翻译了官方英文版，且后续会尽全力同步更新**
 * **源代码托管在** `我的 Github`_ **上**
+
+  翻译本文，花费了本人(Bekcpear)很大的精力，可能有不足，但是我会自己慢慢优化，本就是学习目的。 **至今为止，本人没有正式认可任何其它平台发布本文，也没有被任何人联系过，如需发布请按许可协议进行（以合理的方式告知读者原文链接及作者，并不得以任何形式暗示我已正式认可了你以及你的使用行为），更别说连带网页源代码复制（网站主题也是本人自己写的，以 MIT 许可发布在 Github 上，如果你需要，也请注明我这个原作者并附上许可），如果全部复制了，那和访问我的网站的区别是什么，我的网站是正常运行的。**
 
 .. PELICAN_END_SUMMARY
 

@@ -4,6 +4,7 @@
 
 :slug: build_nextcloud_service_on_centos_with_selinux
 :date: 2017-06-12 17:01
+:lang: zh-Hans
 :tags: service, selinux, nginx, php-fpm, installation, redis, memcache
 :description: 如果你需要搭建 NextCloud 或者 ownCloud 服务，那本文是一篇非常好的参考文。
 :color: #0082c9
