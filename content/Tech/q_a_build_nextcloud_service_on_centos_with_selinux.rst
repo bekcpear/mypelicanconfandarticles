@@ -154,7 +154,8 @@ Q: 启用了 APCu 下编译 PHP 报 apc_arginfo.h 文件缺失
 
 **A:** PHP 7 是有单独的 acpu 模块包的，看官方文档 https://secure.php.net/manual/en/apcu.installation.php 上写了可以在 pecl 档案库下载，但是实际使用后发现缺失文件，报 apc_arginfo.h 文件没有，所以直接从 github 下载并解压后到 PHPSRCROOT/ext  下后编译安装，相关说明可以看 https://secure.php.net/manual/en/install.pecl.static.php
 
-  2020.09.01 更新，备注下更合理的安装方式：
+.. note::
+  2020.09.01 更新，备注下合理的安装方式：
 
   .. code-block:: bash
 

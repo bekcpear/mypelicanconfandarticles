@@ -80,7 +80,7 @@ theme:
 publishtest: rmdrafts
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONFTEST) $(PELICANOPTS)
 	$(MAKE) rsthtml
-	mkdir -p output/demos output/static output/images output/nocimages out/mis
+	mkdir -p output/demos output/static output/images output/nocimages output/mis
 	rsync --delete -acv content/demos/ output/demos/
 	rsync --delete -acv content/static/ output/static/
 	rsync --delete -acv content/images/ output/images/
@@ -90,7 +90,7 @@ publishtest: rmdrafts
 publish: rmdrafts
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONF) $(PELICANOPTS)
 	$(MAKE) rsthtml
-	mkdir -p output/demos output/static output/images output/nocimages out/mis
+	mkdir -p output/demos output/static output/images output/nocimages output/mis
 	rsync --delete -acv content/demos/ output/demos/
 	rsync --delete -acv content/static/ output/static/
 	rsync --delete -acv content/images/ output/images/

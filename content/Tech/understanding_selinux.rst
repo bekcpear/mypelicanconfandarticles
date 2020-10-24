@@ -8,6 +8,7 @@
 :tags: selinux, centos
 :description: 以 CentOS 为平台整理了入门 SELinux 所需要掌握的最基本知识，围绕例子来进行说明。
 :color: #161616
+:featured_image: /nocimages/understanding_selinux_0.png
 :noindent: true
 
 .. contents::

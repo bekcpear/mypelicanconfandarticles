@@ -4,7 +4,7 @@
 
 :slug: build_nextcloud_service_on_centos_with_selinux
 :date: 2017-06-12 17:01
-:lang: zh-Hans
+:lang: zh_hans
 :tags: service, selinux, nginx, php-fpm, installation, redis, memcache
 :description: 如果你需要搭建 NextCloud 或者 ownCloud 服务，那本文是一篇非常好的参考文。
 :color: #0082c9
@@ -108,6 +108,7 @@ NextCloud 是在 ownCloud 的基础上修改演变的，关于了解其历史可
 
 参照 NextCloud 官方示例配置修改版在 `nginx-conf-example-for-nextcloud.conf`_ 。
 
+.. note::
   注意的是， ownCloud 的 Nginx 配置示例下因为 ETag header 的问题禁用了 gzip。
 
 相较 NextCloud 配置示例而言，主要是添加了证书透明度和 HKPK 头的选项，关于证书透明度的配置问题，可以看 `imququ`_ 的博客， HPKP 的配置则可以看 `HTTP Public Key Pinning`_ 。针对这个我也有写了一个脚本用于获取相关必要的信息，在 `for_generating_additional_security_information_of_SSL_certificate`_ 。

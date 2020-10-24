@@ -4,12 +4,16 @@ from __future__ import unicode_literals
 
 AUTHOR = 'Bekcpear'
 SITENAME = 'bitbili'
+SITENAMEL = 'bitbili.net'
 SITEURL = 'https://bitbili.net'
 MAINSITEURL = 'https://bitbili.net'
 SITELOGO = '/static/logo/logo.svg'
 SITELOGOPNG = '/static/logo/fav.png'
+OPEN_GRAPH_IMAGE = '/static/logo/logoMaskable.png'
 SITEDESC = "一个格物致知的技术博客。"
-MIGVERSION = '2020.09.29.706'
+MIGVERSION = '2020.10.24.794'
+MYPROFILE = "https://github.com/Bekcpear"
+
 
 PAGE_URL = "{slug}.html"
 PAGE_SAVE_AS = "{slug}.html"
@@ -21,6 +25,7 @@ INDEXCSSFILE = 'index.min.css'
 
 PATH = 'content'
 ARTICLE_EXCLUDES = [
+    'Drafts',
     'mis',
     'demos',
     'static',
@@ -48,10 +53,8 @@ MARKDOWN = {'extension_configs': {
     }}
 
 PLUGIN_PATHS = ['plugins']
-PLUGINS = ["better_codeblock_line_numbering",
-           "plantuml",
+PLUGINS = ["plantuml",
            'neighbors',
-           'bootstrapify',
            'twitter_bootstrap_rst_directives',
            'tag_cloud',
            'extract_toc',

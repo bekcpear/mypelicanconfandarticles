@@ -238,7 +238,9 @@ OpenPGP 是一个用于签名和加密的开放标准。它通过像 PKCS#11 这
 
 RSA 3072 和 RSA 4096 需要 GnuPG 版本 2.0 及以上。
 
+.. note::
   2020.9.12 更： YubiKey 5Ci 固件 5.2.3 版本以上 支持 ECC 了，但是 5 NFC 还是不支持。
+
 
 一个别人整理的使用手册： https://github.com/drduh/YubiKey-Guide
 

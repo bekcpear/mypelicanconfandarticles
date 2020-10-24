@@ -1,11 +1,17 @@
 module.exports = {
-  staticFileGlobs: [
-    "!(tags|categories|search|authors).html",
-    "!(drafts|tag|category|author)/!(tags|categories|search).html",
-    "**/!(drafts|tag|category|author)/!(tags|categories|search).html",
-    "version.txt",
-    "images/!(tmp)*.*",
-    "images/**/!(tmp)*.*",
+  cacheId: "bitbili-precache",
+  swDest: 'service-worker.js',
+  skipWaiting: true,
+  globDirectory: './',
+  globIgnores: [
+    "{tags,categories,authors}.html",
+    "{tag,category,author}/*.html"
+  ],
+  globPatterns: [
+    "*.html",
+    "*/*.html",
+    "images/**.*",
+    "images/**/**.*",
     "static/**.*",
     "static/**/**.*",
     "theme/css/index.min.css",
@@ -34,9 +40,5 @@ module.exports = {
     "theme/images/fa/brands/creative-commons-by.svg",
     "theme/images/fa/brands/creative-commons-sa.svg",
   ],
-  navigateFallback: '/offline.html',
-  navigateFallbackWhitelist: [
-  ],
-  templateFilePath: 'service-worker-min.tmpl',
-  ignoreUrlParametersMatching: [/.*/]
+  ignoreURLParametersMatching: [/.*/]
 }

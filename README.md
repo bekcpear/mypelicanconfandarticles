@@ -7,6 +7,15 @@ Pelican 配置实例，同时也充当本人[博客][blog]文章源码的存档�
 
 Plugin fork 自 [farseerfc][fc] 并经过本人略微修改后放在 [Github][git] 上。
 
+Depend on:
+
+* Pelcian
+* Ditaa
+* sw-precache or workbox-cli
+* some Pelican plugins
+* dev-python/beautifulsoup
+* sys-process/parallel -- Tange, O. (2020, July 22). GNU Parallel 20200722 ('Privacy Shield'). Zenodo. https://doi.org/10.5281/zenodo.3956817
+
 [blog]: https://bitbili.net
 [by-sa]: https://creativecommons.org/licenses/by-sa/4.0/
 [fc]: https://github.com/farseerfc/pelican-plugins
