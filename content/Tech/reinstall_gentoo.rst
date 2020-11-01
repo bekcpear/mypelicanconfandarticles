@@ -466,7 +466,7 @@ MAKEOPTS，这个决定了每次并行运行的任务数，一般设置 CPU 的�
 * USB 驱动、网卡驱动、声卡驱动、显卡驱动、传感器驱动
 * 其它细节项
 
-这里还是看 `原文`_ ，相对复杂不太好简略说明。配置过程中，善用 :kbd:`/` 键搜索， :kbd:`H` 键查看说明，还可以参考金步国的 `内核配置文档翻译`_ ，说是翻译，其实很多都添加了自己的解释，相对官方文档易于理解太多。
+这里还是看 `原文`_ ，相对复杂不太好简略说明。配置过程中，善用 :kbd:`/` 键搜索， :kbd:`H` 键查看说明，还可以参考金步国的 `内核配置文档翻译`_ ，说是翻译，其实很多都添加了自己的解释，相对官方文档易于理解太多。还有就是 `Linux-Hardware`_ 这个网站，可以根据设备的 ID 去找启用其驱动需要的配置。
 
 配置完成后编译并安装：
 
@@ -743,6 +743,18 @@ MAKEOPTS，这个决定了每次并行运行的任务数，一般设置 CPU 的�
 
   sysctl --system
 
+.. admonition:: T/S
+
+  遇到蓝牙总是突然假死无法使用的问题，表现为蓝牙键盘连接成功，但无法断开，bluetooth 服务也无法关闭，关闭服务操作时内核会报错：
+
+  .. code-block:: dmesg
+
+    Bluetooth: hci0: urb 00000000b85d4849 failed to resubmit (2)
+  
+  睡眠计算机唤醒后还可能出现 modprobe ... blocked 内核错误信息。
+  
+  后排查和内核的一个 autosuspend 的配置相关： :code:`CONFIG_BT_HCIBTUSB_AUTOSUSPEND` 这个设置关掉后，目前还没出现相应问题。
+
 备份 LUKS 加密头
 ----------------------------------------------------
 
@@ -874,6 +886,7 @@ TODO:
 .. _`公钥`: https://www.gentoo.org/downloads/signatures/
 .. _`原文`: https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Kernel
 .. _`内核配置文档翻译`: http://www.jinbuguo.com/kernel/longterm-linux-kernel-options.html
+.. _`Linux-Hardware`: https://linux-hardware.org/index.php?view=search
 .. _`我的内核配置文件`: /mis/config-5.4.66-gentoo-alpha.txt
 .. _`AwesomeWMLikeKDEShortcuts&CorrespondingScripts`: https://github.com/Bekcpear/AwesomeWM-Like-KDE-Shortcuts
 .. _`官方维基`: https://wiki.gentoo.org/wiki/KDE
