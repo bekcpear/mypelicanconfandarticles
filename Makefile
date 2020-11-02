@@ -81,21 +81,21 @@ publishtest: rmdrafts
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONFTEST) $(PELICANOPTS)
 	$(MAKE) rsthtml
 	mkdir -p output/demos output/static output/images output/nocimages output/mis
-	rsync --delete -acv content/demos/ output/demos/
-	rsync --delete -acv content/static/ output/static/
-	rsync --delete -acv content/images/ output/images/
-	rsync --delete -acv content/nocimages/ output/nocimages/
-	rsync --delete -acv content/mis/ output/mis/
+	rsync --delete -rlcv content/demos/ output/demos/
+	rsync --delete -rlcv content/static/ output/static/
+	rsync --delete -rlcv content/images/ output/images/
+	rsync --delete -rlcv content/nocimages/ output/nocimages/
+	rsync --delete -rlcv content/mis/ output/mis/
 
 publish: rmdrafts
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONF) $(PELICANOPTS)
 	$(MAKE) rsthtml
 	mkdir -p output/demos output/static output/images output/nocimages output/mis
-	rsync --delete -acv content/demos/ output/demos/
-	rsync --delete -acv content/static/ output/static/
-	rsync --delete -acv content/images/ output/images/
-	rsync --delete -acv content/nocimages/ output/nocimages/
-	rsync --delete -acv content/mis/ output/mis/
+	rsync --delete -rlcv content/demos/ output/demos/
+	rsync --delete -rlcv content/static/ output/static/
+	rsync --delete -rlcv content/images/ output/images/
+	rsync --delete -rlcv content/nocimages/ output/nocimages/
+	rsync --delete -rlcv content/mis/ output/mis/
 
 rsthtml:
 	(cd output && find -iname "*.rst" | parallel -I@ pygmentize -f html -o @.html @)
