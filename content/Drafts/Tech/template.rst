@@ -9,6 +9,7 @@ T
 :color: //HEX color code prefix a '#' with no alpha channel
 :notoriginal: true
 :tags: a, b, c
+:mykeywords: a,b,c,e,f // without space
 :description: //a hidden description
 :full_featured_image: // full url of featured image
 :featured_image: // absolute url of my site

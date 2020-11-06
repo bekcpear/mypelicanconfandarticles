@@ -7,6 +7,7 @@ Go 编程语言规范【译】
 :modified: 2020-11-02 03:34
 :lang: zh_hans
 :tags: doc, golang, 翻译
+:mykeywords: golang,go,语言,规范,翻译
 :notoriginal: true
 :license: 本文由本人独立翻译自 The Go Programming Language Specification (https://golang.org/ref/spec)，原文采用 Creative Commons Attribution 3.0 协议，文档内代码采用 BSD 协议 (https://golang.org/LICENSE)。 本文采用 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 许可协议，文档内代码继用相同协议，如果你需要发布本文（或衍生品），也需要注明本文原始链接 (https://bitbili.net/golang_spec.html) 及译者 Bekcpear。
 :description: 最新版 Go 编程语言规范， The Go Programming Language Specification 的中文译文，译者 Bekcpear。
@@ -18,20 +19,18 @@ Go 编程语言规范【译】
 
 * **对应英文原版 为 2020 年 01 月 14 日 版本:** https://golang.org/ref/spec
 * **本文完整翻译了官方英文版，且后续会尽全力同步更新**
-* **源代码托管在** `我的 Github`_ **上**
 
 .. PELICAN_END_SUMMARY
 
-.. note::
+* **本文唯一原始链接为** https://bitbili.net/golang_spec.html
+* **源码存放在** `我的 Github`_ **上**
 
-  请认准唯一官发链接： https://bitbili.net/golang_spec.html ，其他站点如需发布请直接按许可协议正确进行「以合理、明显的方式告知读者 **原文链接及作者** ，并不得以任何形式暗示我已正式认可了你以及你的使用行为」； **且** 我不赞同连带网页源代码复制的行为，如果你直接复制了，那么希望可以注明该网页为复制品以尊重我的劳动成果。
-
-* *翻译中针对可能有歧义/不明确/翻译后不易于理解的单词将直接使用原词汇*
-* *为了行文工整，代码块内可能使用英文表述*
-* *因为学习语言需要，所以翻译*
-* *有些翻译可能比较迷糊，我会在进一步学习后完善它们*
-* *文中实参仅代表 argument；参数仅代表 parameter，有时候也会译为形参*
-* *目前翻译还是可能存在错误，如发现请及时联系我或在下方留言*
+- *翻译中针对可能有歧义/不明确/翻译后不易于理解的单词将直接使用原词汇*
+- *为了行文工整，代码块内可能使用英文表述*
+- *因为学习语言需要，所以翻译*
+- *有些翻译可能比较迷糊，我会在进一步学习后完善它们*
+- *文中实参仅代表 argument；参数仅代表 parameter，有时候也会译为形参*
+- *目前翻译还是可能存在错误，如发现请及时联系我或在下方留言*
 
 介绍
 ========================================
