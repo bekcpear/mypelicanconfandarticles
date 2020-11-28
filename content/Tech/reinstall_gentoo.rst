@@ -872,6 +872,13 @@ Gentoo 下默认的也是推荐的 initramfs 生成工具 genkernel 并不支持
 
 使用 Gentoo 是一个长期的过程，之后遇到的问题以及如何解决我也会继续更新，现在就暂时这样。
 
+**20201128更**
+
+1. 一次意外断电后，出现了蓝牙无法使用的问题，最后还是因为固件没有加载好，`intel/ibt-18-16-1.*` ；进入 Windows 后重启再回到 Linux 可用，是因为 Windows 帮忙加载了固件；目前比较迷惑的是为什么之前是直接断电后进入 Linux 使用是正常，只有再这次意外断电后才出现了问题。
+2. 看门狗芯片，目前测试下来，使用的是 it87_wdt 这个驱动；用户空间下的 watchdog 守护进程可用于接管内核对看门狗的写入，同时提供更多的功能，比如在系统无响应之后，先尝试修复系统响应，无效再重启系统，但是目前我不知道如何做这个修复。当开启了看门狗，但是未调用用户空间的程序对看门狗进行写操作时，应该是需要开启内核下这个配置： :code:`CONFIG_WATCHDOG_HANDLE_BOOT_ENABLED=y` ，以保证在用户进程接管前系统不会重启。这样子就可以灵活很多。
+3. @preserved-rebuild 里面的包，是根据保留的 lib 自动生成的，相关代码存放于 :file:`/usr/lib/python3.7/site-packages/portage/_sets/libs.py` ，而保留的 lib 的信息存放路径默认为 :file:`/var/lib/portage/preserved_libs_registry` 。出现这个保留的 lib 的原因是默认开启了 :code:`preserve-libs` 功能，默认配置路径为 :file:`/usr/share/portage/config/make.globals` ，同时，也有提供了一个 :file:`preserve-libs.eclass` 可用于在未开启上述功能时使用。
+4. 我的 GPU， Radeon RX Vega 64 是不支持 vp9 硬解的， Raven Ridge 时期的 APU 因为使用 VCN 核心才支持 vp9 硬解，而 Vega 64 使用的是 VCE 和 UVD 编解码芯片，并不支持 vp9. 
+
 TODO:
 
 * pay attention to IT8665E driver and look for an other way to get fan speed and other data

@@ -1623,7 +1623,7 @@ Iota
 
 绑定了方法 :code:`Length` 和 :code:`Scale` ，接收者类型为 :code:`*Point` ，对应基础类型 :code:`Point` 。
 
-方法的类型是该函数结合接收者作为的第一个参数的类型。比如，方法 :code:`Scale` 有类型
+方法的类型是该函数结合接收者作为第一个参数的类型。比如，方法 :code:`Scale` 有类型
 
 .. code-block:: go
 
@@ -4406,7 +4406,7 @@ Run-time panics
 
 函数 :code:`Alignof` 和 :code:`Sizeof` 获取任意类型的表达式 :code:`x` 并分别返回假想变量 :code:`v` 的定位或大小（ :code:`v` 就像是通过 :code:`var v = x` 声明的）。
 
-函数 :code:`Offsetof` 获取一个（可能被括起来的） `选择器`_ :code:`s.f` （这个选择器表示由 :code:`s` 或 :code:`*s` 所表示结构体的字段 :code:`f` ），并返回相对于结构体地址的以字节表示的字段偏移量。如果 :code:`f` 是一个 `嵌入字段`_ ，那么必须可以在无需通过结构体字段指针间接的情况下访问。对于带字段 :code:`f` 的结构体 :code:`s` ：
+函数 :code:`Offsetof` 获取一个（可能被括起来的） `选择器`_ :code:`s.f` （这个选择器表示由 :code:`s` 或 :code:`*s` 所表示结构体的字段 :code:`f` ），并返回相对于结构体地址的以字节表示的字段偏移量。如果 :code:`f` 是一个 `嵌入字段`_ ，那么必须可以在无需指针间接的情况下通过结构体字段访问。对于带字段 :code:`f` 的结构体 :code:`s` ：
 
 .. code-block:: go
 
