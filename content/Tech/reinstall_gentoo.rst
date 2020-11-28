@@ -4,7 +4,7 @@ Gentoo Linux 安装 —— 带硬盘加密
 
 :slug: reinstall_gentoo
 :date: 2016-05-22 23:24
-:modified: 2020-10-18 15:07
+:modified: 2020-11-28 16:37
 :lang: zh_hans
 :tags: gentoo, installation, luks
 :description: 安装 Gentoo Linux 的主要步骤。
@@ -894,7 +894,7 @@ TODO:
 .. _`原文`: https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Kernel
 .. _`内核配置文档翻译`: http://www.jinbuguo.com/kernel/longterm-linux-kernel-options.html
 .. _`Linux-Hardware`: https://linux-hardware.org/index.php?view=search
-.. _`我的内核配置文件`: /mis/config-5.4.66-gentoo-alpha.txt
+.. _`我的内核配置文件`: /mis/config-gentoo-alpha.txt
 .. _`AwesomeWMLikeKDEShortcuts&CorrespondingScripts`: https://github.com/Bekcpear/AwesomeWM-Like-KDE-Shortcuts
 .. _`官方维基`: https://wiki.gentoo.org/wiki/KDE
 .. _`Cryptsetup wiki`: https://gitlab.com/cryptsetup/cryptsetup/-/wikis/FrequentlyAskedQuestions#6-backup-and-data-recovery
