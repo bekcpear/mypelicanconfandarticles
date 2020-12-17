@@ -21,6 +21,7 @@ rsync -rlcv ./service-worker-min.tmpl ./output/
 rsync -rlcv ./keybase.txt ./output/
 rsync -rlcv ./content/static/count.js ./output/
 rsync -rlcv ./content/static/robots.txt ./output/
+rsync -rlcv ./content/static/BingSiteAuth.xml ./output/
 rsync -rlcv ./version ./output/version.txt
 
 pushd ./output/

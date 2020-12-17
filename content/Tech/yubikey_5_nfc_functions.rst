@@ -345,7 +345,7 @@ U2F 的优点（Yubico 网站指出的）
 
 对密码学不是很了解，说一下基本流程。
 
-Yubikey 里面有一个随机数生成器(RNG)和一个在出场就配置好的只针对本设备的密钥(Device secret)。
+Yubikey 里面有一个随机数生成器(RNG)和一个在出厂就配置好的只针对本设备的密钥(Device secret)。
 
 当需要注册一个服务的时候，通过获取到的 APPID 结合 RNG 生成的随机数以及 Device secret 通过 HMAC-SHA256 单向函数生成所需的针对该服务的私钥，然后将生成的随机数和其 MAC 结合变成 handle，然后把通过私钥生成的公钥和 handle 发给服务商。
 

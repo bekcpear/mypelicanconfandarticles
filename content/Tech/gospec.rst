@@ -4,7 +4,7 @@ Go 编程语言规范【译】
 
 :slug: golang_spec
 :date: 2019-02-23 03:47
-:modified: 2020-11-02 03:34
+:modified: 2020-12-17 14:08
 :lang: zh_hans
 :tags: doc, golang, 翻译
 :mykeywords: golang,go,语言,规范,翻译
@@ -655,6 +655,45 @@ Rune 字面值代表了一个 rune `常量`_ ，一个确定了 Unicode 码位�
 ------------------------------------------------------------
 
 分片是针对一个底层数组的连续段的描述符，它提供了对该数组内有序序列元素的访问。分片类型表示其元素类型的数组的所有分片的集合。元素的数量被称为分片长度，且不能为负。未初始化的分片的值为 :code:`nil` 。
+
+.. note::
+
+  译注， 在这里 Go Specification 的描述为：
+
+    The value of an uninitialized slice is nil.
+
+  而 :ruby:`《Go 语言圣经》|The GO Programming Language` 里说：
+
+    The zero-value mechanism ensures that a variable always holds a well-defined value of its type; in Go there is no such thing as an uninitialized variable."
+
+  于是我对如下两段代码：
+
+  .. code-block:: go
+
+    // file: test0.go
+    package main
+
+    func main() {
+      var a []int
+      print(a)
+    }
+
+    // file: test1.go
+    package main
+
+    func main() {
+      var a []int = nil
+      print(a)
+    }
+
+  使用如下命令：
+
+  .. code-block:: bash
+
+    go build -o test ./test.go
+    objdump -d -Mamd64 test > test.s
+
+  分别生成对应的汇编文件后对比，发现两个文件内容除文件名外其它一致，均对变量 a 所对应的栈地址写零了；因此这里的描述实际上修正为， **“未被显式初始化过的分片会被隐式地初始化为其零值 nil”** 更恰当，下同。
 
 ::
 
