@@ -10,7 +10,6 @@
 :mykeywords: proxy,socks,git,emerge,gentoo,portage
 :description: 如何为 Portage 配置 ftp_proxy, http_proxy, https_proxy, 以及关于 socks5 协议的适用性。
 :noindent: true
-:status: draft
 :summary:
 
 .. contents::
@@ -23,6 +22,7 @@ Gentoo 的默认设置
 ========================================
 
 默认代理： 无
+
 默认下载工具：
 
 * 带版本号的包： :code:`wget`
@@ -53,17 +53,16 @@ Gentoo 的默认设置
   FETCHCOMMAND="curl --retry 3 --connect-timeout 60 --ftp-pasv -o \"\${DISTDIR}/\${FILE}\" \"\${URI}\""
   RESUMECOMMAND="curl -C - --retry 3 --connect-timeout 60 --ftp-pasv -o \"\${DISTDIR}/\${FILE}\" \"\${URI}\""
 
-保存后即完成修改，此时，就可以给不同协议配置同样的 socks 类协议的代理服务，均可生效。比如：
+其中 :code:`RESUMECOMMAND` 是用于恢复意外中断的下载命令，保存后即完成修改，此时，就可以给不同协议配置同样的 socks 类协议的代理服务，均可生效。如：
 
 .. code-block:: bash
 
   https_proxy="socks5h://127.0.0.1:1080"
-  ...
 
 二、 适用下载不带版本号的包
 ------------------------------------------------
 
-对于不带版本号的包，即 :code:`-9999*` 这些包，它们直接使用 :code:`git` 命令从 git 仓库抓取。
+对于不带版本号的包，即 :code:`*-9999*` 这些包，它们目前直接使用 :code:`git` 命令从 git 仓库抓取。
 
 而 :code:`git` 命令支持 socks 协议，并且除了能吃上述配置的环境变量外，
 
@@ -114,13 +113,13 @@ Gentoo 的默认设置
    .. code-block:: bash
 
      export http_proxy="..." https_...
-     <cmd> [<args>...]
+     emerge [<args>...]
 
    或
 
    .. code-block:: bash
 
-     http_proxy="..." https_... <cmd> [<args>...]
+     http_proxy="..." https_... emerge [<args>...]
 
 以上。
 
