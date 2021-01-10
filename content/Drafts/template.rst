@@ -20,3 +20,4 @@ T
 
 .. contents::
 
+.. PELICAN_END_SUMMARY
