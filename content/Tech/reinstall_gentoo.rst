@@ -4,7 +4,7 @@ Gentoo Linux 安装 —— 带硬盘加密
 
 :slug: reinstall_gentoo
 :date: 2016-05-22 23:24
-:modified: 2020-11-28 16:37
+:modified: 2021-01-11 02:17
 :lang: zh_hans
 :tags: gentoo, installation, luks
 :description: 安装 Gentoo Linux 的主要步骤。
@@ -866,6 +866,9 @@ Gentoo 下默认的也是推荐的 initramfs 生成工具 genkernel 并不支持
   # 查看一系列 emerge 下编译时间用时
   sed -E '/>>>\s+emerge/bd;/:::/bd;/[0-9]+:\s.+$/d;:d;' e.log | sed -E '/:::/bn;N;s/\n/ /;:n;s/([0-9]{10}):\s+>>>\s+emerge\s*\([0-9of ]+\)\s+([A-Za-z0-9_\+\.\/\-]+)\s+[a-z\/ ]+([0-9]{10}):.*/\1 \3 \2/' | awk -F' ' '{printf $2-$1" "$3"\n"}' | sort -n | less
 
+  # 大致筛选仓库下有效的 live 包 **20210111更**
+  find . -name '*.ebuild' | egrep '9999*(-r[0-9]{1,3})?\.ebuild$' | grep -v '/virtual/' | xargs egrep 'inherit.+(darcs|cvs|subversion|mercurial|kde.org|xorg-2|xorg-3|ros-catkin|selinux-policy-2|git-r3|llvm.org|libretro-core|golang-vcs)|LICENSE="metapackage"|="git-r3"|toolchain_src_prepare|EGIT_REPO_URI=|="subversion"' | awk -F: '{printf $1 "\n"}' | uniq
+
 配置双启不打算配置了，目前直接 :kbd:`F2` 进 BIOS 下选择 Windows 的 UEFI 启动很方便，而且基本不用 Windows
 
 1950X 可以支持 NUMA ， BIOS 下启用它以缩短编译时间， ZENITH EXTREME ALPHA 的 BIOS V2101 对应设置为 memory interleaving 改为 channel 以启用。当然，内核下也要配置开启。
@@ -878,6 +881,8 @@ Gentoo 下默认的也是推荐的 initramfs 生成工具 genkernel 并不支持
 2. 看门狗芯片，目前测试下来，使用的是 it87_wdt 这个驱动；用户空间下的 watchdog 守护进程可用于接管内核对看门狗的写入，同时提供更多的功能，比如在系统无响应之后，先尝试修复系统响应，无效再重启系统，但是目前我不知道如何做这个修复。当开启了看门狗，但是未调用用户空间的程序对看门狗进行写操作时，应该是需要开启内核下这个配置： :code:`CONFIG_WATCHDOG_HANDLE_BOOT_ENABLED=y` ，以保证在用户进程接管前系统不会重启。这样子就可以灵活很多。
 3. @preserved-rebuild 里面的包，是根据保留的 lib 自动生成的，相关代码存放于 :file:`/usr/lib/python3.7/site-packages/portage/_sets/libs.py` ，而保留的 lib 的信息存放路径默认为 :file:`/var/lib/portage/preserved_libs_registry` 。出现这个保留的 lib 的原因是默认开启了 :code:`preserve-libs` 功能，默认配置路径为 :file:`/usr/share/portage/config/make.globals` ，同时，也有提供了一个 :file:`preserve-libs.eclass` 可用于在未开启上述功能时使用。
 4. 我的 GPU， Radeon RX Vega 64 是不支持 vp9 硬解的， Raven Ridge 时期的 APU 因为使用 VCN 核心才支持 vp9 硬解，而 Vega 64 使用的是 VCE 和 UVD 编解码芯片，并不支持 vp9. 
+
+
 
 TODO:
 

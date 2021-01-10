@@ -21,22 +21,18 @@
 Gentoo 的默认设置
 ========================================
 
-默认代理： 无
-
-默认下载工具：
-
-* 带版本号的包： :code:`wget`
-* 不带版本号的包： :code:`git`
+* 代理： 无
+* 工具： 默认使用 :code:`wget` 作为下载工具，但对于绝大部分的 live 包 [1]_ ，会有针对的 eclass 使用对应的版本控制工具从远程仓库抓取，这里仅以 :code:`git` 为例。
 
 持久性地修改代理
 ========================================
 
-一、 适用下载带版本号的包
+一、 通用配置
 ------------------------------------------------
 
 :code:`man make.conf` 可以看到里面有说明如何配置代理，但是过于简要，这边详细说明。
 
-在下载带版本号的包的情况下，只需在 :file:`/etc/portage/make.conf` 文件下配置如下三个变量，就完全足够了：
+对于一般情况，在 :file:`/etc/portage/make.conf` 文件下配置如下三个变量，就完全足够：
 
 .. code-block:: bash
 
@@ -46,7 +42,7 @@ Gentoo 的默认设置
 
 这些变量会在 emerge 命令运行时，传递给预配置的 :code:`FETCHCOMMAND` 即 :code:`wget` 命令。但，该命令有一个问题是不支持 socks 协议；所以，对于不同的协议需要有不同的代理服务，这样子很麻烦。
 
-修改支持 socks 协议有一个很简单的方法，即修改默认的获取命令为 :code:`curl` ，同样在 :file:`/etc/portage/make.conf` 文件下配置变量，如下：
+修改以支持 socks 协议有一个应变的方法，即修改默认的获取命令为 :code:`curl` ，同样在 :file:`/etc/portage/make.conf` 文件下配置变量，如下：
 
 .. code-block:: bash
 
@@ -59,12 +55,12 @@ Gentoo 的默认设置
 
   https_proxy="socks5h://127.0.0.1:1080"
 
-二、 适用下载不带版本号的包
+二、 单独配置 git 抓取
 ------------------------------------------------
 
-对于不带版本号的包，即 :code:`*-9999*` 这些包，它们目前直接使用 :code:`git` 命令从 git 仓库抓取。
+对于 live 包，它们目前大多数直接使用 :code:`git` 命令从远程仓库抓取。其它版本控制工具 [2]_ 同理，请自行修改后套用；当然也有直接使用 :code:`wget|curl` 下载 live 包的情况，那么这种情况如上「一」述。
 
-而 :code:`git` 命令支持 socks 协议，并且除了能吃上述配置的环境变量外，
+:code:`git` 命令支持 socks 协议，并且除了能吃上述配置的环境变量外，
 
 .. note::
   配置 :code:`https_proxy` 时也配好 :code:`http_proxy` ，否则可能出现 SSL_ERROR_SYSCALL 错误。
@@ -85,11 +81,11 @@ Gentoo 的默认设置
 
    .. code-block:: bash
 
-     if [[ ${EBUILD_PHASE} == "unpack" && ${PV} =~ ^9999 ]]; then
+     if [[ ${EBUILD_PHASE} == "unpack" && ${INHERITED} =~ git\-r3 ]]; then
        git config --global http.proxy '[protocol://][user[:password]@]proxyhost[:port]'
      fi
 
-   这个 bashrc 只被 Portage 引用，会在进入每一个安装阶段时被导入。目前，Portage 下抓取 git 项目是通过 git-r3.eclass 实现，该 eclass 定义了 git 项目是在 src_unpack 阶段被更新，所以这里只需要在此阶段时设置即可。且，因为该目录不是被抓取包的 git 目录，所以只能设置用户级别的配置以生效，配置文件会被存放于 Portage 安装过程中沙盒的家目录下，即对应 *安装软件临时目录* [1]_ 下的 :file:`homedir/` 目录。
+   这个 bashrc 只被 Portage 引用，会在进入每一个安装阶段时被导入。目前，Portage 下抓取 git 项目是通过 :file:`git-r3.eclass` 实现，该 eclass 定义了 git 项目是在 src_unpack 阶段被更新，所以这里只需要在此阶段时设置即可。且，因为该目录不是被抓取包的 git 目录，所以只能设置用户级别的配置以生效，配置文件会被存放于 Portage 安装过程中沙盒的家目录下，即对应 *安装软件临时目录* [3]_ 下的 :file:`homedir/` 目录。
 
 临时添加代理
 ========================================
@@ -102,7 +98,7 @@ Gentoo 的默认设置
 
    .. code-block:: bash
 
-     proxychains -q <cmd> [<args>...]
+     proxychains -q emerge [<args>...]
 
    其默认配置文件位于 :file:`/etc/proxychains.conf`
 
@@ -123,6 +119,8 @@ Gentoo 的默认设置
 
 以上。
 
-.. [1] 这个目录是 Portage 在编译/安装软件过程中临时建立的，会在成功安装软件后被删除，所以不用担心会有文件残留。具体位置是可以自定义的，详情看 make.conf(5) 手册下 PORTAGE_TMPDIR 条目。
+.. [1] 即版本号带 :code:`9999*` 的这些包；用于匹配 live ebuild 文件名的正则表达式为 :code:`9999*(-r[0-9]{1,3})?\.ebuild$` ，可还是有一些包使用了这种版本命名规则却并非真正的 live 包，比如 :file:`openjfx/openjfx-8.999.ebuild` ；这里不会通过版本号来判断是否需要配置 git 参数，所以并不影响，仅作介绍。
+.. [2] 目前支持的大致有 bzr, cvs, darcs, mercurial, subversion
+.. [3] 这个目录是 Portage 在编译/安装软件过程中临时建立的，会在成功安装软件后被删除，所以不用担心会有文件残留。具体位置是可以自定义的，详情看 make.conf(5) 手册下 PORTAGE_TMPDIR 条目
 
 .. _`bashrc`: https://wiki.gentoo.org/wiki//etc/portage/bashrc
