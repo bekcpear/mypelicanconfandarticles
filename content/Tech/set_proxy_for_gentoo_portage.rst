@@ -4,6 +4,7 @@
 
 :slug: set_proxy_for_gentoo_portage
 :date: 2021-01-10 23:01
+:modified: 2021-01-11 19:26
 :lang: zh_hans
 :color: #463c65
 :tags: proxy, gentoo, portage
@@ -30,7 +31,7 @@ Gentoo 的默认设置
 一、 通用配置
 ------------------------------------------------
 
-:code:`man make.conf` 可以看到里面有说明如何配置代理，但是过于简要，这边详细说明。
+:code:`$ man make.conf` 可以看到里面有说明如何配置代理，但是过于简要，这边详细说明。
 
 对于一般情况，在 :file:`/etc/portage/make.conf` 文件下配置如下三个变量，就完全足够：
 
@@ -42,7 +43,7 @@ Gentoo 的默认设置
 
 这些变量会在 emerge 命令运行时，传递给预配置的 :code:`FETCHCOMMAND` 即 :code:`wget` 命令。但，该命令有一个问题是不支持 socks 协议；所以，对于不同的协议需要有不同的代理服务，这样子很麻烦。
 
-修改以支持 socks 协议有一个应变的方法，即修改默认的获取命令为 :code:`curl` ，同样在 :file:`/etc/portage/make.conf` 文件下配置变量，如下：
+修改以支持 socks 协议有一个应变的方法，即修改默认的获取命令为 :code:`curl` ，同样是在 :file:`/etc/portage/make.conf` 文件下配置变量，如下：
 
 .. code-block:: bash
 
@@ -67,17 +68,17 @@ Gentoo 的默认设置
 
 还能独立于其它包单独配置 git 自身的代理，方法有两种：
 
-1. git 能配置针对整个 Linux 系统的参数
+1. git 能配置针对整个 Linux 系统的参数，运行：
 
    .. code-block:: bash
 
      git config --system http.proxy '[protocol://][user[:password]@]proxyhost[:port]'
 
-   此配置会写入到 :file:`/etc/gitconfig` 文件内，并生效于系统级别，会被用户/项目级别的配置覆盖。
+   此命令会将配置写入到 :file:`/etc/gitconfig` 文件内，并生效于系统级别，会被用户/项目级别的配置覆盖。
 
 2. 通过 Portage 的全局 `bashrc`_ 文件 :file:`/etc/portage/bashrc` 来配置临时的 git 代理
 
-   这种方式会对系统配置造成最少的干扰，只略微繁琐一点，需要将下述脚本写入上述的 bashrc 文件内：
+   这种方式会对系统配置造成最少的干扰，只略微繁琐一点，需要将下述脚本代码写入上述的 bashrc 文件内：
 
    .. code-block:: bash
 
@@ -104,7 +105,7 @@ Gentoo 的默认设置
 
 2. 临时指定环境变量 {ftp,http,https}_proxy 的方式，适用性同持久性配置。
 
-   即如下：
+   即如下命令：
 
    .. code-block:: bash
 
