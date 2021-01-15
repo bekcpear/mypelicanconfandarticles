@@ -2,14 +2,15 @@
 如何正确地为 Gentoo 的 Portage 包管理器设置代理
 ====================================================================================
 
-:slug: set_proxy_for_gentoo_portage
+:slug: set-proxy-for-gentoo-portage
 :date: 2021-01-10 23:01
 :modified: 2021-01-11 19:26
 :lang: zh_hans
 :color: #463c65
 :tags: proxy, gentoo, portage
-:mykeywords: proxy,socks,git,emerge,gentoo,portage
+:mykeywords: proxy,socks,git,emerge,gentoo,portage,代理
 :description: 如何为 Portage 配置 ftp_proxy, http_proxy, https_proxy, 以及关于 socks5 协议的适用性。
+:featured_image: /nocimages/gentoo.png
 :noindent: true
 :summary:
 

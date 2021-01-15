@@ -24,6 +24,10 @@ rsync -rlcv ./content/static/robots.txt ./output/
 rsync -rlcv ./content/static/BingSiteAuth.xml ./output/
 rsync -rlcv ./version ./output/version.txt
 
+# some fixes
+rsync -rlcv ./content/fixes/set_proxy_for_gentoo_portage.html ./output/
+
+
 pushd ./output/
 rm -f theme/css/*.scss
 ../node_modules/.bin/sw-precache --config sw-precache-config.js
