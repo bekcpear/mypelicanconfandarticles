@@ -15,7 +15,7 @@ Gentoo ebuild 文件内的 QA_PREBUILT 变量
 
 .. contents::
 
-起因是打了一个 Gentoo 上 QQ 音乐的包，然后最开始被提示了 QA 警告，于是一步步琢磨；后来参考了 :gepkg:`www-client/google-chrome` 的 ebuild 文件，并浅析了一下 ebuild 源码后，才逐渐理解了 portage 上的 QA 系统是如何检测包质量的。所以写下以下内容以强化记忆。
+起因是打了一个 Gentoo 上 QQ 音乐的包，然后最开始被提示了 QA 警告，于是一步步琢磨；后来参考了 :gepkg:`www-client/google-chrome` 的 ebuild 文件，并浅析了一下 ebuild 源码后，才逐渐理解了 portage 上的 QA_* 这些变量是如何运作的。所以写下以下内容以强化记忆。
 
 .. PELICAN_END_SUMMARY
 
