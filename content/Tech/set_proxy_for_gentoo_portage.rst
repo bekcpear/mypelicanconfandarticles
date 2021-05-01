@@ -48,8 +48,8 @@ Gentoo 的默认设置
 
 .. code-block:: bash
 
-  FETCHCOMMAND="curl --retry 3 --connect-timeout 60 --ftp-pasv -o \"\${DISTDIR}/\${FILE}\" \"\${URI}\""
-  RESUMECOMMAND="curl -C - --retry 3 --connect-timeout 60 --ftp-pasv -o \"\${DISTDIR}/\${FILE}\" \"\${URI}\""
+  FETCHCOMMAND="curl --retry 3 --connect-timeout 60 --ftp-pasv -Lo \"\${DISTDIR}/\${FILE}\" \"\${URI}\""
+  RESUMECOMMAND="curl -C - --retry 3 --connect-timeout 60 --ftp-pasv -Lo \"\${DISTDIR}/\${FILE}\" \"\${URI}\""
 
 其中 :code:`RESUMECOMMAND` 是用于恢复意外中断的下载命令，保存后即完成修改，此时，就可以给不同协议配置同样的 socks 类协议的代理服务，均可生效。如：
 
