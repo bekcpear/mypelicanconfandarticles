@@ -4,7 +4,7 @@ Go 编程语言规范【译】
 
 :slug: golang_spec
 :date: 2019-02-23 03:47
-:modified: 2021-03-03 04:18
+:modified: 2021-08-22 18:02
 :lang: zh_hans
 :tags: doc, golang, 翻译
 :mykeywords: golang,go,语言,规范,翻译
