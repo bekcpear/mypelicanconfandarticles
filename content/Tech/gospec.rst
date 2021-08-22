@@ -17,7 +17,7 @@ Go 编程语言规范【译】
 
 .. contents::
 
-* **对应英文原版 为 2021 年 02 月 10 日 版本:** https://golang.org/ref/spec
+* **对应英文原版 为 2021 年 07 月 26 日 版本:** https://golang.org/ref/spec
 * **本文完整翻译了官方英文版，且后续会尽全力同步更新**
 
 .. PELICAN_END_SUMMARY
@@ -365,8 +365,8 @@ Rune 字面值代表了一个 rune `常量`_ ，一个确定了 Unicode 码位�
   \n   U+000A 换行或新行
   \r   U+000D 回车
   \t   U+0009 水平制表
-  \v   U+000b 垂直制表
-  \\   U+005c 反斜杠
+  \v   U+000B 垂直制表
+  \\   U+005C 反斜杠
   \'   U+0027 单引号（只在 rune 字面值中转义才有效）
   \"   U+0022 双引号（只在字符串字面值中转义才有效）
 
@@ -559,7 +559,7 @@ Rune 字面值代表了一个 rune `常量`_ ，一个确定了 Unicode 码位�
 方法集
 ------------------------------------------------------------
 
-一个类型可能有一个 :ruby:`方法集|method set` 与之关联。 `接口类型`_ 的方法集就是它的接口。任何其它类型 :code:`T` 的方法集由以类型 :code:`T` 为接收者所声明的所有 `方法`_ 组成。相应的 `指针类型`_ :code:`*T` 的方法集是以 :code:`*T` 或 :code:`T` 为接收者所声明的所有方法的集合（也就是说，它同样包含了 :code:`T` 的方法集）。包含嵌入字段的应用于结构体的更多规则，会在 `结构体类型`_ 一节描述。任何其它类型会有一个空的方法集。在一个方法集中，每一个方法必须要有一个 `唯一的`_ 非 `空白`_ 的 `方法名`_ 。
+一个类型有一个（可能为空的） :ruby:`方法集|method set` 与之关联。 `接口类型`_ 的方法集就是它的接口。任何其它类型 :code:`T` 的方法集由以类型 :code:`T` 为接收者所声明的所有 `方法`_ 组成。相应的 `指针类型`_ :code:`*T` 的方法集是以 :code:`*T` 或 :code:`T` 为接收者所声明的所有方法的集合（也就是说，它同样包含了 :code:`T` 的方法集）。包含嵌入字段的应用于结构体的更多规则，会在 `结构体类型`_ 一节描述。任何其它类型会有一个空的方法集。在一个方法集中，每一个方法必须要有一个 `唯一的`_ 非 `空白`_ 的 `方法名`_ 。
 
 类型的方法集确定了这个类型所 `实现的接口`_ 和以此类型作为 `接收者`_ 所可以 `调用`_ 的方法。
 
@@ -2392,7 +2392,7 @@ LiteralType 的潜在类型必须是结构体、数组、分片或者映射类�
 
 在 :code:`Greeting` 中， :code:`who` 的值第一次调用时为 :code:`nil` ，在第二次调用时为 :code:`[]string{"Joe", "Anna", "Eileen"}` 。
 
-如果最终的实参可分配给一个分片类型 :code:`[]T` ，那么如果这个实参后跟着 :code:`...` 的话，它就会在不改变值的情况下传递给一个 :code:`...T` 参数。在这种情况下，不会创建新的分片。
+如果最终的实参可分配给一个分片类型 :code:`[]T` 且其后跟着 :code:`...` 的话，它就会在不改变值的情况下传递给一个 :code:`...T` 参数。在这种情况下，不会创建新的分片。
 
 给定一个分片 :code:`s` 和调用
 
@@ -2510,8 +2510,8 @@ LiteralType 的潜在类型必须是结构体、数组、分片或者映射类�
   ^    按位异或  (XOR)          整数
   &^   按位清除  (AND NOT)      整数
 
-  <<   向左位移                 整数 << 无符号整数
-  >>   向右位移                 整数 >> 无符号整数
+  <<   向左位移                 整数 << 整数 >= 0
+  >>   向右位移                 整数 >> 整数 >= 0
 
 整数运算符
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2601,6 +2601,8 @@ LiteralType 的潜在类型必须是结构体、数组、分片或者映射类�
 字符串加法通过连接操作数来创建了一个新的字符串。
 
 .. _`比较`:
+
+.. _`可比较的`:
 
 .. _`其它地方`:
 
@@ -2782,6 +2784,7 @@ LiteralType 的潜在类型必须是结构体、数组、分片或者映射类�
 * :code:`x` 的类型和 :code:`T` 都是复数类型。
 * :code:`x` 是一个整数或者一个字节/ rune 分片，并且 :code:`T` 是字符串类型。
 * :code:`x` 是一个字符串并且 :code:`T` 是一个字节/ rune 分片。
+* :code:`x` 是一个分片， :code:`T` 是一个到数组的指针，且该分片与数组的类型有 `一致的`_ 的元素类型。
 
 在为了转换的目的而比较结构体类型是否一致时， `结构体的标签`_ 是被忽略的：
 
@@ -2874,6 +2877,26 @@ LiteralType 的潜在类型必须是结构体、数组、分片或者映射类�
      []rune("")                 // []rune{}
 
      MyRunes("白鵬翔")           // []rune{0x767d, 0x9d6c, 0x7fd4}
+
+从分片到数组指针的转换
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+转换一个分片到一个数组指针会产生一个到该分片底层数组的指针。当分片的 `长度`_ 小于数组的长度时，会出现 `run-time panic`_ 。
+
+.. code-block:: go
+
+  s := make([]byte, 2, 4)
+  s0 := (*[0]byte)(s)      // s0 != nil
+  s1 := (*[1]byte)(s[1:])  // &s1[0] == &s[1]
+  s2 := (*[2]byte)(s)      // &s2[0] == &s[0]
+  s4 := (*[4]byte)(s)      // 恐慌： len([4]byte) > len(s)
+
+  var t []string
+  t0 := (*[0]string)(t)    // t0 == nil
+  t1 := (*[1]string)(t)    // 恐慌： len([1]string) > len(t)
+
+  u := make([]byte, 0)
+  u0 = (*[0]byte)(u)       // u0 != nil
 
 .. _`常量表达式`:
 
@@ -3091,7 +3114,7 @@ LiteralType 的潜在类型必须是结构体、数组、分片或者映射类�
 ::
 
   append cap complex imag len make new real
-  unsafe.Alignof unsafe.Offsetof unsafe.Sizeof
+  unsafe.Add unsafe.Alignof unsafe.Offsetof unsafe.Sizeof unsafe.Slice
 
 .. code-block:: go
 
@@ -3260,7 +3283,7 @@ If 语句
 Switch 语句
 ------------------------------------------------------------
 
-"switch" 语句提供了多路执行。表达式或者类型指示符会和在 "switch" 内的 "case" 做比较去确定执行哪一个分支。
+"switch" 语句提供了多路执行。表达式或者类型会和在 "switch" 内的 "case" 做比较去确定执行哪一个分支。
 
 ::
 
@@ -3281,7 +3304,7 @@ Switch 语句
   ExprCaseClause = ExprSwitchCase, ":", StatementList .
   ExprSwitchCase = "case", ExpressionList | "default" .
 
-如果 switch 表达式求值为一个无类型常量，它会先被隐式地 `转换`_ 为它的 `默认类型`_ ；如果它是一个无类型的布尔值，它会先被隐式地转换为 :code:`bool` 类型。预定义的无类型值 :code:`nil` 不能用在 switch 表达式中。
+如果 switch 表达式求值为一个无类型常量，它会先被隐式地 `转换`_ 为它的 `默认类型`_ 。预定义的无类型值 :code:`nil` 不能用在 switch 表达式中。开关表达式类型必须是 `可比较的`_ 。
 
 如果 case 表达式是无类型的，那么它会先被隐式地 `转换`_ 为 switch 表达式的类型。对于每个（可能是转换过的） case 表达式 :code:`x` 和 switch 表达式的值 :code:`t` ， `比较`_ :code:`x == t` 必定是有效的。
 
@@ -3315,7 +3338,7 @@ switch 表达式可以前缀一个简单的语句，这个语句会在表达式�
 类型开关
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-类型开关用于比较类型而不是值。其它方面和表达式开关类似。它的标识是一个特殊的 switch 表达式，这个表达式形式是一个使用了保留字 :code:`type` 而不是一个实际类型的 `类型断言`_ 。
+类型开关用于比较类型而不是值。其它方面和表达式开关类似。它的标识是一个特殊的 switch 表达式，这个表达式形式是一个使用了关键字 :code:`type` 而不是一个实际类型的 `类型断言`_ 。
 
 .. code-block:: go
 
@@ -3869,6 +3892,8 @@ Close
   译注，这里返回的指示符标识的其实是信道是否还有值，即 :code:`true` or :code:`false`
 
 .. _`一些表达式`:
+
+.. _`长度`:
 
 .. _`len`:
 
@@ -4440,6 +4465,10 @@ Run-time panics
   func Offsetof(selector ArbitraryType) uintptr
   func Sizeof(variable ArbitraryType) uintptr
 
+  type IntegerType int  // 整数类型的速记；其并不是一个真正的类型
+  func Add(ptr Pointer, len IntegerType) Pointer
+  func Slice(ptr *ArbitraryType, len IntegerType) []ArbitraryType
+
 :code:`Pointer` 是一个 `指针类型`_ 但是 :code:`Pointer` 值可能不能被 `解引用`_ 。任何指针或 `潜在类型`_ 为 :code:`uintptr` 的值都可以被转换为潜在类型为 :code:`Pointer` 的类型，反之亦然。在 :code:`Pointer` 和 :code:`uintptr` 间的转换效果是由实现定义的。
 
 .. code-block:: go
@@ -4472,6 +4501,18 @@ Run-time panics
 
 对于 :code:`Alignof` 、 :code:`Offsetof` 、 :code:`Sizeof` 的调用是类型 :code:`uintptr` 的编译时常量表达式。
 
+函数 :code:`Add` 会加 :code:`len` 到 :code:`ptr` 并返回一个更新好的指针 :code:`unsafe.Pointer(uintptr(len) + uintptr(ptr))` 。 :code:`len` 实参必须为整数类型或者一个无符号的 `常量`_ 。一个常数 :code:`len` 实参必须可以被一个 :code:`int` 类型的值 `所表示`_ ；如果它是无类型的常量那么它会被给定类型 :code:`int` 。 `有效使用`_ :code:`Pointer` 的规则仍然应用。
+
+函数 :code:`Slice` 返回了一个分片，该分片的底层数组起始于 :code:`ptr` 且其长度和容量为 :code:`len` 。 :code:`Slice(ptr, len)` 等同于
+
+.. code-block:: go
+
+  (*[len]ArbitraryType)(unsafe.Pointer(ptr))[:]
+
+除了这样外，还有一个特殊的情况，当 :code:`ptr` 为 :code:`nil` 且 :code:`len` 为零时， :code:`Slice` 返回 :code:`nil` 。
+
+:code:`len` 实参必须为整数类型或者一个无符号的 `常量`_ 。一个常数 :code:`len` 实参必须是非负的且可以被一个 :code:`int` 类型的值 `所表示`_ ；如果它是无类型的常量那么它会被给定类型 :code:`int` 。在运行时，如果 :code:`len` 为负，或 :code:`ptr` 为 :code:`nil` 但 :code:`len` 不为 :code:`nil` ，那么 `run-time panic`_ 会发生。
+
 大小和对准值保证
 ------------------------------------------------------------
 
@@ -4498,6 +4539,8 @@ Run-time panics
 
 如果结构体或数组没有包含大于零大小的字段（或元素，对数组而言），那么它大小为零。两个不同的零大小的变量在内存中可能拥有同一个地址。
 
+:code:`对应提交： 507cc341ec2cb96b0199800245f222146f799266`
+
 .. _`我的 Github`: https://github.com/Bekcpear/mypelicanconfandarticles/blob/master/content/Tech/gospec.rst
 .. _`golang.org`: https://golang.org/
 .. _`Extended Backus-Naur form`: https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form
@@ -4512,3 +4555,4 @@ Run-time panics
 .. _`反射接口`: https://golang.org/pkg/reflect/#StructTag
 .. _`Talk:Significand`: https://en.wikipedia.org/wiki/Talk%3ASignificand
 .. _`知乎-原码、反码、补码的产生、应用以及优缺点有哪些？`: https://www.zhihu.com/question/20159860
+.. _`有效使用`: https://golang.org/pkg/unsafe#Pointer
