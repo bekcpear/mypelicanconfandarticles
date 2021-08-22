@@ -62,3 +62,57 @@ rebase 成
 E---H'---I'---J'  topicA
 
 这样
+
+
+---------------------
+
+DRI DRM Mesa Vulkan X-Server wayland DDX DIX KMS FRAMEBUFFER 关系
+
+Compositor????
+
+
+::
+
+  (Application)
+  ====================================
+      X-Server Wayland
+  ------------------------------------
+      Mesa(Vulkan,openGL)
+  ------------------------------------
+      DDX DIX
+  ====================================
+  (Kernel)  DRM KMS
+  ====================================
+  (Hardware) Framebuffer
+
+
+------------------------
+
+gcc/g++
+
+禁用编译器扩展：
+  You can disable compiler extensions by adding the -pedantic-errors flag to the compile command line.
+
+提高警告等级：
+  Add the following flags to your command line: -Wall -Weffc++ -Wextra -Wsign-conversion
+
+把警告当作错误：
+  Add the following flag to your command line: -Werror
+
+指定版本的标准号：
+  For GCC/G++, you can pass compiler flags -std=c++11, -std=c++14, -std=c++17, or -std=c++2a to enable C++11/14/17/2a support respectively.
+
+C++ 里的变量初始化，更倾向于使用 `int a{ 5 }` 这样的列表初始化的形式
+与复制初始化 `int a = 5` 和直接初始化 `int a( 5 )` 不同，当列表初始化的初始化值类型与声明类型不同时，会报错，比如::
+
+  int a = 4.5  //a=4
+  int a( 4.5 ) //a=4
+  int a{ 4.5 } //error
+
+推荐使用列表初始化。
+
+在非特殊情况下，最好是在声明变量时便对其进行初始化。
+
+一个额外的可用于检测输入字符的 C++ 库： https://pdcurses.org/
+
+

@@ -11,7 +11,7 @@ SITELOGO = '/static/logo/logo.svg'
 SITELOGOPNG = '/static/logo/fav.png'
 OPEN_GRAPH_IMAGE = '/static/logo/logoMaskable.png'
 SITEDESC = "一个格物致知的技术博客。"
-MIGVERSION = '2021.05.09.850'
+MIGVERSION = '2021.08.22.852'
 MYPROFILE = "https://github.com/Bekcpear"
 
 
