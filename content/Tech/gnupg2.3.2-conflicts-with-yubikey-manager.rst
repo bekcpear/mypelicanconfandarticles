@@ -10,7 +10,6 @@ GnuPG 2.3.2 与 yubikey-manager 的冲突
 :mykeywords: gnupg,gpg,ykman,yubikey,PC/SC,pcsc,ccid
 :description: gpg 2.3.2 与 yubikey-manager 冲突的说明
 :noindent: true
-:status: draft
 :summary:
 
 .. contents::
@@ -58,4 +57,11 @@ GnuPG 2.3.2 与 yubikey-manager 的冲突
 
     这里我还有一个问题，使用 GnuPG 2.3.2 的时候，无论通过 CCID 还是 PC/SC 都无法正确获取 yubikey 版本号。 2.2.29 是可以正常获取的。
 
+起因
+============================================
+
+至于为何需要升级到并不稳定的 2.3.2 版本，是因为 2.2 这个大版本不支持多 yubikey 的识别，2.3 开始支持了，且看到 `开发者说`_ 并没有 backport 的打算，没办法才只能升级。希望 2.3 赶紧稳定吧。
+
+
 .. _`源码`: https://github.com/libusb/libusb/blob/5c89594f64ed5a14470d9965e558fd9aee1fd42c/libusb/libusb.h#L1067
+.. _`开发者说`: https://dev.gnupg.org/T4620
