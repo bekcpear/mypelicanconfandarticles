@@ -26,7 +26,9 @@ GnuPG 2.3.2 与 yubikey-manager 的冲突
 
   disable-ccid
 
-或者在配置 gnupg 时，添加 :code:`--disable-ccid-driver` 参数。总之就是要在运行 gpg-agent 时禁用 ccid 就行了。
+或者在配置 gnupg 时，添加 :code:`--disable-ccid-driver` 参数。总之就是要在运行 gpg-agent 时禁用 ccid 就行了（效果和 2.2 版本一样）。
+
+当然，也可以结束 pcscd 进程，不过这样会导致 ykman 的一些功能无法使用（OTP，PIV 之类）。
 
 原因
 ============================================
@@ -50,6 +52,10 @@ GnuPG 2.3.2 与 yubikey-manager 的冲突
 
 后，查看日志 :file:`/tmp/scd.log` 会发现其对应的问题是 :code:`usb_claim_interface failed: -6` ，查 `源码`_ 可知真实原因是设备繁忙。
 
-而 2.2 的 GnuPG 在 CCID 驱动获取信息失效后会回退使用 PC/SC 驱动来获取信息，这就是两个版本的区别。目前不知道这是特意为之，还是 2.3.2 的 BUG。
+而 2.2 的 GnuPG 在 CCID 驱动获取信息失效后会回退使用 PC/SC 驱动来获取信息。这两个版本的区别，目前不知道这是特意为之，还是 2.3.2 的 BUG。
+
+.. note::
+
+    这里我还有一个问题，使用 GnuPG 2.3.2 的时候，无论通过 CCID 还是 PC/SC 都无法正确获取 yubikey 版本号。 2.2.29 是可以正常获取的。
 
 .. _`源码`: https://github.com/libusb/libusb/blob/5c89594f64ed5a14470d9965e558fd9aee1fd42c/libusb/libusb.h#L1067
