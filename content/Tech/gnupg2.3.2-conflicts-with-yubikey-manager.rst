@@ -19,9 +19,7 @@ GnuPG 2.3.2 与 yubikey-manager 的冲突
 解决方法
 ============================================
 
-将以下配置写入 :file:`${GNUPGHOME}/scdaemon.conf` （默认位于： :file:`~/.gnupg/scdaemon.conf` ）
-
-..code-block::
+将以下配置写入 :file:`${GNUPGHOME}/scdaemon.conf` （默认位于： :file:`~/.gnupg/scdaemon.conf` ）::
 
   disable-ccid
 
@@ -60,7 +58,7 @@ GnuPG 2.3.2 与 yubikey-manager 的冲突
 起因
 ============================================
 
-至于为何需要升级到并不稳定的 2.3.2 版本，是因为 2.2 这个大版本不支持多 yubikey 的识别，2.3 开始支持了，且看到 `开发者说`_ 并没有 backport 的打算，没办法才只能升级。希望 2.3 赶紧稳定吧。
+至于为何需要升级到并不稳定的 2.3.2 版本，是因为 2.2 这个大版本不支持多个 yubikeys 的识别，2.3 开始支持了，且看到 `开发者说`_ 并没有 backport 的打算，没办法才只能升级。希望 2.3 赶紧稳定吧。
 
 
 .. _`源码`: https://github.com/libusb/libusb/blob/5c89594f64ed5a14470d9965e558fd9aee1fd42c/libusb/libusb.h#L1067

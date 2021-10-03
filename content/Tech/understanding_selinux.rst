@@ -478,7 +478,7 @@ level
 .. [1] Linux 下的自主访问控制就是平常最基本的对文件（夹）进行设置用户名/组以及相应的 :code:`wrxst` 权限，然后以用户身份来执行，这样子的一种访问控制管理简单但安全系数不高，一旦获取某一个用户的权限就可以做该用户能做的任何事情，还可以较为简单地进行提权攻击等。
 
 .. _`SELinux User's and Administrator's Guide`: https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/SELinux_Users_and_Administrators_Guide/index.html
-.. _`本人整理的工具列表`: https://gist.github.com/Bekcpear/590580d46bf739d3a58675212a2e7316
+.. _`本人整理的工具列表`: https://gist.github.com/bekcpear/590580d46bf739d3a58675212a2e7316
 .. _`Google Books 上`: https://books.google.com/books?id=E8_cDgAAQBAJ&pg=PA70&dq=%22semanage+login+-l%22+Service&hl=en&sa=X&ved=0ahUKEwjN4LWN883UAhUP5WMKHZFrCK0Q6AEINTAC#v=onepage&q=%22semanage%20login%20-l%22%20Service&f=false
 .. _`有一篇文章`: /build_nextcloud_service_on_centos_with_selinux.html#selinux-nextcloud
 .. _`UNDERSTANDING AUDIT LOG FILES`: https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Security_Guide/sec-Understanding_Audit_Log_Files.html

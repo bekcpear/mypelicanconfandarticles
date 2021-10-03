@@ -323,7 +323,7 @@ Q: 对 NextCloud 配置自定义主题失效
 
 **A:** 一个解决方案看 https://github.com/nextcloud/server/pull/5061 ，然後如果要修改登錄界面的某些樣式的話，需要添加 guest.css 。
 
-咱寫了一個成品的主題在 https://github.com/Bekcpear/UMECloudTheme 。
+咱寫了一個成品的主題在 https://github.com/bekcpear/UMECloudTheme 。
 
 Q: NextCloud 文件上传结束后打开 NextCloud Web 界面查看，磁盘 IO 直接堵死
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -369,4 +369,4 @@ Q: 不断出现这个报错 pcre_exec() failed: -2
 
 
 .. _`prerequisites-label`: https://doc.owncloud.org/server/10.0/admin_manual/installation/source_installation.html#prerequisites-label
-.. _`owncloudPHPExtensions.txt`: https://gist.github.com/Bekcpear/cacfd013833c2974f70540dff7621603
+.. _`owncloudPHPExtensions.txt`: https://gist.github.com/bekcpear/cacfd013833c2974f70540dff7621603

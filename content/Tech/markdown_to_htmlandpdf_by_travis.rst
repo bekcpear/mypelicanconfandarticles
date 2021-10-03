@@ -53,7 +53,7 @@
   sudo apt-get update
   sudo apt-get install texlive-xetex texlive-latex-extra
 
-默认情况下，转换中文时会出现不显示中文字体的情况，那是因为pandoc下的XeLaTeX模版没有默认设置中文，需要做如下的添加， `完整的模版 <https://github.com/Bekcpear/bekcpear.articlemake/blob/master/template.tex>`_ ：
+默认情况下，转换中文时会出现不显示中文字体的情况，那是因为pandoc下的XeLaTeX模版没有默认设置中文，需要做如下的添加， `完整的模版 <https://github.com/bekcpear/bekcpear.articlemake/blob/master/template.tex>`_ ：
 
 :: 
 
@@ -143,7 +143,7 @@ Travis可以在获取了Github相应权限后监视Github Repository动态，每
   script:
       - git config --global user.email "$GIT_EMAIL"
       - git config --global user.name "$GIT_NAME"
-      - git clone --depth 1 https://$GIT_TOKEN@github.com/Bekcpear/bekcpear.github.io git
+      - git clone --depth 1 https://$GIT_TOKEN@github.com/bekcpear/bekcpear.github.io git
       - pwd
       - ls -a
       - make all

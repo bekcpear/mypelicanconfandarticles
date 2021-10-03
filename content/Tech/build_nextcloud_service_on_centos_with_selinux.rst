@@ -222,15 +222,15 @@ SELinux 下默认对 http 服务有一系列的策略，我简单归纳为属于
 .. _`Kay`: /blogroll.html#saltedfish-redl0tus-kay
 .. _`Enabling MLS in SELinux`: https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/SELinux_Users_and_Administrators_Guide/mls.html#enabling-mls-in-selinux
 .. _`Setting up MariaDB Repositories`: https://downloads.mariadb.org/mariadb/repositories/#mirror=tuna&distro=CentOS
-.. _`install nginx and php-fpm from source`: https://github.com/Bekcpear/my-bash-scripts/tree/master/nginx_and_php-fpm_install_from_source_with_verification
+.. _`install nginx and php-fpm from source`: https://github.com/bekcpear/my-bash-scripts/tree/master/nginx_and_php-fpm_install_from_source_with_verification
 .. _`PHP 官方说明文档`: https://secure.php.net/manual/zh/install.pecl.static.php
 .. _`History_of_the_fork`: https://en.wikipedia.org/wiki/Nextcloud#History_of_the_fork
 .. _`v12.0.0`: https://github.com/nextcloud/server/releases
 .. _`NextCloud 官方说明文档`: https://docs.nextcloud.com/server/12/admin_manual/
-.. _`nginx-conf-example-for-nextcloud.conf`: https://gist.github.com/Bekcpear/cfa2045ca4050238e83256ee2726bd5e
+.. _`nginx-conf-example-for-nextcloud.conf`: https://gist.github.com/bekcpear/cfa2045ca4050238e83256ee2726bd5e
 .. _`imququ`: https://imququ.com/post/certificate-transparency.html
 .. _`HTTP Public Key Pinning`: https://developer.mozilla.org/en-US/docs/Web/HTTP/Public_Key_Pinning
-.. _`for_generating_additional_security_information_of_SSL_certificate`: https://github.com/Bekcpear/my-bash-scripts/tree/master/for_generating_additional_security_information_of_SSL_certificate
+.. _`for_generating_additional_security_information_of_SSL_certificate`: https://github.com/bekcpear/my-bash-scripts/tree/master/for_generating_additional_security_information_of_SSL_certificate
 .. _`php-fpm Configuration Notes`: https://docs.nextcloud.com/server/12/admin_manual/installation/source_installation.html#php-fpm-tips-label
 .. _`Enabling MySQL 4-byte support`: https://docs.nextcloud.com/server/12/admin_manual/configuration_database/mysql_4byte_support.html
 .. _`post-installation-steps`: https://doc.owncloud.org/server/10.0/admin_manual/installation/installation_wizard.html#post-installation-steps

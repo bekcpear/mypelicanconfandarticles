@@ -9,8 +9,8 @@ Go 编程语言规范【译】
 :tags: doc, golang, 翻译
 :mykeywords: golang,go,语言,规范,翻译
 :notoriginal: true
-:license: 本文由本人独立翻译自 The Go Programming Language Specification (https://golang.org/ref/spec)，原文采用 Creative Commons Attribution 3.0 协议，文档内代码采用 BSD 协议 (https://golang.org/LICENSE)。 本文采用 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 许可协议，文档内代码继用相同协议，如果你需要发布本文（或衍生品），也需要注明本文原始链接 (https://bitbili.net/golang_spec.html) 及译者 Bekcpear。
-:description: 最新版 Go 编程语言规范， The Go Programming Language Specification 的中文译文，译者 Bekcpear。
+:license: 本文由本人独立翻译自 The Go Programming Language Specification (https://golang.org/ref/spec)，原文采用 Creative Commons Attribution 3.0 协议，文档内代码采用 BSD 协议 (https://golang.org/LICENSE)。 本文采用 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 许可协议，文档内代码继用相同协议，如果你需要发布本文（或衍生品），也需要注明本文原始链接 (https://bitbili.net/golang_spec.html) 及译者 cwittlut (原 bekcpear)。
+:description: 最新版 Go 编程语言规范， The Go Programming Language Specification 的中文译文，译者 cwittlut (原 bekcpear)。
 :summary:
 :color: #7fd5ea
 :noindent: true
@@ -4541,7 +4541,7 @@ Run-time panics
 
 :code:`对应提交： 507cc341ec2cb96b0199800245f222146f799266`
 
-.. _`我的 Github`: https://github.com/Bekcpear/mypelicanconfandarticles/blob/master/content/Tech/gospec.rst
+.. _`我的 Github`: https://github.com/bekcpear/mypelicanconfandarticles/blob/master/content/Tech/gospec.rst
 .. _`golang.org`: https://golang.org/
 .. _`Extended Backus-Naur form`: https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form
 .. _`ISO/IEC 14977:1996 PDF 压缩档`: http://standards.iso.org/ittf/PubliclyAvailableStandards/s026153_ISO_IEC_14977_1996(E).zip
