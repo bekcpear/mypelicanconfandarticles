@@ -33,4 +33,4 @@ rm -f theme/css/*.scss
 ../node_modules/.bin/sw-precache --config sw-precache-config.js
 popd
 
-rsync --delete -rlcv output/ ~/Nextcloud/bitbili/output/
+rsync --delete -rlcv output/ ~/syncthingData/bitbili/output

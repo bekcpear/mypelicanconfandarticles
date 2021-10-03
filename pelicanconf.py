@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
-AUTHOR = 'Bekcpear'
+AUTHOR = 'cwittlut'
 SITENAME = 'bitbili'
 SITENAMEL = 'bitbili.net'
 SITEURL = 'https://bitbili.net'
@@ -11,8 +11,8 @@ SITELOGO = '/static/logo/logo.svg'
 SITELOGOPNG = '/static/logo/fav.png'
 OPEN_GRAPH_IMAGE = '/static/logo/logoMaskable.png'
 SITEDESC = "一个格物致知的技术博客。"
-MIGVERSION = '2021.08.22.852'
-MYPROFILE = "https://github.com/Bekcpear"
+MIGVERSION = '2021.10.03.859'
+MYPROFILE = "https://github.com/bekcpear"
 
 
 PAGE_URL = "{slug}.html"
@@ -106,7 +106,7 @@ SERVICEWORKER = True
 DOCUTIL_CSS = False
 TYPOGRIFY = False
 PYGMENTS_STYLE = 'github'
-GITHUB_USER = 'Bekcpear'
+GITHUB_USER = 'bekcpear'
 GITHUB_SHOW_USER_LINK = True
 GITHUB_REPO = ''
 DISPLAY_BREADCRUMBS = True
