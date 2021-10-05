@@ -4,6 +4,7 @@ Gentoo Linux 安装及使用指南
 
 :slug: gentoo-linux-installation-and-usage-guide
 :date: 2021-10-03 11:35
+:modified: 2021-10-06 04:35
 :lang: zh_hans
 :color: #463c65
 :tags: Gentoo, Linux, guide, installation, usage
@@ -302,6 +303,9 @@ DNS 及测试
     #   　　　　还用于保存电脑休眠时内存下的数据
     #   当然，即使没有交换分区，也可以创建交换文件以起到相同的作用，性能一样，还更灵活
     #   但在某些情况下，交换文件会阻碍一些功能，比如 BtrFS 的快照
+    # 【参考建议】
+    #   如果，CPU 有 8 核 16 线程，内存 16G 或者更低
+    #   　　　那么建议建立至少 8G 的交换分区（也可以选择之后再建立交换文件）
   「回车以选择默认值」 # 这里是当前分区的分区号，选择默认值并记住
   「回车以选择默认值」
   +6G # 这里的 6G 我输入的是一个较为通用的值，实际上你可以根据自己的情况来给
@@ -551,7 +555,7 @@ chroot 到目标系统
 
     eselect news list
 
-  以列出所有新闻的标题，再根据序号选择性地查看有用的信息
+  以列出所有新闻的标题，再根据序号选择性地查看有用的信息（比如近期的新闻）
 
   .. code-block:: shell
 
@@ -770,9 +774,9 @@ Gentoo Linux 默认安装的编辑器为 :code:`nano` ，这是一个初始设�
 安装日志服务
 -----------------------------
 
-这段仅针对 openrc 用户，systemd 用户有自带的日志服务。
+这段仅针对 openrc 用户，systemd 则有自带的日志服务。
 
-openrc 这里我推荐使用 syslog-ng，执行
+openrc 这里我推荐使用 :gepkg:`app-admin/syslog-ng` ，执行
 
 .. code-block:: shell
 
@@ -808,11 +812,357 @@ openrc 这里我推荐使用 syslog-ng，执行
 使用 Gentoo Linux
 ==================================================
 
-重启后会出现预期中的 grub 菜单界面，倒计时后会自动进入首选引导项，加载内核，启动初始化程序，最后进入操作系统。
+重启后会出现预期中的 Grub 菜单界面，倒计时后会自动进入首选引导项，加载内核，启动初始化程序，最后进入操作系统。
 
-这时候的 Gentoo Linux 很丑，只有一个命令行界面，接下来开始说明如何正确的使用 Gentoo Linux。
+这时候的 Gentoo Linux 只有一个命令行界面，先使用 root 用户登陆到系统。
 
-未完（休息一下）
+完成基础配置
+-----------------------------
+
+配置时区
++++++++++++++++
+
+这里假设设置为国内时区，执行
+
+.. code-block:: shell
+
+  # openrc 用户
+  # 将时区信息写入指定文件
+  echo 'Asia/Shanghai' >/etc/timezone
+  # 更新时区信息
+  emerge --config sys-libs/timezone-data
+
+  # systemd 用户
+  timedatectl set-timezone Asia/Shanghai
+
+如果你需要添加其它的时区，对应的时区名字可以在 :file:`/usr/share/zoneinfo/` 目录下找到，将其替换到 :file:`Asia/Shanghai` 的位置后执行命令即可。
+
+语言环境
++++++++++++++++
+
+准备系统语言环境。对于 root 用户而言，一般使用默认的配置即可。但这里需要添加上自己所需其它语言设置以供普通用户使用。
+
+使用编辑器打开 :file:`/etc/locale.gen` 文件，在里面添加上你需要的语言环境配置，说明如下：
+
+.. code-block:: shell
+
+  # 这个配置是默认存在的，不用去修改它
+  C.UTF8 UTF-8
+  # 空格前代表该语言环境的名字，后代表选择的编码
+  # 在这里，C 是一个为计算机适配的语言环境，英文，兼容性强，root 用户下推荐使用它
+
+  # 下面是推荐添加的语言环境
+
+  # 生活在中国则添加
+  zh_CN.UTF-8 UTF-8
+
+  # 若 生活在其它国家
+  # 　 或需要其它国家对应的 数字、货币、日期等表示格式，
+  # 则添加对应国家的语言环境配置
+  # 配置格式为 <语言>_<国家代码>[@可选的变体].<编码> <编码>
+  # 其中，
+  # 　　<语言>_<国家代码>[@可选的变体] 可以在 /usr/share/i18n/locales/ 文件夹下找到
+  # 　　而支持的 <编码> 可以在 /usr/share/i18n/charmaps/ 文件夹下找到
+  # 　　编码一般只推荐使用 UTF-8，除非有明确的其它需求
+
+当添加了其它语言环境配置后，执行
+
+.. code-block:: shell
+
+  locale-gen
+
+该命令会根据 :file:`/etc/locale.gen` 下配置的内容，生成所需语言环境列表。
+
+.. note::
+
+  如果你有需求要在此刻为 root 用户变更语言环境，可以执行
+
+  .. code-block:: shell
+
+    eselect locale list
+    # 以列出当前的语言环境列表，后
+
+    eselect locale set 「序号」
+    # 来设置所需语言环境，再
+
+    env-update
+    # 更新环境配置，最后
+
+    . /etc/profile
+    # 为当前 shell 加载环境配置
+
+时间同步
++++++++++++++++
+
+为保证时间的精准，
+
+1. 启用对网络的时间同步服务。这里我推荐使用 :gepkg:`net-misc/chrony` 这个同步软件，执行
+
+   .. code-block:: shell
+
+     emerge -vj net-misc/chrony
+
+   安装完成后，执行
+
+   .. code-block:: shell
+
+     # openrc 用户
+     rc-service chronyd start
+     rc-update add chronyd default
+
+     # systemd 用户
+     systemctl --now enable chronyd
+
+   启动服务并开机启动。
+
+   .. note::
+
+     也还有其它的时间同步软件，比如 :gepkg:`net-misc/ntp` , :gepkg:`net-misc/openntpd` 等，可以根据需要选择。
+
+2. 确保与硬件时钟的同步。即在系统启动时将硬件时钟同步到系统时间，并在关闭系统时（或运行过程中定时）将系统时间同步回硬件时钟。
+
+   （此节略显繁琐，如果你初入 Linux ，对此节略感迷惑，可以跳过，不影响大局）
+
+   （如果你永不断互联网，那忽略这一节也可以）
+
+   在 openrc 下，会有一个默认启用的名为 :file:`hwclock` 的服务负责此功能。
+
+   在 systemd 下却没有默认的服务用于将系统时间自动同步回硬件时钟。
+
+   而自 3.8 及以上版本的 Linux 内核开始，可以配置交由内核来全权负责此功能。
+
+   .. note::
+
+     本文至目前只介绍预编译好的二进制内核，在写这篇文章时「2021 年，十月初」，Gentoo Linux 下二进制内核稳定版为 :file:`5.10.XX` ，其默认未开启系统时间到硬件时钟的同步功能；测试版为 :file:`5.14.XX` ，其默认配置则开启了完整的硬件时钟同步功能。
+
+   判断当前内核是否开启了对应功能，可以通过如下命令进行验证，执行
+
+   .. code-block:: shell
+
+     zgrep 'CONFIG_RTC_[H|S]' /proc/config.gz
+
+   当输出内容存在
+
+   .. code-block:: shell
+
+     CONFIG_RTC_HCTOSYS=y
+     CONFIG_RTC_HCTOSYS_DEVICE="rtc0"
+
+   表示开启了在启动或恢复系统时从硬件时钟同步时间的功能。
+
+   .. note::
+
+     即使此配置未开启，内核也会有一个基础功能用于尝试获取硬件时钟信息，但可能会在启动时导致额外的文件系统检查，所以一般都是开启的。
+
+   当输出内容存在
+
+   .. code-block:: shell
+
+     CONFIG_RTC_SYSTOHC=y
+     CONFIG_RTC_SYSTOHC_DEVICE="rtc0"
+
+   表示开启了通过 NTP 同步将系统时间每隔约 11 分钟同步到硬件时钟的功能。没错，这个需要 NTP（即上述的时间同步服务）来辅助，chrony 默认配置已经支持。
+
+   当输出的内容存在被注释的情况（行首有一个 :code:`#` ）则代表对应功能未开启。
+
+   systemd 用户
+     **确保以上两个功能均开启即可跳过。**
+
+     若未开启，那么此时有两个选择：
+
+     一、 安装测试版内核，执行
+
+     .. code-block:: shell
+
+       # 添加基于本机架构的测试用关键字以解除测试版软件的安装屏蔽
+       echo 'virtual/dist-kernel' >>/etc/portage/package.accept_keywords
+       echo 'sys-kernel/gentoo-kernel-bin' >>/etc/portage/package.accept_keywords
+
+       # 更新到测试版二进制内核
+       emerge -vuj gentoo-kernel-bin
+
+       # 更新 Grub 引导信息
+       grub-mkconfig -o /boot/grub/grub.cfg
+
+       # 重启系统
+       reboot
+
+     后再次判断功能是否已经完整开启。若依旧未，说明包维护人员再次改动了默认配置，此时只能选择自行配置内核。
+
+     二、 自行配置内核，请参考下文 `内核配置`_ 章节，或查阅 `官方内核配置文档`_ ，若遇问题建议寻求帮助。
+
+     这里略作说明，可以在内核源码目录下，执行 :code:`make menuconfig` 进入菜单配置界面，定位到 :file:`Device Drivers` 下的 :file:`Real Time Clock` 选单，进入后，确认以下几个选项选中::
+
+       [*]   Set system time from RTC on startup and resume
+       (rtc0)  RTC used to set the system time
+       [*]   Set the RTC time based on NTP synchronization
+       (rtc0)  RTC used to synchronize NTP adjustment
+       ...
+       [*]   /sys/class/rtc/rtcN (sysfs)
+       [*]   /proc/driver/rtc (procfs for rtc0)
+       [*]   /dev/rtcN (character devices)
+       ...
+       <*>   PC-style 'CMOS'
+       ...
+
+     后保存退出，编译并安装内核，最后更新引导重启。
+
+   openrc 用户
+     无论什么内核什么配置，openrc 默认都会有完好的与硬件时钟的同步功能。
+
+     **但，当完整地将同步功能交给内核后** （根据上文进行判断），建议关闭其自带的同步服务，执行
+
+     .. code-block:: shell
+
+       # 删除 hwclock 开机启动
+       rc-update delete hwclock boot
+
+       # 添加一个空的时钟服务以满足其它服务的要求
+       rc-update add osclock boot
+
+   到此时，时间同步配置完毕。
+
+   .. note::
+
+     在与 Windows 组双系统的情景下需要注意：
+
+     Windows 默认是将硬件时钟视为当地时间（而非 UTC），而 Linux 则默认将硬件时钟视为 UTC，为避免冲突，在此情景下建议更改 Windows 的默认行为，将硬件时钟修改为 UTC，可以在 Windows 系统上操作，具体方法：
+
+     按下 :kbd:`⊞ Win` + :kbd:`r` 后输入 :code:`regedit` 运行打开注册表编辑器，在 :file:`HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\TimeZoneInformation` 路径下，创建一个名为 :file:`RealTimeIsUniversal` 的 :file:`QWORD` 类型条目，将其值设为 :code:`1` ，之后重启系统。
+
+     （如果你是 32 位的 Windows 系统，那么将 :file:`QWORD` 类型改为 :file:`DWORD` 类型）
+
+Portage 配置
++++++++++++++++
+
+Portage 是 Gentoo Linux 默认的包管理器，用于更新系统，安装各种所需软件。
+
+Gentoo Linux 上绝大部分的软件是自行从源码编译安装而来的，所以编译过程中的一些参数也可以自由调节，这里说明几个基础配置。
+
+make.conf
+~~~~~~~~~~
+
+:file:`/etc/portage/make.conf` 这个文件是 portage 的主配置文件，它控制了 portage 系统的绝大部分变量，你可以执行 :code:`man make.conf` 看到详细的说明。
+
+它有一个预配置好的模板文件在 :file:`/usr/share/portage/config/make.globals` ，而 :file:`make.conf` 下的配置会覆盖该模板下对应变量，现在只需设置如下几个变量：
+
+.. code-block:: shell
+
+  # 这是一组推荐的设置
+  # '#' 后内容代表注释
+
+  COMMON_FLAGS="-march=native -O2 -pipe"
+  # 这不是一个 portage 可以识别的变量，只是方便给其它变量赋值
+  # 说明：
+  #   -march=native, -march 用于指定编译目标架构
+  #                  native 用于自动识别当前的 CPU 架构，它并不是一个最终参数，但方便可用
+  #             -O2,     -O 用于指定编译优化等级，
+  #                       2 是当前推荐的优化等级，它隐性地开启了一系列 flags
+  #                         具体参阅： https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options
+  #                         　　以及： https://wiki.gentoo.org/wiki/GCC_optimization#-O
+  #                         　　以及： https://stackoverflow.com/questions/15548023/clang-optimization-levels
+  #           -pipe, 这个标记对代码本身不会产生影响，它能加速编译过程但会消耗更多的内存
+  #                  内存充足情况下建议使用，否则去掉该标记
+
+  CFLAGS="${COMMON_FLAGS}"   # 传递给 C 编译器的变量，这里将上面统一设置的值给了 CFLAGS，下同
+  CXXFLAGS="${COMMON_FLAGS}" # 传递给 C++ 编译器的变量
+  FCFLAGS="${COMMON_FLAGS}"  # 传递给现代化编译系统下的 FORTRAN 编译器的变量
+  FFLAGS="${COMMON_FLAGS}"   # 传递给 FORTRAN 77 编译器的变量
+  # 可以根据实际需要添加/修改，并传递给编译器
+
+  #MAKEOPTS="-j17"
+  # 这是用来告知编译器同时执行任务数的变量（这里演示设置了 17 个并行任务数）
+  # 通常设置为总线程数+1（会在编译一些大任务时占满 CPU 时间）
+  # 当 CPU 线程够多（>=24）的时候，推荐可以小于总线程 1-2 个任务
+  # 当 CPU 线程够多，但内存不足时，推荐设置为更小值
+  # 请自行配置后删除注释符
+  # 如果变量未进行设置
+  # 那么 portage 会根据当前 CPU 的线程数自动赋予一个值
+  # 该自动值等于当前 CPU 线程数
+
+其它当前存在的内容默认即可 无需更改。随着后续的使用，会有更多的内容写入这个配置文件。
+
+数据库
+~~~~~~~~~~
+
+默认情况下， Portage 自带一个官方的数据库同步配置，位于 :file:`/usr/share/portage/config/repos.conf` ，会以 rsync 方式从官方服务器同步数据（手动）。
+
+而还有一种同步方式—— git，两者各有优劣：
+
+* rsync 方式提供了更安全的本地校验，但本地同步时速度较慢；镜像站同步上游频率正常
+* git 方式无法在日常使用过程中检测到本地文件改动，但本地同步时速度快；官方镜像点与原始仓库同步最及时，但国内镜像站同步上游频率低
+
+无论选择哪种同步方式，均可。为了使得更新更迅速，建议自定义一个靠近自己的镜像站点。方法为，
+
+先创建一个自定义配置文件 :file:`/etc/portage/repos.conf/gentoo.conf` ，后根据同步类型进行操作，
+
+自定义 rsync 方式同步配置
+  将如下内容写入上述文件中：
+
+  .. code-block:: ini
+
+    [gentoo]
+    location   = /var/db/repos/gentoo
+    auto-sync  = yes
+    sync-type  = rsync
+    sync-uri   = rsync://mirrors.bfsu.edu.cn/gentoo-portage
+    # 国内我这里建议可以使用北外的镜像站，其负载小，带宽大，更新迅速。
+    # 其它国内的镜像站我所知的还有：
+    #   TUNA： rsync://mirrors.tuna.tsinghua.edu.cn/gentoo-portage
+    #    163： rsync://mirrors.163.com/gentoo-portage
+    #  中科大： rsync://rsync.mirrors.ustc.edu.cn/gentoo-portage/
+    #   阿里： rsync://rsync.mirrors.aliyun.com/gentoo-portage/gentoo-portage/ （截至发文时，发现同步有一天的延迟）
+
+自定义 git 方式同步配置
+  将如下内容写入上述文件中：
+
+  .. code-block:: ini
+
+    [gentoo]
+    location   = /var/db/repos/gentoo
+    auto-sync  = yes
+    sync-type  = git
+    sync-depth = 1
+    sync-uri   = https://mirrors.bfsu.edu.cn/git/gentoo-portage.git
+    # 国内我找到的 git 方式同步镜像只有北外和 TUNA 两家
+    #   TUNA 的地址： https://mirrors.tuna.tsinghua.edu.cn/gentoo-portage.git
+    # 但它们的同步上游的频率都很低（截至发文时确认为 11 小时一次）
+    # 所以若使用 git 方式同步，在网络流畅的情况，个人更建议直接同步官方镜像：
+    #   https://github.com/gentoo-mirror/gentoo.git
+    # 若网络不流畅又想同步官方镜像，可以了解 https://fastgit.org 的反代
+
+  之后执行，
+
+  .. code-block:: shell
+
+    emerge -vj dev-vcs/git
+    # 以安装 git 工具，它并不是系统自带的
+
+    rm -rf /var/db/repos/gentoo
+    # 删除原有的不支持 git 方式的数据库
+
+    emerge --sync
+    # 初始化同步一次数据库
+
+之后，无论 rsync 方式还是 git 方式都可以很顺畅地使用 :code:`emerge --sync` 命令来对数据库进行日常同步，Gentoo Linux 官方有一份较为完整的 `rsync 镜像列表`_ 。
+
+.. note::
+
+  如果你比较疑惑为何在安装时添加了一个镜像地址，此时又添加了，那么在此说明：
+
+  安装 Gentoo Linux 时往 :file:`/etc/portage/make.conf` 写入的镜像地址，是 distfiles 镜像地址，用于下载安装软件时的软件本体（源代码或者二进制包），也包括了很多其它内容，比如 Portage 数据库的快照（但此快照不适用于日常更新）。
+
+  而此时配置的镜像是用于同步 Portage 系统的数据库，其包含了基础的系统配置文件，安装软件所需的描述文件等等很多基础内容。
+
+
+
+
+
+
+
+.. _`内核配置`:
+
+（未完待续）
 
 
 .. _`Gentoo Linux 安装 —— 带硬盘加密`: https://bitbili.net/reinstall_gentoo.html
@@ -820,5 +1170,5 @@ openrc 这里我推荐使用 syslog-ng，执行
 .. _`镜像列表`: https://www.gentoo.org/downloads/mirrors/#CN
 .. _`Rufus`: https://rufus.ie/zh/
 .. _`对应的 wiki`: https://wiki.gentoo.org/wiki/Profile_(Portage)
-
-
+.. _`官方内核配置文档`: https://wiki.gentoo.org/wiki/Kernel#Configuration
+.. _`rsync 镜像列表`: https://www.gentoo.org/support/rsync-mirrors/
