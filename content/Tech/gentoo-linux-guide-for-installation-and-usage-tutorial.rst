@@ -2,13 +2,13 @@
 Gentoo Linux 安装及使用指南
 ==================================================
 
-:slug: gentoo-linux-installation-and-usage-guide
+:slug: gentoo-linux-installation-and-usage-tutorial
 :date: 2021-10-03 11:35
-:modified: 2021-10-06 04:35
+:modified: 2021-10-06 23:39
 :lang: zh_hans
 :color: #463c65
-:tags: Gentoo, Linux, guide, installation, usage
-:mykeywords: gentoo,linux,installation,usage,guide,howto,handbook
+:tags: Gentoo, Linux, tutorial, installation, usage
+:mykeywords: gentoo,linux,installation,usage,tutorial,guide,howto,handbook
 :description: 十分精简、适合新手、可持续进阶的 Gentoo Linux 完整安装及使用指南。
 :featured_image: /nocimages/gentoo.png
 :noindent: true
@@ -21,7 +21,7 @@ Gentoo Linux 安装及使用指南
 * 本文面向新手，十分精简，配置正确
 * 本文以 AMD64(x86_64) 平台为例进行说明
 * 本文以安装到实体机为目的（也适用于虚拟机）
-* 本文唯一原始链接： https://bitbili.net/gentoo-linux-installation-and-usage-guide.html
+* 本文唯一原始链接： https://bitbili.net/gentoo-linux-installation-and-usage-tutorial.html
 * 如有问题可以上 https://t.me/gentoo_zh 提问/反馈
 
 正文开始：
@@ -1082,6 +1082,30 @@ make.conf
 
 其它当前存在的内容默认即可 无需更改。随着后续的使用，会有更多的内容写入这个配置文件。
 
+.. _`why-not-accept_keywords-tildeamd64-as-default`:
+
+.. note::
+
+  **为什么我不建议开启全局的** :file:`~amd64` **关键字**
+
+  有的教程可能会推荐添加配置： :file:`ACCEPT_KEYWORDS="~amd64"` 以默认在全局范围下安装更新的软件版本。
+
+  先解释 :file:`~amd64` 此关键字的含义，它不一定是表示所对应软件的对应版本一定处在测试期，但它一定表示在当前的 Gentoo Linux 系统下，此版本的该软件一定处在测试期。这个测试的含义可能是软件本身还不够稳定，也有可能是与 Gentoo Linux 的兼容性还有待进一步验证。
+
+  设置此配置的利弊：
+
+  利
+    你可以拥有整个 Portage 系统下几乎最新的软件版本，意味着你可以提前享受到各种新版本软件所带来的新功能。
+
+  弊
+    可同时的，它会引入一些潜在的依赖冲突（这个还挺容易遇到的），更频繁的更新（有时候一个软件的修订版会在一天内出好多次），其它相对稳定版更多的潜在问题。
+
+  如果你愿意花时间去解决上述的弊端，那么当然，完全可以开启。
+
+  可就我个人建议来说，完全可以省下这个时间，并同时尽可能满足上述的利端，只要针对自己明确需要的软件，单独开启 :file:`~amd64` 关键字即可（如何操作下文会有介绍），这样既尽可能地保证了系统的稳定性，又最大化满足了自己的需要，还节省时间。
+
+  *（顺便说一句，在 Gentoo Linux 下，即使是稳定版的软件，大部分跟随上游同步还是非常及时的）*
+
 数据库
 ~~~~~~~~~~
 
@@ -1111,7 +1135,6 @@ make.conf
     #   TUNA： rsync://mirrors.tuna.tsinghua.edu.cn/gentoo-portage
     #    163： rsync://mirrors.163.com/gentoo-portage
     #  中科大： rsync://rsync.mirrors.ustc.edu.cn/gentoo-portage/
-    #   阿里： rsync://rsync.mirrors.aliyun.com/gentoo-portage/gentoo-portage/ （截至发文时，发现同步有一天的延迟）
 
 自定义 git 方式同步配置
   将如下内容写入上述文件中：
