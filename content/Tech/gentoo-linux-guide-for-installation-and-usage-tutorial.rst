@@ -4,7 +4,7 @@ Gentoo Linux 安装及使用指南
 
 :slug: gentoo-linux-installation-and-usage-tutorial
 :date: 2021-10-03 11:35
-:modified: 2021-10-06 23:39
+:modified: 2021-10-09 04:31
 :lang: zh_hans
 :color: #463c65
 :tags: Gentoo, Linux, tutorial, installation, usage
@@ -42,7 +42,7 @@ Gentoo Linux 安装及使用指南
 
   一个可以工作的 U 盘 *（用于装载 LiveCD 系统）*
 
-1. 打开 `北外镜像地址`_ ，进入目录 :file:`releases/amd64/autobuilds/current-install-amd64-minimal/` 下载最小化安装系统镜像，名字为 :file:`install-amd64-minimal-<日期>.iso`
+1. 打开 `北外镜像地址`_ ，进入目录 :file:`releases/amd64/autobuilds/current-install-amd64-minimal/` 下载最小化安装系统镜像，名字为 :file:`install-amd64-minimal-{日期}.iso`
 
    .. note::
 
@@ -51,7 +51,7 @@ Gentoo Linux 安装及使用指南
      LiveCD 也同样不一定是 Gentoo Linux 的，可选系统的 LiveCD ，但本文以 Gentoo Linux 的为例。
 
      可选步骤
-       为了保险起见，下载好的文件需要校验其完整性，镜像服务器会提供名为 :file:`install-amd63-minimal-<日期>.iso.DIGESTS` 和 :file:`install-amd64-minimal-<日期>.iso.DIGESTS.asc` 的校验文件。
+       为了保险起见，下载好的文件需要校验其完整性，镜像服务器会提供名为 :file:`install-amd63-minimal-{日期}.iso.DIGESTS` 和 :file:`install-amd64-minimal-{日期}.iso.DIGESTS.asc` 的校验文件。
 
        如今都是通过 https 协议下载文件，遂通常使用 :file:`.DIGESTS` 后缀的文件完成校验即可，该文件内包含四个 HASH 值，使用对应的工具来生成下载的 :file:`.iso` 文件的 HASH，后进行比较即可。
 
@@ -427,7 +427,7 @@ openrc 是 Gentoo Linux 官方维护且默认的初始化程序，而 systemd �
 
   随着时间的推移， stage3 包名可能会略有改动，如果后续发现有存在改动，请从更新时间最靠近的一批 stage3 文件中选择并下载。
 
-这里以 :file:`current-stage3-amd64-openrc` 为例，那么选择进入该目录，选中 :file:`stage3-amd64-openrc-<日期>.tar.xz` 文件，回车进行下载。这里请同时下载其校验文件 :file:`stage3-amd64-openrc-<日期>.tar.xz.DIGESTS` ，默认存储路径为执行 :code:`links` 的当前目录，下载完成后，按 :kbd:`q` 退出，执行
+这里以 :file:`current-stage3-amd64-openrc` 为例，那么选择进入该目录，选中 :file:`stage3-amd64-openrc-{日期}.tar.xz` 文件，回车进行下载。这里请同时下载其校验文件 :file:`stage3-amd64-openrc-{日期}.tar.xz.DIGESTS` ，默认存储路径为执行 :code:`links` 的当前目录，下载完成后，按 :kbd:`q` 退出，执行
 
 .. code-block:: shell
 
@@ -435,12 +435,12 @@ openrc 是 Gentoo Linux 官方维护且默认的初始化程序，而 systemd �
    ls
 
    # 使用 sha512sum 校验文件
-   sha512sum -c --ignore-missing stage3-amd64-openrc-<日期>.tar.xz.DIGESTS
+   sha512sum -c --ignore-missing stage3-amd64-openrc-{日期}.tar.xz.DIGESTS
 
 .. note::
 
   可选步骤
-    如果想要进行更加严格的验证，可替换下载原 :file:`.DIGESTS` 文件为 :file:`stage3-amd64-openrc-<日期>.tar.xz.DIGESTS.asc` ，后退出 links 界面，执行
+    如果想要进行更加严格的验证，可替换下载原 :file:`.DIGESTS` 文件为 :file:`stage3-amd64-openrc-{日期}.tar.xz.DIGESTS.asc` ，后退出 links 界面，执行
 
     .. code-block:: shell
 
@@ -448,7 +448,7 @@ openrc 是 Gentoo Linux 官方维护且默认的初始化程序，而 systemd �
       gpg --keyserver hkps://keys.gentoo.org --recv-keys 0x13EBBDBEDE7A12775DFDB1BABB572E0E2D182910
 
       # 校验 DIGESTS 文件
-      gpg --verify -o stage3-amd64-openrc-<日期>.tar.xz.DIGESTS{,.asc}
+      gpg --verify -o stage3-amd64-openrc-{日期}.tar.xz.DIGESTS{,.asc}
 
     提示 :code:`Good signature from "Gentoo Linux Release Engineering (Automated Weekly Release Key) <releng@gentoo.org>"` 则校验成功，否则说明文件有损坏或被篡改（警告可不用理会）。
 
@@ -468,7 +468,7 @@ openrc 是 Gentoo Linux 官方维护且默认的初始化程序，而 systemd �
 
   # 解压 stage3 文件，这里默认之前执行 links 的目录为家目录（没进行切换的话）
   # 　　        　　　若之前是切换了目录后执行的 links，请自行修改
-  tar xpvf /root/stage3-amd64-openrc-<日期>.tar.xz --xattrs-include='*.*' --numeric-owner
+  tar xpvf /root/stage3-amd64-openrc-{日期}.tar.xz --xattrs-include='*.*' --numeric-owner
 
 配置镜像地址
 -----------------------------
@@ -589,16 +589,38 @@ Gentoo Linux 默认安装的编辑器为 :code:`nano` ，这是一个初始设�
   PS1=(chroot)$PS1
 
 
-安装内核及引导
+安装固件、内核及引导
 -----------------------------
 
 执行
 
 .. code-block:: shell
 
-  emerge -vj gentoo-kernel-bin grub
+  # 提示：对于虚拟机环境而言，以下步骤[1]一般无需进行，
+  # 　　　　　　　　　　　　　步骤[2]内的 linux-firmware 也无需添加
 
-该命令会为系统安装二进制的内核以及 grub 安装程序（其它引导器碍于篇幅这里不再说明）。
+  # [1]
+  # 同意 Linux 固件的协议
+  # 先创建一个文件夹，以便于管理
+  mkdir -p /etc/portage/package.license
+  # 再创建文件以同意对应协议
+  echo 'sys-kernel/linux-firmware linux-fw-redistributable no-source-code' >/etc/portage/package.license/linux-firmware
+
+  # [2]
+  # 安装固件、内核及 grub 安装器
+  emerge -vj linux-firmware gentoo-kernel-bin grub
+
+该命令会为系统安装 Linux 固件文件、二进制内核以及 Grub 安装器。
+
+Linux 固件文件
+  这里的固件文件是一系列固件的集合，它们为某些硬件（无线网卡、蓝牙、显卡等）提供支持。因为其通常是私有的，所以这里需要同意额外的许可。
+
+内核
+  它是系统软件与硬件的中间层，必要。
+
+Grub 安装器
+  用于给计算机安装 Grub 引导程序，碍于篇幅，这里不打算介绍其它引导器，且 Grub 功能完善、成熟，建议安装。
+
 
 配置 fstab
 -----------------------------
@@ -900,7 +922,11 @@ openrc 这里我推荐使用 :gepkg:`app-admin/syslog-ng` ，执行
 
    .. code-block:: shell
 
+     # 安装
      emerge -vj net-misc/chrony
+
+     # 配置 chrony 以 UTC 对待硬件时钟
+     echo $'\n'rtconutc >>/etc/chrony/chrony.conf
 
    安装完成后，执行
 
@@ -1177,11 +1203,33 @@ make.conf
 
   而此时配置的镜像是用于同步 Portage 系统的数据库，其包含了基础的系统配置文件，安装软件所需的描述文件等等很多基础内容。
 
+设置桌面环境
+-----------------------------
 
+Gentoo Linux 既可以作为服务器，也可以作为个人电脑来使用。
 
+如果作为服务器，那么至此基本配置已经全部完成，后续自行根据需要安装/配置服务即可，后文会继续说明如何使用 Gentoo Linux 的包管理系统等。
 
+而作为个人电脑，则还需安装配置额外的软件，可以是 :ruby:`桌面环境|Desktop Environment` ，也可以是 :ruby:`窗口管理器|Window Manager` （其它极少数情景不在本文讨论范围内）。
 
+桌面环境与窗口管理器的主要区别：它俩是包含与被包含的关系，桌面环境更庞大复杂，集成的功能全面（基本你需要的都有了），开箱即用，其包含了窗口管理器；而窗口管理器，顾名思义，纯粹用于管理窗口的，一个纯窗口管理器是连基本的任务栏、托盘等基础组件都不包括的（不过现在很多都包括了），需要额外的配置后使用，它的优势在于轻量（相对于桌面环境而言，特别轻量）、简洁、更方便定制。
 
+如今主流的 `桌面环境`_ 有很多，这里我会介绍我熟悉的 KDE Plasma，它使用 QT 实现。主流的 `窗口管理器`_ 也很多，这里我会介绍我熟悉的 Awesome WM。
+
+X? Wayland?
++++++++++++++++
+
+无论选择安装哪种环境，都需要显示服务器作为依托。而现今 Linux 下主流的显示服务器有两种， X Window System 以及 Wayland。其中 X Window System 是最早开发的也是现如今稳定使用的；而 Wayland 则是未来。
+
+简单比较：
+
+X Window System
+  当前基本所有的图形化软件都是针对其开发的，扩展性强，兼容性好；但各窗口间无隔离，安全性较差。
+
+Wayland
+  它是一个协议，实现该协议的显示服务器（也叫 Wayland 混成）有多种，目前大部分软件对 Wayland 的支持都不够成熟或者不支持；但它性能比 X 更好，窗口有隔离安全性更好，各软件也都在忙着兼容它。
+
+就当下（2021 年，十月初）的情况来看，依旧是使用 X 更合适，在不久的将来则是 Wayland 会对 X 实现完全替代。现在着重说配置 X 环境，后续等 Wayland 更成熟后再更新。
 
 .. _`内核配置`:
 
@@ -1195,3 +1243,5 @@ make.conf
 .. _`对应的 wiki`: https://wiki.gentoo.org/wiki/Profile_(Portage)
 .. _`官方内核配置文档`: https://wiki.gentoo.org/wiki/Kernel#Configuration
 .. _`rsync 镜像列表`: https://www.gentoo.org/support/rsync-mirrors/
+.. _`桌面环境`: https://wiki.gentoo.org/wiki/Desktop_environment
+.. _`窗口管理器`: https://wiki.gentoo.org/wiki/Window_manager
