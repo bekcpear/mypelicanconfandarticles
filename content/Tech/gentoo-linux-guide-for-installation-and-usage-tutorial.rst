@@ -4,7 +4,7 @@ Gentoo Linux 安装及使用指南
 
 :slug: gentoo-linux-installation-and-usage-tutorial
 :date: 2021-10-03 11:35
-:modified: 2021-10-14 09:44
+:modified: 2021-10-15 00:09
 :lang: zh_hans
 :color: #463c65
 :tags: Gentoo, Linux, tutorial, installation, usage
@@ -17,6 +17,8 @@ Gentoo Linux 安装及使用指南
 .. contents::
 
 很早以前，我就有写了一篇安装 Gentoo Linux 的文章（ `Gentoo Linux 安装 —— 带硬盘加密`_ ），只是那篇文章存在局限性。因为一些原因，我打算写一篇更详细更完整，适合新手且可以无缝进阶的 Gentoo Linux 安装及使用指南。
+
+.. _`开头`:
 
 * 本文面向新手，十分精简，配置正确
 * 本文以 AMD64(x86_64) 平台为例进行说明
@@ -1018,21 +1020,23 @@ openrc 这里我推荐使用 :gepkg:`app-admin/syslog-ng` ，执行
 
      后再次判断功能是否已经完整开启。若依旧未，说明包维护人员再次改动了默认配置，此时只能选择自行配置内核。
 
-     二、 自行配置内核，请参考下文 `内核配置`_ 章节，或查阅 `官方内核配置文档`_ ，若遇问题建议寻求帮助。
+     二、 自行配置内核，请参考下文 `内核配置`_ 章节，若遇问题建议寻求帮助。
 
-     这里略作说明，可以在内核源码目录下，执行 :code:`make menuconfig` 进入菜单配置界面，定位到 :file:`Device Drivers` 下的 :file:`Real Time Clock` 选单，进入后，确认以下几个选项选中::
+     这里略作说明，可以在内核源码目录下，执行 :code:`make menuconfig` 进入菜单配置界面，确认开启如下选单下的选项::
 
-       [*]   Set system time from RTC on startup and resume
-       (rtc0)  RTC used to set the system time
-       [*]   Set the RTC time based on NTP synchronization
-       (rtc0)  RTC used to synchronize NTP adjustment
-       ...
-       [*]   /sys/class/rtc/rtcN (sysfs)
-       [*]   /proc/driver/rtc (procfs for rtc0)
-       [*]   /dev/rtcN (character devices)
-       ...
-       <*>   PC-style 'CMOS'
-       ...
+       Device Drivers  --->
+         [*] Real Time Clock  --->
+           [*]   Set system time from RTC on startup and resume
+           (rtc0)  RTC used to set the system time
+           [*]   Set the RTC time based on NTP synchronization
+           (rtc0)  RTC used to synchronize NTP adjustment
+           ...
+           [*]   /sys/class/rtc/rtcN (sysfs)
+           [*]   /proc/driver/rtc (procfs for rtc0)
+           [*]   /dev/rtcN (character devices)
+           ...
+           <*>   PC-style 'CMOS'
+           ...
 
      后保存退出，编译并安装内核，最后更新引导重启。
 
@@ -1431,6 +1435,7 @@ Portage 是 Gentoo Linux 的包管理系统，本文自开始至此，大部分�
 * :code:`emerge -avuDN @world` 用于更新系统
 * :code:`emerge -r` 用于恢复上一次失败的 emerge
 * :code:`emerge -ac` 自动清理系统下的软件包
+* :code:`emerge -vpc <包名>` 用于查询当前所有对该包的依赖
 * :code:`emerge -C <包名>` 用于卸载软件包，但是注意，这个命令可能会破坏掉系统的依赖关系，所以更合理的卸载方式为：
 
   .. code-block:: shell
@@ -1445,21 +1450,23 @@ emerge 常用选项
 
 先解释上述基础命令中的选项，其中
 
-* -C, -c, --deselect, --info, -r, -s, --sync 都是执行的操作，不属于选项
-* -D 表示检查包的整个依赖树
-* -N 表示检查 USE 的任何改动
-* -a 代表询问以确认执行该操作
-* -u 表示升级，略过不升级的包
-* -v 表示显示详细信息
+* :file:`-C, -c, --deselect, --info, -r, -s, --sync` 都是执行的对应操作，不属于选项
+* :file:`-D` 表示检查包的整个依赖树
+* :file:`-N` 表示检查 USE 的任何改动
+* :file:`-a` 代表询问以确认执行该操作
+* :file:`-u` 表示升级，略过不升级的包
+* :file:`-v` 表示显示详细信息
 
 其它常用的选项有
 
-* -1/--oneshot 一般用在安装软件包时，不将该包添加到 world 集中
-* -O/--nodeps 不计算依赖关系，直接安装指定的包（可能会因为依赖不满足而导致安装失败）
-* -j/--jobs 设置 Portage 同时执行的最大任务数，如果未设置数量，那么 Portage 不会限制最大的任务数
-* -n/--noreplace 不重复安装已经安装的包（默认会忽略掉 USE 的改动以及升级的查询，除非分别加上 -D/-U 和 -u 的选项）
-* -p/--pretend 假装进行该操作（实际不进行），一般只计算依赖关系，也可用于非特权用户查询信息用
-* -t/--tree 显示给定包的安装依赖树
+* :file:`-1/--oneshot` 一般用在安装软件包时，不将该包添加到 world 集中
+* :file:`-O/--nodeps` 不计算依赖关系，只操作指定的包（安装时可能会因为依赖不满足而导致安装失败）
+* :file:`-f/--fetchonly` 仅下载指定包及其依赖的 distfiles 而不进行安装
+* :file:`-j/--jobs` 设置 Portage 同时执行的最大任务数，如果未设置数量，那么 Portage 不会限制最大的任务数
+* :file:`--keep-going` 它会在安装出错时，跳过安装失败的包，并重新计算依赖后继续安装剩余包
+* :file:`-n/--noreplace` 不重复安装已经安装的包（默认会忽略掉 USE 的改动以及升级的查询，除非对应加上 :file:`-D/-U` 和 :file:`-u` 选项）
+* :file:`-p/--pretend` 假装进行该操作（实际不进行），一般只计算依赖关系，也可用于非特权用户查询信息用
+* :file:`-t/--tree` 显示给定包的安装依赖树
 
 USE 标记
 +++++++++++++++
@@ -1557,7 +1564,7 @@ Portage 下的软件包很多，每个包所使用的许可也不尽相同。默
 
   ACCEPT_LICENSE="*"
 
-另一个则是当每次出现许可问题时，单独添加该软件的许可到 :file:`/etc/portage/package.license` 文件内，或者该文件夹下的任意文件内。格式为
+另一个则是当每次出现许可问题时，单独添加该软件的许可到 :file:`/etc/portage/package.license` 文件内，或者该文件夹下的任意文件内（许可名会在出现问题时提醒）。格式为
 
 .. code-block:: shell
 
@@ -1569,7 +1576,36 @@ Portage 下的软件包很多，每个包所使用的许可也不尽相同。默
 
 请根据自己的喜好，自行选择。
 
-Portage 的内容太多，以上仅列出了几个经常会使用到的配置。其它内容出现的情况比较少，我会在文末尾的扩展阅读链接里指出。
+
+emerge 默认选项
++++++++++++++++
+
+emerge 支持配置一组默认选项，用于在每次运行 emerge 时采用。这个储存默认选项的变量名为 :file:`EMERGE_DEFAULT_OPTS` ，在 :file:`make.conf` 文件下设置。
+
+常见设置的默认选项有
+
+:file:`-v/--verbose`
+  显示详细信息
+
+:file:`--keep-going`
+  上文已交代
+
+:file:`-j/--jobs`
+  上文已交代，这里作补充。如果要将该选项添加到默认选项下，那么建议配合 :file:`-l/--load-average` 使用， :file:`-l/--load-average` 用于配置 emerge 的负载阈值，当当前负载到达设定值后， emerge 将不再开启新任务，以避免负载过高，这在 CPU 不够强悍或者内存不宽裕的机器上很需要。比如在一个 8 核 16 线程 16G 内存的机器上，可以设置成 :file:`-j -l 12` ，这样的设定使 portage 的并行任务数不由硬性规定的数目来限制，而是通过动态负载来进行限制。
+
+:file:`--autounmask` 类
+  这是一组在新装软件包时便于解除安装限制的选项。之前有介绍，在 Portage 安装软件的过程中，可能会因为 USE/License/Keywords 等因素导致无法直接安装，需要配置后再进行，而这组选项可以自动化这个过程。个人建议的相关选项组合为 :file:`--autounmask --autounmask-keep-masks --autounmask-write=n` ，此组合不会完全自动写入配置到系统下，但是提示了如何配置，方便手动写入，既简化了处理限制的流程，又能保证掌握每次安装包时的改动。
+
+那么这里一组比较推荐的默认选项配置为
+
+.. code-block:: shell
+
+  EMERGE_DEFAULT_OPTS="--autounmask --autounmask-keep-masks --autounmask-write=n -j -l 12 --keep-going -v"
+  # 其中的 12 请根据实际情况修改
+
+其它的选项请自行发现。
+
+Portage 的内容太多，以上仅列出了几个经常会使用到的配置。更多内容，请通过执行 :code:`man portage` , :code:`man emerge` , :code:`man make.conf` 查询，或者访问 Gentoo Linux 官方维基。
 
 常用工具
 +++++++++++++++
@@ -1585,10 +1621,10 @@ Portage 的内容太多，以上仅列出了几个经常会使用到的配置。
 
   .. code-block:: shell
 
-    eix <包名>
+    eix <包名匹配字符串>
 
     # 也可只查询已安装的包
-    eix -I <包名>
+    eix -I <包名匹配字符串>
 
     # 也可查询属于一个特定分类下的所有包
     eix -C <类名>
@@ -1618,13 +1654,186 @@ Portage 的内容太多，以上仅列出了几个经常会使用到的配置。
   等等，请自行发现。
 
 :gepkg:`app-portage/portage-utils`
-  包含了 Portage 的帮助工具，与上面 gentoolkit 的功能有重合，他们具有互补性，常用的命令有用于分析 emerge 日志的 :code:`qlop` 。它是用 C 写的，所以速度更快。
+  包含了 Portage 的帮助工具，与上面 gentoolkit 的功能有重合，他们具有互补性，常用的命令有用于分析 emerge 日志的 :code:`qlop` 。它是用 C 写的，速度更快。
 
+:gepkg:`app-portage/pfl`
+  Portage File List，可用于在线查询文件所归属的包，命令为 :code:`e-file <文件名>` 。
+
+多版本管理
++++++++++++++++
+
+Gentoo Linux 支持同一软件多版本同时存在于系统上，这归功于 Portage 系统的 slotting 机制。当你执行命令 :code:`eix dev-lang/python` 会发现它有好多行可用版本，最前圆括号内的内容即对应的 slot 名，不同 slot 下的版本可同时安装到系统上（ slot 名内 :file:`/` 符号后的内容表示其 sub-slot，同 slot 但不同 sub-slot 的版本无法共存）。比如，:file:`sys-devel/gcc` , :file:`sys-devel/clang` , :file:`dev-lang/lua` 等等都支持多版本共存。
+
+对于一些多版本共存的工具， Gentoo Linux 准备了对应的 :code:`eselect` 命令以方便用户选择使用。其会在对应的 :file:`$PATH` 目录下创建一个指向当前选定版本命令的软链接。比如，
+
+.. code-block:: shell
+
+  eselect lua list
+  # 列出当前所有已经安装的 lua 版本
+
+  eselect lua set {序号}
+  # 这样就设定了系统下用户交互环境的默认 lua 版本
+
+其它的类似，执行 :code:`eselect help` 以查看当前所有支持的模块。不是所有的多版本共存的包都会有 eselect 模块，它们并不存在强制的依赖关系。执行 :code:`eix -I2` 可以显示当前系统下安装的可多版本共存的包。
+
+至此， Gentoo Linux 所特有的用法（除内核外）大致说明完毕。
+
+关于内核
+==================================================
+
+自本文开始至此，我特意简略了所有关于内核的相关配置，原因是内核的配置非常复杂，需根据每台机器的环境而定，为了使读者可以在完全参照本文命令的情况下完整安装好 Gentoo Linux，我选择了预编译好的，适用范围最广的二进制内核。
+
+而在这里，我会简述一些通用设定及操作。
+
+可用内核版本
+-----------------------------
+
+Gentoo Linux 所提供的可用内核都在 :file:`sys-kernel` 类下，使用命令 :code:`eix -C sys-kernel` 即可列出。而其中以下三个版本更通用：
+
+sys-kernel/gentoo-sources
+  这是最高到内核主线版本的内核源码包，需要自行配置后，再自行编译后安装
+
+sys-kernel/gentoo-kernel
+  这是最高到内核主线版本的内核源码包，但同时包含了通用的内核配置，可自动编译后安装
+
+sys-kernel/gentoo-kernel-bin
+  这是最高到内核主线版本的内核二进制包，也是本文使用的内核，其使用的是最通用的内核配置
+
+在 :file:`::gentoo` 这个官方仓库内，能被定为稳定的内核版本，目前只有 :ruby:`长期支持|Long-term support` (LTS) 版本。但这并不意味着该仓库下的 test 版本内核就不稳定，以上三个版本的内核的 test 分支均可使用，追溯的是上游的主线版。
+
+在这里，我以 :gepkg:`sys-kernel/gentoo-sources` 为例。
 
 .. _`内核配置`:
 
-（未完待续）
+编译安装的整体流程
+-----------------------------
 
+.. _`上文已有`:
+
+根据上下文环境，当前系统下只有一个二进制的内核，因此先安装上述内核，然后开始（以下操作需 root 用户进行，或自行使用 sudo 等命令）
+
+.. code-block:: shell
+
+  # 安装源码版的内核，以及 genkernel 工具
+  emerge -vj sys-kernel/gentoo-sources sys-kernel/genkernel
+  # 此处的 genkernel 工具可用于生成内核的 initramfs 文件
+
+  # 安装完毕后使用 eselect 列出当前所有的内核
+  eselect kernel list
+
+  # 将源码版的内核设为选定
+  eselect kernel set {序号}
+  # 此时，路径 /usr/src/linux 会软链接到新安装的源码版内核目录下
+
+  # 切换到内核目录下
+  cd /usr/src/linux
+
+  # 创建/修改配置文件
+  make localmodconfig
+  # 此步骤就是自行配置内核中可麻烦可简单的一个步骤
+  # 详细看后文说明
+
+  # 编译内核
+  make -j {任务数}
+
+  # 无报错后安装模块及内核
+  make modules_install
+  make install
+
+  # 生成此内核对应的 initramfs 文件
+  genkernel --kernel-config=/usr/src/linux/.config initramfs
+
+  # 更新 Grub 菜单
+  grub-mkconfig -o /boot/grub/grub.cfg
+
+以上即内核从配置到编译到安装再到更新启动菜单的整体流程。
+
+关于内核配置
+-----------------------------
+
+内核是否真的需要自定义配置？这个问题因人而异，有人想要一份精简的内核，有人只要功能完善即可。我个人建议则是，非嵌入式环境下，对内核体积没要求情况下量力而行即可。内核的配置系统太过庞与复杂，理解所有的配置很难。而纯粹使用通用的配置则会导致模块目录太大，无用的模块太多，也不妥。
+
+上述步骤中的 :code:`make localmodconfig` 生成了一份完整的内核配置文件。此命令的含义是，以当前系统环境为参考，禁用没有被加载的模块配置。可在纯模块加载的系统环境下，接上你有的设备，开启你需要用到的所有服务，然后执行它。一般用于首次配置内核，使得后续配置更轻松。
+
+而进一步的配置可以在内核目录下使用 :code:`make menuconfig` 命令打开一个界面化的配置菜单，根据界面内提示进行。也可以执行 :code:`make help` 显示帮助信息，以方便根据需要自行选择。
+
+自定义配置时，建议给该配置文件设定一个自定义版本，以便于区分，配置路径位于::
+
+  General setup  --->
+    (-examplename) Local version - append to kernel release
+
+其它的项目本文不会说明，建议查阅 `官方内核配置文档`_ ，其它可查阅的资料有：
+
+* 在界面化的配置菜单界面，选中选项按下 :kbd:`h` 后显示的说明
+* 查询硬件设备对应驱动的 Linux-Hardware 站点（英文）： https://linux-hardware.org/index.php?view=search
+* cateee.net 的 Linux 内核驱动数据库（英文）： https://cateee.net/lkddb/web-lkddb/
+* 金步国针对旧版本内核的配置说明（中文）： http://www.jinbuguo.com/kernel/longterm-linux-kernel-options.html
+
+关于 initramfs
+-----------------------------
+
+配置内核时，有一个重要的内容是 initramfs (initial ram file system) ，它用于解决如何在真正初始化系统运行前执行用户空间程序。类似的方案还有一种叫 initrd ，两者功能基本一致，实现方式有差异，这里只以 initramfs 为例说明。
+
+它代表着一种方案，也代表着一个文件。它在一些基础情况下并不是必须的（比如本文的上下文环境）。
+
+在说明它存在的意义前，先简单说明下 Linux 系统的基本启动流程：
+
+1. PC 加电，BIOS/UEFI 自检后载入系统引导程序
+2. 引导程序载入内核
+3. 内核挂载根目录所对应的分区
+4. 内核执行根目录下系统的初始化（init）命令
+5. 自此来到了用户空间下
+
+这个基本的流程里面会出现问题，看步骤 3
+
+* 问题一、如果这个根目录的分区无法直接挂载怎么办（被加密了、使用了 RAID、它是一个 NFS，等情况）
+* 问题二、如果这个根目录的分区下的 :file:`/usr` 又单独分区了，里面没所需文件怎么办（这个文件夹包含了系统的库文件等）
+
+如果上述两种情况都未出现，那么只要把根目录分区所对应的文件系统驱动被编译进内核（而非模块的形式），就可以省略掉 initramfs ；如果出现了任意一种情况，这个时候就需要 initramfs 的参与。
+
+正如前文所说， initramfs 提供了在真正系统初始化前提前进入用户空间的功能，它其实就是一个简略版的完整系统，通过它，可以把该解密的分区解密，该挂载的内核无法直接挂载的分区（包括模块未加载，额外的分区，需要联网等情况）都挂载好，之后再由根目录下真正的系统初始化程序接管。
+
+了解了其功能，现在开始说如何制作它。
+
+Gentoo Linux 提供了一个工具叫 :gepkg:`sys-kernel/genkernel` 可用于创建 initramfs ，并且有别于其它的 initramfs 创建工具， genkernel 会单独编译一个独立的 initramfs 环境（而非直接使用当前系统环境），并打包压缩。这会使得其相对于其它的工具（比如 dracut）创建过程更慢。
+
+简单的使用例子 `上文已有`_ ，其配置文件位于 :file:`/etc/genkernel.conf` ，里面对每个变量的设置都有详细的说明。
+
+总结及引导
+==================================================
+
+本文以一条较为单一的路线讲述了 Gentoo Linux 的安装及使用，勾勒了一个大致的框架，以便于快速掌握。
+
+当通读了安装几章后会发现， Gentoo Linux 的安装其实很简单，复杂的在它的使用上。同时还会发现，使用 Gentoo Linux 需要一定的耐心，Portage 的绝大部分的软件包都是从源码编译安装的，相对于其它二进制包的发行版，会比较花时间。
+
+而使用源码进行安装的好处，可以在日常使用中来逐渐发现，举个例子，你可以很方便的给需要的软件包打 patch 后编译安装到系统上（还不会污染包管理系统），以满足自己的需要。使用源码进行安装使得 Gentoo Linux 可以只依赖于软件包的最上游，更安心。
+
+由于 Portage 的依赖管理在本地，所以系统上的所有软件包都会处于自己的掌控范围内（比如可以在系统整体升级的情况下，设置某几个包不升级，只要处理好依赖关系）。
+
+我对 Gentoo Linux 的评价是 **随心所欲** 。
+
+至此，内容已全部结束。
+
+*若对本文有任何问题，都欢迎访问文章开头的用户群组，找我 @cwittlut_on_TG*
+
+接下来，
+
+* 若想进一步学习 Gentoo Linux 的知识，请访问文章 `开头`_ 所指出的 Gentoo Wiki 页面。里面的内容非常之丰富。
+* 若对 Gentoo Linux 下的 Portage 包管理器感兴趣，请访问 `开发手册`_ 。
+
+建议，
+
+* 不在不明白某个配置/选项含义时使用它
+* 每次安装新的系统服务/工具时，都去查阅下 Gentoo wiki 对应词条
+* emerge 完成后，出现的提示信息要看
+* 新出的 news 要看
+
+完。
+
+题外话：
+  我有一个脚本，可以比较方便地将其它 Linux 发行版转为 Gentoo Linux，目前还是处于测试状态中，有需要的话可以使用，有问题可以找我反馈，但我不负责数据丢失等问题。
+
+  地址 https://gitlab.com/cwittlut/distro2gentoo
 
 .. _`Gentoo Linux 安装 —— 带硬盘加密`: https://bitbili.net/reinstall_gentoo.html
 .. _`Gentoo Wiki 页`: https://wiki.gentoo.org/wiki/Main_Page
@@ -1640,3 +1849,4 @@ Portage 的内容太多，以上仅列出了几个经常会使用到的配置。
 .. _`NVIDIA/nvidia-drivers`: https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers
 .. _`Package sets`: https://wiki.gentoo.org/wiki/Package_sets
 .. _`ebuild repository`: https://wiki.gentoo.org/wiki/Ebuild_repository
+.. _`开发手册`: https://devmanual.gentoo.org/
