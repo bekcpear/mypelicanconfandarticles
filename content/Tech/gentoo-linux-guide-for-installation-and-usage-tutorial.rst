@@ -474,6 +474,8 @@ openrc 是 Gentoo Linux 官方维护且默认的初始化程序，而 systemd �
   # 　　        　　　若之前是切换了目录后执行的 links，请自行修改
   tar xpvf /root/stage3-amd64-openrc-{日期}.tar.xz --xattrs-include='*.*' --numeric-owner
 
+.. _`配置镜像地址`:
+
 配置镜像地址
 -----------------------------
 
@@ -544,6 +546,10 @@ chroot 到目标系统
   emerge-webrsync
 
 该命令会以分包的形式从之前配置好的镜像地址下载最近打包好的 portage 数据库到本地，并解压后使用。 *portage* 是 Gentoo Linux 的包管理器，这个数据库是安装各种软件的基础。
+
+.. warning::
+
+  如果这里发现下载速度明显很慢，那可能是上述 `配置镜像地址`_ 未配置到合适的镜像点，建议重新配置。
 
 .. note::
 
@@ -863,6 +869,14 @@ openrc 这里我推荐使用 :gepkg:`app-admin/syslog-ng` ，执行
   timedatectl set-timezone Asia/Shanghai
 
 如果你需要添加其它的时区，对应的时区名字可以在 :file:`/usr/share/zoneinfo/` 目录下找到，将其替换到 :file:`Asia/Shanghai` 的位置后执行命令即可。
+
+.. note::
+
+  设置完时区后，可以执行以下命令查看效果：
+
+  .. code-block:: shell
+
+    date
 
 语言环境
 +++++++++++++++
