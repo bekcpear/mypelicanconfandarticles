@@ -1461,10 +1461,20 @@ Portage 是 Gentoo Linux 的包管理系统，本文自开始至此，大部分�
 * :code:`emerge --sync` 用于更新数据库
 * :code:`emerge -s <包名>` 用于查询软件包
 * :code:`emerge <包名>` 用于安装软件包
-* :code:`emerge -avuDN @world` 用于更新系统
 * :code:`emerge -r` 用于恢复上一次失败的 emerge
 * :code:`emerge -ac` 自动清理系统下的软件包
 * :code:`emerge -vpc <包名>` 用于查询当前所有对该包的依赖
+* :code:`emerge -avuDN @world` 用于更新系统，这个是日常更新的基础命令，常见的组合为：
+
+  .. code-block:: shell
+
+    # 先更新数据库
+    emerge --sync
+    # 再更新系统
+    emerge -avuDN @world
+    # 更新完毕后清理系统
+    emerge -ac
+
 * :code:`emerge -C <包名>` 用于卸载软件包，但是注意，这个命令可能会破坏掉系统的依赖关系，所以更合理的卸载方式为：
 
   .. code-block:: shell
