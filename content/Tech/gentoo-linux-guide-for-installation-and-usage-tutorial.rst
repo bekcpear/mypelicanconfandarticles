@@ -4,7 +4,7 @@ Gentoo Linux 安装及使用指南
 
 :slug: gentoo-linux-installation-and-usage-tutorial
 :date: 2021-10-03 11:35
-:modified: 2021-10-15 00:09
+:modified: 2021-10-15 00:40
 :lang: zh_hans
 :color: #463c65
 :tags: Gentoo, Linux, tutorial, installation, usage
@@ -1689,6 +1689,11 @@ Gentoo Linux 支持同一软件多版本同时存在于系统上，这归功于 
   # 这样就设定了系统下用户交互环境的默认 lua 版本
 
 其它的类似，执行 :code:`eselect help` 以查看当前所有支持的模块。不是所有的多版本共存的包都会有 eselect 模块，它们并不存在强制的依赖关系。执行 :code:`eix -I2` 可以显示当前系统下安装的可多版本共存的包。
+
+Proxy
++++++++++++++++
+
+并不是所有的 distfile 都能从镜像站下载，当遇到 distfile 下载不下来（或者 git 仓库克隆不下来）需要使用代理的时候，如何为 Portage 正确地配置 Proxy 呢。关于这个问题，我之前有一篇文章详细谈到了： https://bitbili.net/set-proxy-for-gentoo-portage.html
 
 至此， Gentoo Linux 所特有的用法（除内核外）大致说明完毕。
 
