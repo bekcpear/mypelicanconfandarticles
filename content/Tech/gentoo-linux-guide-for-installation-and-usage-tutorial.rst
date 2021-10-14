@@ -4,11 +4,11 @@ Gentoo Linux 安装及使用指南
 
 :slug: gentoo-linux-installation-and-usage-tutorial
 :date: 2021-10-03 11:35
-:modified: 2021-10-09 04:31
+:modified: 2021-10-14 09:44
 :lang: zh_hans
 :color: #463c65
 :tags: Gentoo, Linux, tutorial, installation, usage
-:mykeywords: gentoo,linux,installation,usage,tutorial,guide,howto,handbook
+:mykeywords: gentoo,linux,installation,usage,tutorial,guide,handbook,portage,安装,配置,指南,手册
 :description: 十分精简、适合新手、可持续进阶的 Gentoo Linux 完整安装及使用指南。
 :featured_image: /nocimages/gentoo.png
 :noindent: true
@@ -21,7 +21,9 @@ Gentoo Linux 安装及使用指南
 * 本文面向新手，十分精简，配置正确
 * 本文以 AMD64(x86_64) 平台为例进行说明
 * 本文以安装到实体机为目的（也适用于虚拟机）
+* 本文以一条相对单一的路线指导安装使用 Gentoo Linux，亦可前往 `Gentoo Wiki 页`_ 以获取更多更详细内容。
 * 本文唯一原始链接： https://bitbili.net/gentoo-linux-installation-and-usage-tutorial.html
+* 本文源码在 `这里`_ ，欢迎纠错
 * 如有问题可以上 https://t.me/gentoo_zh 提问/反馈
 
 正文开始：
@@ -756,9 +758,10 @@ Grub 安装器
    .. code-block:: shell
 
      # 通常情况下，建议日常通过普通用户来使用系统
-     # 创建普通用户，同时将其额外添加到 wheel 组
+     # 创建普通用户，同时将其额外添加到 usb 组，以使其可以访问 USB 设备
+     # 　　　　　　　　　　　　　　　　 wheel 组，以使其可以使用 su 命令
      # 这里的用户名只能是字母和数字，数字不能打头，不要给空格
-     useradd -G wheel 「用户名」
+     useradd -m -G usb,wheel 「用户名」
 
      # 设置普通用户密码
      passwd 「用户名」
@@ -1110,6 +1113,8 @@ make.conf
 
 .. _`why-not-accept_keywords-tildeamd64-as-default`:
 
+.. _`在上文我有写到`:
+
 .. note::
 
   **为什么我不建议开启全局的** :file:`~amd64` **关键字**
@@ -1128,7 +1133,7 @@ make.conf
 
   如果你愿意花时间去解决上述的弊端，那么当然，完全可以开启。
 
-  可就我个人建议来说，完全可以省下这个时间，并同时尽可能满足上述的利端，只要针对自己明确需要的软件，单独开启 :file:`~amd64` 关键字即可（如何操作下文会有介绍），这样既尽可能地保证了系统的稳定性，又最大化满足了自己的需要，还节省时间。
+  可就我个人建议来说，完全可以省下这个时间，并同时尽可能满足上述的利端，只要针对自己明确需要的软件，单独开启 :file:`~amd64` 关键字即可（如何操作 `下文`_ 会有介绍），这样既尽可能地保证了系统的稳定性，又最大化满足了自己的需要，还节省时间。
 
   *（顺便说一句，在 Gentoo Linux 下，即使是稳定版的软件，大部分跟随上游同步还是非常及时的）*
 
@@ -1229,7 +1234,392 @@ X Window System
 Wayland
   它是一个协议，实现该协议的显示服务器（也叫 Wayland 混成）有多种，目前大部分软件对 Wayland 的支持都不够成熟或者不支持；但它性能比 X 更好，窗口有隔离安全性更好，各软件也都在忙着兼容它。
 
-就当下（2021 年，十月初）的情况来看，依旧是使用 X 更合适，在不久的将来则是 Wayland 会对 X 实现完全替代。现在着重说配置 X 环境，后续等 Wayland 更成熟后再更新。
+就当下（2021 年，十月）的情况来看，依旧是选择 X 更合适，在不久的将来则是 Wayland 会对 X 实现完全替代。现在着重说配置 X 环境，后续等 Wayland 更成熟后再更新。
+
+显卡驱动
++++++++++++++++
+
+在之前安装 Gentoo Linux 的过程中，二进制内核本身已自带了大多数显卡的内核驱动部分，该部分负责接收用户空间发送的指令及数据，进行处理后传递给显卡。
+
+.. note::
+
+  如若你的显卡是较新的 N 卡，开源驱动还未支持，请参阅官方的 `NVIDIA/nvidia-drivers`_ 一文以安装闭源驱动。
+
+对于 X 而言，它还需要配置对应的 2D 驱动，这里以现代化的 A 卡为例，编辑 :file:`/etc/portage/make.conf` 文件，添加以下内容：
+
+.. _`显卡的配置`:
+
+.. code-block:: shell
+
+  VIDEO_CARDS="amdgpu radeonsi"
+  # 其中，
+  # 　　amdgpu radeonsi 用于给 X 开启 2D 驱动（X 下必须）
+  # 　　radeonsi 用于给 OpenGL 的实现 mesa 开启对内核下 amdgpu 驱动的支持（无论 X 还是 Wayland 均需配置）
+  # 如果 A 卡比较老，则额外添加 radeon 值，详细查阅： https://wiki.gentoo.org/wiki/AMDGPU
+  # Intel 的一般设为 intel i965 iris， 详细查阅： https://wiki.gentoo.org/wiki/Intel
+  # N 卡开源驱动一般设为 nouveau， 详细查阅： https://wiki.gentoo.org/wiki/Nouveau
+  # 虚拟机下的驱动设置得具体看，比如现在的 VirtualBox 和 VMWare 都用 vmware 驱动，
+  # 　　　　　　　　　　　　　　那么就设置值为 vmware
+  # 　　　　　　　　　　　　　　再比如 QEMU 可选使用 virgl 驱动，那么就设置为 virgl
+  # 　　　　　　　　　　　　　　等等，请自行查阅相关资料
+
+在这里，还需将之前配置的普通用户添加到 :file:`video` 组下以使用硬件加速功能。执行
+
+.. code-block:: shell
+
+  usermod -G video 「用户名」
+
+
+切换 Profile
++++++++++++++++
+
+在安装心仪的 DE/WM 之前，建议切换到的 :file:`desktop` profile 下，执行
+
+.. code-block:: shell
+
+  eselect profile list
+  # 以列出所有的 profiles
+  # 然后进行选择
+  # 例如：
+  # 　　　openrc 下，可以选择 amd64/17.1/desktop
+  # 　　　       　　　　　　 amd64/17.1/desktop/gnome
+  # 　　　       　　　　　　 amd64/17.1/desktop/plasma
+  # 　　　       　　　　　　 等
+  # 　　　systemd 下，可以选择 amd64/17.1/desktop/systemd
+  # 　　　        　　　　　　 amd64/17.1/desktop/gnome/systemd
+  # 　　　        　　　　　　 amd64/17.1/desktop/plasma/systemd
+  # 　　　        　　　　　　 等
+
+  # 如若只想安装轻量级的窗口管理器，那么可以选择类似 amd64/17.1/desktop 一样的纯 desktop profile
+  #eselect profile set 5
+
+  # 根据本文上下文环境，这里我选择 amd64/17.1/desktop/plasma 以准备好 KDE Plasma 的前期环境
+  eselect profile set 8
+
+且，虽然 :file:`desktop` profile 下已经配置启动了基本的 ALSA 声音接口功能，但个人建议再启用 PulseAudio 声音服务器以获得更多功能。只需编辑 :file:`/etc/portage/make.conf` 文件，设置
+
+.. code-block:: shell
+
+  USE="pulseaudio"
+
+.. note::
+
+  切换到 :file:`desktop` profile 并不是一个必须的操作，也可以在基础的 profile 或者其它的 profile 下进行，但如果这样的话，则需要再自行额外配置，会相对复杂一点，此处不多做说明。
+
+安装 DE/WM
++++++++++++++++
+
+此处以安装 KDE Plasma 为例，先更新一下当前的 Portage 数据库，使其为最新，执行
+
+.. code-block:: shell
+
+  emerge --sync
+
+在准备完上述的准备工作后，执行以下命令，开始安装过程：
+
+.. code-block:: shell
+
+  # 执行此命令将 plasma-meta 这个元包添加到 world set 中， world set 后文会介绍
+  emerge -Ow kde-plasma/plasma-meta
+
+  # 再整体更新一下整个系统
+  emerge -ajvuDN @world
+
+此过程会比较漫长，由具体机器的性能而定。如果更新过程中失败，有可能是因为内存太低导致的，尝试去除上述命令选项中的 :code:`j` 重新更新。
+
+.. note::
+
+  如果你打算安装 WM，那么以 Awesome Window Manager 为例，profile 可以选择纯 :file:`desktop` profile 以获得最基础的桌面配置，然后安装 :gepkg:`x11-wm/awesome` 即可。
+
+  安装完毕后，建议安装 :gepkg:`x11-misc/sddm` 这个 Display Manager 用于启动 Awesome WM，至于之前的 KDE Plasma，它已经默认依赖了 sddm。
+
+  相对于 KDE Plasma， Awesome WM 的依赖要少太多太多，安装快速，但功能也极简单。
+
+  顺便说一下 Display Manager (DM)，它用于提供图形化的登陆界面以登陆到 DE 或者 WM，它有多种，比如 KDE 默认的 sddm， Gnome 默认的 GDM，等等。
+
+.. warning::
+
+  上述的操作会自动依赖上 X server: :gepkg:`x11-base/xorg-server` ，其依赖路径是::
+
+    plasma-meta -> sddm -> xorg-server
+
+  所以无需单独安装；
+
+  如果安装的是其它未硬性依赖 X server 的 DM/DE/WM，那么还需要手动安装上 X server，否则 X 软件无法运行。
+
+  *Wayland 不在此警告考虑范围内。*
+
+上述安装完毕后，可选安装 KDE Plasma 的应用元包，执行
+
+.. code-block:: shell
+
+  # 这是一个可选命令，它会引入 KDE 应用
+  # 个人建议没必要使用默认设置来安装 kde-apps/kde-apps-meta 包，
+  # 因为会引入太多不常用的应用
+  # 建议根据 USE 来管理（下文有说明），选择性安装，即
+  echo 'kde-apps/kde-apps-meta -*' >/etc/portage/package.use/kdeapps
+  # 同时取消 kdecore-meta 的 webengine 依赖，以减少当下的编译时间
+  echo 'kde-apps/kdecore-meta -webengine' >>/etc/portage/package.use/kdeapps
+  # 以安装最核心的 KDE 应用
+  emerge -vj kde-apps/kde-apps-meta
+  # 其它 KDE 应用根据需要安装即可
+
+配置 DM 启动
++++++++++++++++
+
+到此时，必要的软件都安装完毕了，接下来需要配置 DM 的开机启动，并启动它
+
+openrc 下
+  先编辑 :file:`/etc/conf.d/display-manager` ，设置
+
+  .. code-block:: shell
+
+    DISPLAYMANAGER="sddm"
+    # 这样就设置了 sddm 作为默认的 DM，如果你安装了别的 DM，那么根据提示做对应设置
+
+  然后执行
+
+  .. code-block:: shell
+
+    rc-update add display-manager default
+    # 设置其默认开机启动
+
+    rc-update add dbus default
+    # openrc 下请也同时设置 dbus 的开机启动
+    # 若不设置，虽然 display-manager 也会启动它，但有时候会出现奇怪的问题，原因我还未查明
+
+    # 以下步骤等待下次重启后会自动执行
+    rc-service dbus start
+    # 先启动 dbus
+    rc-service display-manager start
+    # 再启动 DM
+
+systemd 下
+  则直接执行
+
+  .. code-block:: shell
+
+    systemctl --now enable sddm.service
+    # 以启用，如果是其它的 DM 也是启用对应的服务即可。
+
+之后，确保 DM 界面选定了 Plasma (X11) 这个 Session，再选择对应的普通用户，输入密码后登陆。
+
+动画过渡后，就进入了人性化的桌面环境。
+
+至此，桌面配置告一段落。
+
+使用 Portage
+-----------------------------
+
+Portage 是 Gentoo Linux 的包管理系统，本文自开始至此，大部分时候都在围绕 Portage 操作，本段详细说明一下它的日常使用。
+
+几个基础概念
+
+* ebuild 可以指文件，此文件是组成软件包的最小部分，定义了软件包如何安装，依赖关系等，存放在 portage 数据库路径下
+* ebuild 也可以指一个命令，该命令用于测试 ebuild 文件
+* emerge 是 portage 系统的主命令，它负责 portage 系统的几乎所有功能
+* distfile 是 portage 下载的软件包原始文件，它可能是源码包，也可能是二进制包，因软件包而异
+* 集（sets）是 Portage 用于管理软件包的一种方式，用户安装的软件一般会添加到 world 集中，详见 `Package sets`_
+* Portage 拥有一个名为 gentoo 的主仓库，同时也能添加额外的仓库以作补充，额外的仓库优先级默认高于主仓库，详见 `ebuild repository`_
+
+几个基础命令
+
+* :code:`emerge --info` 用于查询 Portage 的信息
+* :code:`emerge --sync` 用于更新数据库
+* :code:`emerge -s <包名>` 用于查询软件包
+* :code:`emerge <包名>` 用于安装软件包
+* :code:`emerge -avuDN @world` 用于更新系统
+* :code:`emerge -r` 用于恢复上一次失败的 emerge
+* :code:`emerge -ac` 自动清理系统下的软件包
+* :code:`emerge -C <包名>` 用于卸载软件包，但是注意，这个命令可能会破坏掉系统的依赖关系，所以更合理的卸载方式为：
+
+  .. code-block:: shell
+
+    # 先删除软件包的 world 集记录
+    emerge --deselect <包名>
+    # 再清理系统
+    emerge -ac
+
+emerge 常用选项
++++++++++++++++
+
+先解释上述基础命令中的选项，其中
+
+* -C, -c, --deselect, --info, -r, -s, --sync 都是执行的操作，不属于选项
+* -D 表示检查包的整个依赖树
+* -N 表示检查 USE 的任何改动
+* -a 代表询问以确认执行该操作
+* -u 表示升级，略过不升级的包
+* -v 表示显示详细信息
+
+其它常用的选项有
+
+* -1/--oneshot 一般用在安装软件包时，不将该包添加到 world 集中
+* -O/--nodeps 不计算依赖关系，直接安装指定的包（可能会因为依赖不满足而导致安装失败）
+* -j/--jobs 设置 Portage 同时执行的最大任务数，如果未设置数量，那么 Portage 不会限制最大的任务数
+* -n/--noreplace 不重复安装已经安装的包（默认会忽略掉 USE 的改动以及升级的查询，除非分别加上 -D/-U 和 -u 的选项）
+* -p/--pretend 假装进行该操作（实际不进行），一般只计算依赖关系，也可用于非特权用户查询信息用
+* -t/--tree 显示给定包的安装依赖树
+
+USE 标记
++++++++++++++++
+
+USE 标记是 Portage 系统的一个核心功能，很多包都会有可选的 USE 标记，正如上文有地方会写入到 :file:`package.use` 文件夹下的内容。Portage 使用它来管理每个包的功能，是一个很重要的特性。
+
+USE 的配置可以分为全局的和局部的：
+
+全局配置
+  自定义的全局配置可以编辑 :file:`/etc/portage/make.conf` 文件下的 USE 变量，这个变量是一个增量型的，它会与默认的 :file:`/usr/share/portage/config/make.globals` 文件下的 USE 配置，以及选定的 profile 下的 USE 配置组合，可以使用如下命令查看当前应用的全局 USE：
+
+  .. code-block:: shell
+
+    emerge --info | grep '^USE'
+
+  全局的 USE 会应用给当前系统下支持该 USE 的所有包，谨慎配置。
+
+局部配置
+  自定义的局部配置则编辑 :file:`/etc/portage/package.use` 文件，如果这个路径是一个文件夹，那么编辑该文件夹下的任意文件即可，一般建议使用文件夹来进行管理。
+
+  其配置格式为
+
+  .. code-block:: shell
+
+    # 注释
+    <类>/<名> <USE>
+
+    # 亦可指定版本，比如对 21.04.3 及以上版本的 kde-apps-meta 进行配置
+    >=kde-apps/kde-apps-meta-21.04.3 -* admin
+    # USE 标记前加 - 代表去掉这个 USE，
+    # 上述 -* 代表去除该匹配的包的所有已经添加的以及默认的 USE
+    # 然后再启用 admin 这个 USE 标记
+
+Portage 有一个 USE Expand 功能，即把指定变量的值扩展成 USE，这些指定的变量被设置在 Portage 数据库路径下的 :file:`profiles/base/make.defaults` 文件的 USE_EXPAND 变量中。这个功能很实用，简化了配置值，还能进行归类，更便于管理。上文有一个 `显卡的配置`_ 其实就是一个 USE_EXPAND 值。其它会使用到它的地方不多，但也有，比如：
+
+.. code-block:: shell
+
+  # 配置全局的本地化配置，就可以在 make.conf 文件下配置
+  L10N="zh-CN zh-TW zh en-GB-oxendict en"
+  # 这样，那么以后当有包支持上述的本地化配置时，就会自动添加
+
+  # 其它比如可以对 qemu 这个虚拟机添加额外的模拟平台，
+  # 可以往 /etc/portage/package.use/qemu 文件写
+  # app-emulation/qemu QEMU_SOFTMMU_TARGETS: aarch x86_64
+  # 以支持 arm64 及 x86_64 平台。等等
+
+.. _`下文`:
+
+关键字
++++++++++++++++
+
+*ACCEPT_KEYWORDS* 这个是一个针对 CPU 架构及软件的稳定/测试分支的变量。 `在上文我有写到`_ 为何不建议全局 :file:`~amd64` 关键字，这里详细说明这个变量。
+
+Portage 会默认启用针对当前 CPU 架构的关键字，即： AMD64(x86_64) 架构，默认启用 :file:`amd64` 关键字； ARM64(AArch64) 默认启用 :file:`arm64` 关键字，以此类推。
+
+这个关键字是用于判断软件包稳定性的，软件的维护者会在维护软件（维护 ebuild）时，对该软件设定好对应架构的稳定程度，当该软件设定好的关键字在系统下未被接受时，该软件将无法被安装。
+
+上述默认启用的关键字是一个稳定关键字，这里以 :file:`arch` 来表示，而还有一个测试关键字 :file:`~arch` ，即在稳定关键字前加一个 :code:`~` 符号。
+
+默认情况下，系统都会接受当前架构的稳定关键字，你可以根据需要添加或者删除所需的关键字。
+
+自定义 *ACCEPT_KEYWORDS* 变量同样分为全局和局部，全局配置依旧在 :file:`/etc/portage/make.conf` 文件内。
+
+可以按包进行局部配置则是在 :file:`/etc/portage/package.accept_keywords` 文件，它和 :file:`package.use` 一样，如果路径为文件夹，那么将配置写入该文件夹下的任意文件内即可。格式如下：
+
+.. code-block:: shell
+
+  # 注释
+  <类>/<名> [可选的关键字配置]
+  # 当只指定了包，却未添加任何关键字时
+  # 　　　　　　　默认添加当前架构的测试关键字：~arch，
+  # 　　　　　　　比如 amd64 平台则默认添加 ~amd64
+  # 这里存在一种情况，当软件未设置任何关键字时，
+  # 　　　　　　　　　这种情况一般出现在实时（live）包上
+  # 　　　　　　　　　那么为了安装此包，需为其设置标记 **
+  # 　　　　　　　　　代表忽略关键字检查
+  # 　　　　　　比如欲安装实时的 app-editors/vim 包，则配置
+  # 　　　　　　　　　app-editors/vim **
+
+  # 亦可指定版本，比如对 21.04.3 及以上版本的 kde-apps-meta 进行配置
+  #>=kde-apps/kde-apps-meta-21.04.3
+
+无论是全局配置还是局部配置，其都是一个增量值，如需去掉所有之前配置的关键字，同样使用 :code:`-` 符号。
+
+软件的许可
++++++++++++++++
+
+Portage 下的软件包很多，每个包所使用的许可也不尽相同。默认情况下，基础的 profile 配置已经接受了各种自由许可，使得安装自由软件不再需要额外的许可步骤。
+
+而一些私有软件，所使用的许可默认是不接受的，于是安装他们的时候会出现无法安装的情况，这时候有两个方式来解决。
+
+一是全局配置接受所有许可，这个方法一劳永逸，以后再也不会提示因为许可而导致的软件无法安装，方法是在 :file:`/etc/portage/make.conf` 文件内添加
+
+::
+
+  ACCEPT_LICENSE="*"
+
+另一个则是当每次出现许可问题时，单独添加该软件的许可到 :file:`/etc/portage/package.license` 文件内，或者该文件夹下的任意文件内。格式为
+
+.. code-block:: shell
+
+  # 注释
+  <类>/<名> <许可名称>
+
+  # 亦可指定版本，比如对 20210818 及以上版本的 sys-kernel/linux-firmware 进行配置
+  #>=sys-kernel/linux-firmware-20210818 linux-fw-redistributable no-source-code
+
+请根据自己的喜好，自行选择。
+
+Portage 的内容太多，以上仅列出了几个经常会使用到的配置。其它内容出现的情况比较少，我会在文末尾的扩展阅读链接里指出。
+
+常用工具
++++++++++++++++
+
+单纯 Portage 自带的工具对于日常管理其会显得有些吃力，这里推荐几个比较有用的软件用于辅助管理 Portage。
+
+:gepkg:`app-portage/eix`
+  这个可以说是非常有用的软件，主要用于查询 Portage 数据库，其优势在于更快的速度、更人性化的显示格式以及更方便的查询模式。
+
+  使用前需执行 :code:`eix-update` 以更新 eix 数据库，安装它之后，可以使用 :code:`eix-sync` 命令来更新 Portage 数据库，更新完毕后会自动更新 eix 数据库，并显示更新前后的软件包对比情况。
+
+  使用 eix 查询所需软件，最基本的命令为
+
+  .. code-block:: shell
+
+    eix <包名>
+
+    # 也可只查询已安装的包
+    eix -I <包名>
+
+    # 也可查询属于一个特定分类下的所有包
+    eix -C <类名>
+
+  等等，执行 :code:`man eix` 查看更多用法。
+
+:gepkg:`app-portage/gentoolkit`
+  包含了 Gentoo 的一些管理脚本，常用的命令有用于查询依赖关系，文件归属，软件包内容的 :code:`equery` ，以及用于清理 distfile 的 :code:`eclean-dist` 。比如
+
+  .. code-block:: shell
+
+    equery d vim-core
+    # 可以查询依赖 vim-core 的软件包（仅根据 ebuild 文件内容查询）
+
+    equery g vim
+    # 可以查询 vim 下属的依赖关系图
+
+    equery f vim
+    # 可以查询 vim 安装了哪些文件到系统下
+
+    equery b /usr/bin/vim
+    # 可以查询这个文件属于哪个包
+
+    eclean-dist -d
+    # 可以清理未安装在系统下的 distfile 文件
+
+  等等，请自行发现。
+
+:gepkg:`app-portage/portage-utils`
+  包含了 Portage 的帮助工具，与上面 gentoolkit 的功能有重合，他们具有互补性，常用的命令有用于分析 emerge 日志的 :code:`qlop` 。它是用 C 写的，所以速度更快。
+
 
 .. _`内核配置`:
 
@@ -1237,6 +1627,8 @@ Wayland
 
 
 .. _`Gentoo Linux 安装 —— 带硬盘加密`: https://bitbili.net/reinstall_gentoo.html
+.. _`Gentoo Wiki 页`: https://wiki.gentoo.org/wiki/Main_Page
+.. _`这里`: https://github.com/bekcpear/mypelicanconfandarticles/blob/master/content/Tech/gentoo-linux-guide-for-installation-and-usage-tutorial.rst
 .. _`北外镜像地址`: https://mirrors.bfsu.edu.cn/gentoo/
 .. _`镜像列表`: https://www.gentoo.org/downloads/mirrors/#CN
 .. _`Rufus`: https://rufus.ie/zh/
@@ -1245,3 +1637,6 @@ Wayland
 .. _`rsync 镜像列表`: https://www.gentoo.org/support/rsync-mirrors/
 .. _`桌面环境`: https://wiki.gentoo.org/wiki/Desktop_environment
 .. _`窗口管理器`: https://wiki.gentoo.org/wiki/Window_manager
+.. _`NVIDIA/nvidia-drivers`: https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers
+.. _`Package sets`: https://wiki.gentoo.org/wiki/Package_sets
+.. _`ebuild repository`: https://wiki.gentoo.org/wiki/Ebuild_repository
