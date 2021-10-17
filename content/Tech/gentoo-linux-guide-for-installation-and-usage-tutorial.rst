@@ -853,7 +853,7 @@ Grub 安装器
 
 .. code-block:: shell
 
-  # 添加必要的 USE 标记以解决依赖关系（什么是 USE 下文会说）
+  # 添加必要的 USE 标记以解决依赖关系（什么是 USE 见下文 USE 标记 一节）
   echo "net-wireless/wpa_supplicant dbus" >>/etc/portage/package.use/nm
   echo "net-misc/openssh -bindist" >>/etc/portage/package.use/nm
   # （随着时间的推移，可能后续会有其它依赖关系问题，若出现，访问本文开头群组寻求帮助）
@@ -1265,7 +1265,7 @@ make.conf
 
   如果你愿意花时间去解决上述的弊端，那么当然，完全可以开启。
 
-  可就我个人建议来说，完全可以省下这个时间，并同时尽可能满足上述的利端，只要针对自己明确需要的软件，单独开启 :file:`~amd64` 关键字即可（如何操作 `下文`_ 会有介绍），这样既尽可能地保证了系统的稳定性，又最大化满足了自己的需要，还节省时间。
+  可就我个人建议来说，完全可以省下这个时间，并同时尽可能满足上述的利端，只要针对自己明确需要的软件，单独开启 :file:`~amd64` 关键字即可（如何操作下文 `关键字`_ 一节会有介绍），这样既尽可能地保证了系统的稳定性，又最大化满足了自己的需要，还节省时间。
 
   *（顺便说一句，在 Gentoo Linux 下，即使是稳定版的软件，大部分跟随上游同步还是非常及时的）*
 
@@ -1486,7 +1486,7 @@ Wayland
 
 .. code-block:: shell
 
-  # 执行此命令将 plasma-meta 这个元包添加到 world set 中， world set 后文会介绍
+  # 执行此命令将 plasma-meta 这个元包添加到 world set 中，关于 world set 后文使用 Portage 一节有指引
   emerge -Ow kde-plasma/plasma-meta
 
   # 处理下桌面环境下的依赖关系
@@ -1527,7 +1527,7 @@ Wayland
   # 这是一个可选命令，它会引入 KDE 应用
   # 个人建议没必要使用默认设置来安装 kde-apps/kde-apps-meta 包，
   # 因为会引入太多不常用的应用
-  # 建议根据 USE 来管理（下文有说明），选择性安装，即
+  # 建议根据 USE 来管理（下文 USE 标记一节有说明），选择性安装，即
   echo 'kde-apps/kde-apps-meta -*' >/etc/portage/package.use/kdeapps
   # 同时取消 kdecore-meta 的 webengine 依赖，以减少当下的编译时间
   echo 'kde-apps/kdecore-meta -webengine' >>/etc/portage/package.use/kdeapps
@@ -1855,7 +1855,7 @@ Portage 有一个 USE Expand 功能，即把指定变量的值扩展成 USE，�
   # app-emulation/qemu QEMU_SOFTMMU_TARGETS: aarch x86_64
   # 以支持 arm64 及 x86_64 平台。等等
 
-.. _`下文`:
+.. _`关键字`:
 
 关键字
 +++++++++++++++++++
@@ -2103,7 +2103,7 @@ sys-kernel/gentoo-kernel-bin
   # 创建/修改配置文件
   make localmodconfig
   # 此命令基于当前环境快速创建了一个可用配置文件
-  # 详细看后文说明
+  # 详细看下一节说明
 
   # 编译内核
   make -j {任务数}
