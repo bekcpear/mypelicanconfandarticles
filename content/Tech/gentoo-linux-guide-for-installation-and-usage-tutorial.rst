@@ -442,6 +442,14 @@ DNS 及测试
 
 openrc 是 Gentoo Linux 官方维护且默认的初始化程序，而 systemd 则是如今大多数发行版使用的初始化程序，各有优劣，二者均可，自行选择。
 
+.. warning::
+
+  以下 stage3 这里不推荐选择：
+
+  * musl 相关，目前在 Gentoo 上处于实验状态，一些命令也可能不适用
+  * uclibc 相关，适用嵌入式环境，目前在 Gentoo 上处于实验状态
+  * x32 相关，目前在 Gentoo 上处于实验状态
+
 .. note::
 
   随着时间的推移， stage3 包名可能会略有改动，如果后续发现有存在改动，请从更新时间最靠近的一批 stage3 文件中选择并下载。
@@ -805,6 +813,10 @@ Grub 安装器
 
 .. code-block:: shell
 
+  # 添加必要的 USE 标记以解决依赖关系（什么是 USE 下文会说）
+  echo "net-wireless/wpa_supplicant dbus" >>/etc/portage/package.use/nm
+
+  # 安装 NetworkManager
   emerge -vj net-misc/networkmanager
 
 这是最方便的支持多种联网方式的工具，安装好它之后基本能满足所有要求。安装完成后，执行 :code:`nmtui` 进入可视化的配置界面，根据提示进行配置。
@@ -920,6 +932,29 @@ openrc 这里我推荐使用 :gepkg:`app-admin/syslog-ng` ，执行
   # 　　<语言>_<国家代码>[@可选的变体] 可以在 /usr/share/i18n/locales/ 文件夹下找到
   # 　　而支持的 <编码> 可以在 /usr/share/i18n/charmaps/ 文件夹下找到
   # 　　编码一般只推荐使用 UTF-8，除非有明确的其它需求
+
+.. _`about-locale-name`:
+
+.. tip::
+
+  如果你在好奇，为何默认存在的 Locale 名是 :file:`C.UTF8` ，而我要你添加的却是 :file:`zh_CN.UTF-8` ，那个小短横（ :file:`-` ）到底需不需要，我在这里说明。
+
+  在正常的 GNU Library C 环境下（MUSL 等其它环境不考虑），标准的 glic 库 Locale 名识别中，在 2004 年十一月将 UTF8 与 UTF-8 均判断为 UTF-8 编码，且不区分大小写，所以上面关于名字的设置都是可以的。不过就正常来说，还是 :file:`UTF-8` 更规范。
+
+  如今的相关代码为
+
+  .. code-block:: c
+
+    codeset_name = nl_langinfo (CODESET);
+    if ((codeset_name[0] == 'U' || codeset_name[0] == 'u')
+        && (codeset_name[1] == 'T' || codeset_name[1] == 't')
+        && (codeset_name[2] == 'F' || codeset_name[2] == 'f')
+        && strcmp (codeset_name + 3 + (codeset_name[3] == '-'), "8") == 0)
+      dfa->is_utf8 = 1;
+
+  也可以查看 `glibc 的 git 仓库`_ （具体的 commit 为 :file:`e40a38b` 和 :file:`eb04c21` ）。
+
+  至于空格后的则是设定的编码名字，需要规范填写。
 
 当添加了其它语言环境配置后，执行
 
@@ -1212,7 +1247,7 @@ make.conf
     sync-depth = 1
     sync-uri   = https://mirrors.bfsu.edu.cn/git/gentoo-portage.git
     # 国内我找到的 git 方式同步镜像只有北外和 TUNA 两家
-    #   TUNA 的地址： https://mirrors.tuna.tsinghua.edu.cn/gentoo-portage.git
+    #   TUNA 的地址： https://mirrors.tuna.tsinghua.edu.cn/git/gentoo-portage.git
     # 但它们的同步上游的频率都很低（截至发文时确认为 11 小时一次）
     # 所以若使用 git 方式同步，在网络流畅的情况，个人更建议直接同步官方镜像：
     #   https://github.com/gentoo-mirror/gentoo.git
@@ -1342,11 +1377,43 @@ Wayland
 安装 DE/WM
 +++++++++++++++
 
-此处以安装 KDE Plasma 为例，先更新一下当前的 Portage 数据库，使其为最新，执行
+此处以安装 KDE Plasma 为例，
+
+.. tip::
+
+  在进行安装完整的 KDE Plasma 之前，可以选择是否安装二进制包而不是自己从源码开始编译。
+
+  关于 KDE Plasma 二进制包的提供是目前 Gentoo 的一种实验性质的方案，它的存在能显著缩短整体安装时间，降低机器负载，但目前对二进制包是不存在文件校验的，所以使用它有些许潜在风险。
+
+  另外，如果本地一些包的 `USE 标记`_ 有变动，那么对于该包， Portage 目前会回退到自行编译安装的状态，在尽可能安装二进制包的同时，也完全不影响正常的使用。
+
+  如果你决定启用这个尚处于实验状态的方案，那么需创建一个文件 :file:`/etc/portage/binrepos.conf` ，并添加以下内容：
+
+  .. code-block:: shell
+
+    [binhost]
+    priority = 9999
+    sync-uri = "https://mirrors.bfsu.edu.cn/gentoo/experimental/amd64/binpkg/default/linux/17.1/x86-64/"
+    # 这里可以配置成任意所选镜像地址
+
+  再编辑 :file:`/etc/portage/make.conf` 文件，设置：
+
+  .. code-block:: shell
+
+    EMERGE_DEFAULT_OPTS="--binpkg-respect-use=y --getbinpkg=y"
+
+  即可。
+
+  *无论是否配置二进制包安装，都不影响正常使用。*
+
+先更新一下当前的 Portage 数据库，使其为最新，执行
 
 .. code-block:: shell
 
   emerge --sync
+  # 如果你使用的是 rsync 同步方式，那么同步开始时可能会卡在
+  #   Refershing keys from WKD ...
+  # 发生这种情况是网络不通畅导致的，请等待， Portage 需要先更新它的校验公钥
 
 在准备完上述的准备工作后，执行以下命令，开始安装过程：
 
@@ -1397,6 +1464,10 @@ Wayland
   emerge -vj kde-apps/kde-apps-meta
   # 其它 KDE 应用根据需要安装即可
 
+.. note::
+
+  建议至少安装一个终端模拟器（上述应用元包已包含 konsole），否则进入了桌面后无法使用终端，只能按下 :kbd:`Alt` + :kbd:`Ctrl` + ( :kbd:`F1` 至 :kbd:`F6` ) 切换到 TTY 下使用 shell 环境（回到桌面环境一般为 :kbd:`Alt` + :kbd:`F7` ）。
+
 配置 DM 启动
 +++++++++++++++
 
@@ -1438,6 +1509,106 @@ systemd 下
 之后，确保 DM 界面选定了 Plasma (X11) 这个 Session，再选择对应的普通用户，输入密码后登陆。
 
 动画过渡后，就进入了人性化的桌面环境。
+
+必要的桌面应用
++++++++++++++++
+
+以下操作需要在桌面的终端或者 TTY 下，以 root 权限进行，如果是在桌面终端的话，打开终端后，执行 :code:`su -` 或其它等同命令进入 root 用户下。
+
+输入法
+~~~~~~~~~~
+
+作为中文用户，肯定需要款输入法，我推荐使用 fcitx （还有一款叫 ibus ，但是我不熟，就不介绍了）。目前稳定维护的 fcitx 版本是 5 ，但是官方仓库 :file:`::gentoo` 目前只有 4 （也能用，就是不怎么维护了）。
+
+所以这里有两个选择：
+
+1. 使用官方提供的 fcitx4 ，这样直接安装就好，执行
+
+   .. code-block:: shell
+
+     # 先配置下 fcitx4 开启对 gtk2 的支持以避免有些程序无法使用（gtk3 默认开启了）
+     echo 'app-i18n/fcitx gtk2' >>/etc/portage/package.use/fcitx
+
+     # 然后安装
+     emerge -vj app-i18n/fcitx:4 app-i18n/fcitx-configtool:4 app-i18n/fcitx-qt5:4 app-i18n/fcitx-libpinyin:4
+     # 其中， app-i18n/fcitx 是 fcitx 的主程序
+     # 　　　 app-i18n/fcitx-configtool 是它的配置工具
+     # 　　　 app-i18n/fcitx-qt5 用于支持在 qt 程序上使用它
+     # 　　　 app-i18n/fcitx-libpinyin 是一个输入法
+
+2. 使用更新的 fcitx5 。因为官方仓库目前没有，所以这里需要使用额外的仓库。
+
+   据我所知目前提供 fcitx5 的 Gentoo 仓库有 `::gentoo-zh`_ 以及我自己的 `个人仓库`_ 。
+
+   具体方法为：
+
+   .. code-block:: shell
+
+     # 添加额外的仓库
+     # 先安装必要的工具
+     emerge -vj app-eselect/eselect-repository
+     # 然后启用仓库
+     # 启用过程中，可能会因为网络原因导致比较慢，请耐心等待
+     eselect repository enable ryans
+     # 这里启用了我的个人仓库
+
+     # 之后安装
+     emerge -vj app-i18n/fcitx-rime:5
+     # 这里安装了 rime 这个输入法，其它的关于 fcitx5 主体、配置工具之类的，都会自动依赖
+     # 我的仓库未提供 fcitx5-chinese-addons 这个包，如有需要，使用 ::gentoo-zh 的仓库，见下
+
+     # 如果你选择 ::gentoo-zh 这个仓库的话，因为包名和依赖不同，所以安装命令为（自行删除命令前注释符）
+     # 先安装必要的工具
+     #emerge -vj app-eselect/eselect-repository
+     # 然后启用仓库
+     #eselect repository enable gentoo-zh
+     # 之后安装
+     #emerge -vj app-i18n/fcitx5 app-i18n/fcitx5-gtk app-i18n/fcitx5-configtool
+     # 然后根据自己的需要安装输入法，比如 app-i18n/fcitx5-rime ，
+     # 　　　　　　　　　　　　　　　　或 app-i18n/fcitx5-chinese-addons 下提供的
+
+无论选择哪个版本、哪个仓库，安装完成后，均执行此配置，编辑 :file:`~/.xsession` 文件（不存在则创建一个），然后添加以下内容：
+
+.. code-block:: shell
+
+  export XMODIFIERS="@im=fcitx"
+  export QT_IM_MODULE=fcitx
+  export GTK_IM_MODULE=fcitx
+  export SDL_IM_MODULE=fcitx
+
+之后，登出 KDE Plasma，后重新登陆，此时输入法将可用。
+
+浏览器
+~~~~~~~~~~
+
+在选择浏览器之前，最好先安装好中文字体，官方仓库提供有中文字体的包有
+
+* media-fonts/arphicfonts
+* media-fonts/noto-cjk
+* media-fonts/source-han-sans
+* media-fonts/wqy-microhei
+* 等
+
+自行选择安装即可，命令依旧是 :code:`emerge -vj <包名>` 。
+
+也可以将其它的字体文件复制到目录 :file:`~/.local/share/fonts/` 下，然后执行 :code:`fc-cache` 创建字体缓存。
+
+关于浏览器的选择，有很多，比如
+
+* www-client/google-chrome （chrome 的官方二进制包）
+* www-client/google-chrome-beta （chrome 的官方二进制包， beta 分支）
+* www-client/chromium （chromium 源码包，需编译，时间很久很久）
+* www-client/firefox-bin （火狐官方二进制包，国际版）
+* www-client/firefox （火狐源码包，需编译，时间很久）
+* www-client/microsoft-edge-beta （Edge 官方二进制包， beta 分支）
+* 等
+
+可以自行选择安装。
+
+其它的应用自行发掘。这里有推荐应用列表：
+
+* https://wiki.gentoo.org/wiki/Recommended_applications
+* https://wiki.archlinux.org/title/List_of_applications
 
 至此，桌面配置告一段落。
 
@@ -1506,6 +1677,8 @@ emerge 常用选项
 * :file:`-n/--noreplace` 不重复安装已经安装的包（默认会忽略掉 USE 的改动以及升级的查询，除非对应加上 :file:`-D/-U` 和 :file:`-u` 选项）
 * :file:`-p/--pretend` 假装进行该操作（实际不进行），一般只计算依赖关系，也可用于非特权用户查询信息用
 * :file:`-t/--tree` 显示给定包的安装依赖树
+
+.. _`USE 标记`:
 
 USE 标记
 +++++++++++++++
@@ -1868,7 +2041,7 @@ Gentoo Linux 提供了一个工具叫 :gepkg:`sys-kernel/genkernel` 可用于创
 建议，
 
 * 不在不明白某个配置/选项含义时使用它
-* 每次安装新的系统服务/工具时，都去查阅下 Gentoo wiki 对应词条
+* 每次安装新的系统服务/系统工具时，都去查阅下 Gentoo wiki 对应词条
 * emerge 完成后，出现的提示信息要看
 * 新出的 news 要看
 
@@ -1886,11 +2059,14 @@ Gentoo Linux 提供了一个工具叫 :gepkg:`sys-kernel/genkernel` 可用于创
 .. _`镜像列表`: https://www.gentoo.org/downloads/mirrors/#CN
 .. _`Rufus`: https://rufus.ie/zh/
 .. _`对应的 wiki`: https://wiki.gentoo.org/wiki/Profile_(Portage)
+.. _`glibc 的 git 仓库`: https://sourceware.org/git/?p=glibc.git;a=blob;f=posix/regcomp.c;h=887e5b50684e22f501011a9cac52ebe1a0bb3894;hb=HEAD#l877
 .. _`官方内核配置文档`: https://wiki.gentoo.org/wiki/Kernel#Configuration
 .. _`rsync 镜像列表`: https://www.gentoo.org/support/rsync-mirrors/
 .. _`桌面环境`: https://wiki.gentoo.org/wiki/Desktop_environment
 .. _`窗口管理器`: https://wiki.gentoo.org/wiki/Window_manager
 .. _`NVIDIA/nvidia-drivers`: https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers
+.. _`::gentoo-zh`: https://github.com/gentoo-mirror/gentoo-zh
+.. _`个人仓库`: https://github.com/gentoo-mirror/ryans
 .. _`Package sets`: https://wiki.gentoo.org/wiki/Package_sets
 .. _`ebuild repository`: https://wiki.gentoo.org/wiki/Ebuild_repository
 .. _`开发手册`: https://devmanual.gentoo.org/
