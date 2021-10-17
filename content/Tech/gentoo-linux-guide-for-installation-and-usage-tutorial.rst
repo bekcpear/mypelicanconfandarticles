@@ -4,7 +4,7 @@ Gentoo Linux 安装及使用指南
 
 :slug: gentoo-linux-installation-and-usage-tutorial
 :date: 2021-10-03 11:35
-:modified: 2021-10-15 00:40
+:modified: 2021-10-18 00:17
 :lang: zh_hans
 :color: #463c65
 :tags: Gentoo, Linux, tutorial, installation, usage
