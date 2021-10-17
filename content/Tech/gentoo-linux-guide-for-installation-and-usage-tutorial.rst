@@ -1671,8 +1671,8 @@ systemd 下
      # 之后获取仓库（如若卡同步，见上）
      #emerge --sync gentoo-zh
      # 添加关键字用于安装
-     echo "app-i18n/*::gentoo-zh" >>/etc/portage/package.accept_keywords
-     echo "x11-libs/xcb-imdkit::gentoo-zh" >>/etc/portage/package.accept_keywords
+     #echo "app-i18n/*::gentoo-zh" >>/etc/portage/package.accept_keywords
+     #echo "x11-libs/xcb-imdkit::gentoo-zh" >>/etc/portage/package.accept_keywords
      # 再安装
      #emerge -vj app-i18n/fcitx5 app-i18n/fcitx5-gtk app-i18n/fcitx5-configtool
      # 然后根据自己的需要安装输入法，比如 app-i18n/fcitx5-rime ，
