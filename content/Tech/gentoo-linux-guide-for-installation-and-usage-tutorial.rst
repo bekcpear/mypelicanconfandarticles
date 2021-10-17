@@ -4,7 +4,7 @@ Gentoo Linux 安装及使用指南
 
 :slug: gentoo-linux-installation-and-usage-tutorial
 :date: 2021-10-03 11:35
-:modified: 2021-10-18 00:17
+:modified: 2021-10-18 06:50
 :lang: zh_hans
 :color: #463c65
 :tags: Gentoo, Linux, tutorial, installation, usage
@@ -92,6 +92,8 @@ Gentoo Linux 安装及使用指南
 
 配置安装环境
 ==================================================
+
+.. _`连接网络`:
 
 连接网络
 -----------------------------
@@ -362,7 +364,7 @@ DNS 及测试
 
   fdisk -l /dev/sdX
 
-查看现在的分区表，记住现在的 EFI 分区（若有），启动分区，交换分区（若有）以及根分区的设备名。这里假设
+查看现在的分区表，记住现在的 EFI 分区（ EFI System ，若有），启动分区（ 500M 的 Linux filesystem ），交换分区（ Linux swap ，若有）以及根分区（最大的 Linux filesystem ）的设备名。这里假设
 
 * EFI 分区设备为 :file:`/dev/sdX2`
 * 启动分区设备为 :file:`/dev/sdX3`
@@ -413,6 +415,29 @@ DNS 及测试
 获取基本系统
 -----------------------------
 
+.. _`关于 sshd 设置的提示`:
+
+.. tip::
+
+  如果你通过的是虚拟机安装，或者同一网络下有其它电脑可以使用，那么使用 ssh 连接上本机，通过复制粘贴命令来操作会更加方便，而 LiveCD 环境下的 sshd 配置为，执行，
+
+  .. code-block:: shell
+
+    nano /etc/ssh/sshd_config
+
+  打开 sshd 配置文件，确保如下两个选项
+
+  * PermitRootLogin
+  * PasswordAuthentication
+
+  前面都没有注释符 :code:`#` ，后面的值都为 :code:`yes` ，后按下 :kbd:`Ctrl` + :kbd:`X` ， :kbd:`y` ， :kbd:`Enter` 保存退出。之后执行，
+
+  .. code-block:: shell
+
+    rc-service sshd start
+
+  启用 sshd 服务后，就可以通过其它电脑连接到此 LiveCD 环境了。
+
 首先调整好当前的系统时间，偏差的时间会导致后续一些问题（比如编译过程依赖系统时间）。执行
 
 .. code-block:: shell
@@ -454,7 +479,13 @@ openrc 是 Gentoo Linux 官方维护且默认的初始化程序，而 systemd �
 
   随着时间的推移， stage3 包名可能会略有改动，如果后续发现有存在改动，请从更新时间最靠近的一批 stage3 文件中选择并下载。
 
-这里以 :file:`current-stage3-amd64-openrc` 为例，那么选择进入该目录，选中 :file:`stage3-amd64-openrc-{日期}.tar.xz` 文件，回车进行下载。这里请同时下载其校验文件 :file:`stage3-amd64-openrc-{日期}.tar.xz.DIGESTS` ，默认存储路径为执行 :code:`links` 的当前目录，下载完成后，按 :kbd:`q` 退出，执行
+这里以 :file:`current-stage3-amd64-openrc` 为例，那么
+
+1. 选择进入该目录
+2. 选中 :file:`stage3-amd64-openrc-{日期}.tar.xz` 文件，回车进行下载
+3. 这里请同时下载其校验文件 :file:`stage3-amd64-openrc-{日期}.tar.xz.DIGESTS`
+
+默认存储路径为执行 :code:`links` 的当前目录，下载完成后，按 :kbd:`q` 退出，执行
 
 .. code-block:: shell
 
@@ -508,7 +539,7 @@ openrc 是 Gentoo Linux 官方维护且默认的初始化程序，而 systemd �
 
   mirrorselect -i -o >>/mnt/gentoo/etc/portage/make.conf
 
-会打开一个界面供选择镜像地址，比如在中国的话，可选 aliyun/netease/tsinghua 的。
+会打开一个界面供选择镜像地址，比如在中国的话，可选 aliyun/netease/tsinghua 的（发文时， aliyun 的还是老延迟），使用空格选中，回车保存。
 
 .. note::
 
@@ -568,7 +599,7 @@ chroot 到目标系统
 
   emerge-webrsync
 
-该命令会以分包的形式从之前配置好的镜像地址下载最近打包好的 portage 数据库到本地，并解压后使用。 *portage* 是 Gentoo Linux 的包管理器，这个数据库是安装各种软件的基础。
+该命令会从之前配置好的镜像地址下载最近打包好的 portage 数据库到本地，并解压后使用。 *portage* 是 Gentoo Linux 的包管理器，这个数据库是安装各种软件的基础。
 
 .. warning::
 
@@ -660,6 +691,8 @@ Grub 安装器
 
 执行
 
+*注意替换下述命令中的设备名 sdXN*
+
 .. code-block:: shell
 
   # 记录启动分区的 UUID 值到 fstab 文件
@@ -722,13 +755,13 @@ Grub 安装器
 
    .. note::
 
-     这里值得注意一点，一些旧主板有可能存在不识别指定位置 EFI 实体的情况，这种情况下需要执行：
+     这里值得注意一点，一些旧主板（还有一些虚拟机环境）有可能存在不识别指定位置 EFI 实体的情况，这种情况下需要执行：
 
      .. code-block:: shell
 
        grub-install --target=x86_64-efi --efi-directory=/boot/efi/ --removable
 
-     将 EFI 实体安装到通用目录下。无需直接尝试，等发现无法启动后再来操作。
+     将 EFI 实体安装到通用目录下。非虚拟机环境无需直接尝试，等发现无法启动后再来操作。
 
 配置
 +++++++++++++++
@@ -738,15 +771,15 @@ Grub 安装器
 .. code-block:: shell
 
   # （可选）如果之前有分配交换分区，在这里可以执行如下命令以启用其休眠后唤醒的功能
-  sed -Ei "/GRUB_CMDLINE_LINUX_DEFAULT/s/^#*(GRUB.*DEFAULT=).*$/\1\"resume=UUID=$(lsblk -fnoUUID /dev/sdX4)\"/" /etc/default/grub
+  sed -Ei "/GRUB_CMDLINE_LINUX_DEFAULT/s/^#*(GRUB.*DEFAULT=).*$/\1\"resume=UUID=$(blkid -o value /dev/sdX4 | head -1)\"/" /etc/default/grub
   # 也可以手动修改，打开 /etc/default/grub 文件
   # 　　　找到 GRUB_CMDLINE_LINUX_DEFAULT 变量
   # 　　　去掉其注释标记 (#) 后
   # 　　　在其双引号内添加上内容：
   # 　　　　　　　resume=UUID=<UUID 值>
-  # 　　　此 <UUID 值> 可由命令 lsblk -fnoUUID /dev/sdX4 显示
+  # 　　　此 <UUID 值> 可由命令 blkid -o value /dev/sdX4 | head -1 显示
 
-  # 创建配置
+  # （必要）创建配置
   grub-mkconfig -o /boot/grub/grub.cfg
 
 以完成引导的配置，该命令会自动根据 :file:`/etc/fstab` 以及 :file:`/etc/default/grub` 的内容来生成所需要的引导配置。
@@ -762,6 +795,10 @@ Grub 安装器
 
     # 安装 os-prober 工具
     emerge -vj os-prober
+    # 如果你上面进行了可选操作，更新了 grub 配置文件，那么
+    # 安装完成后可能会有一个关于 Grub 的配置文件更新提示
+    #   IMPORTANT: config file '/etc/default/grub' needs updating.
+    # 这个暂时不用理会，后面「关于配置文件的更新」一节会讲如何处理这种情况
 
     # 配置 grub 以启用 os-prober 功能
     echo 'GRUB_DISABLE_OS_PROBER=false' >>/etc/default/grub
@@ -793,6 +830,9 @@ Grub 安装器
      # 　　　　　　　　　　　　　　　　 wheel 组，以使其可以使用 su 命令
      # 这里的用户名只能是字母和数字，数字不能打头，不要给空格
      useradd -m -G usb,wheel 「用户名」
+     # 这里可能有一个关于 mail 文件夹不存在的提醒
+     #   Creating mailbox file: No such file or directory
+     # 忽略即可
 
      # 设置普通用户密码
      passwd 「用户名」
@@ -809,19 +849,33 @@ Grub 安装器
 
 之前配置的是 LiveCD 环境下的网络，这里为新系统环境配置网络（如果你需要的话）。
 
-执行
+最方便的支持多种联网方式的工具是 NetworkManager ，基本能满足所有需求，但同时它的依赖项会有一点多。如果此系统用来作为桌面环境，那么建议安装它，执行
 
 .. code-block:: shell
 
   # 添加必要的 USE 标记以解决依赖关系（什么是 USE 下文会说）
   echo "net-wireless/wpa_supplicant dbus" >>/etc/portage/package.use/nm
+  echo "net-misc/openssh -bindist" >>/etc/portage/package.use/nm
+  # （随着时间的推移，可能后续会有其它依赖关系问题，若出现，访问本文开头群组寻求帮助）
 
   # 安装 NetworkManager
-  emerge -vj net-misc/networkmanager
+  # 这里为了处理依赖关系，所以稍有复杂
+  emerge -vj1 net-misc/openssh net-misc/networkmanager
+  emerge -On net-misc/networkmanager
 
-这是最方便的支持多种联网方式的工具，安装好它之后基本能满足所有要求。安装完成后，执行 :code:`nmtui` 进入可视化的配置界面，根据提示进行配置。
+.. note::
 
-配置完成后，添加开机启动服务
+  如果觉得 NetworkManager 的依赖太多了，想要简单一点的工具就能满足的话，参考准备安装环境的 `连接网络`_ 一节，具体需要的工具为
+
+  * 有线网络： openrc 下有自带的 :file:`net-misc/netifrc` ； systemd 下有自带的 :file:`systemd-networkd` 即可
+  * 无线网络： 在有线网络要求下，额外需要 :file:`net-wireless/wpa_supplicant` 或 :file:`net-wireless/iwd` ，用于连接和认证
+  * PPPoE 环境： 在上述要求下还需要 PPPoE 客户端，比如 :file:`net-dialup/ppp`
+
+  碍于篇幅，具体使用和配置方式请自行查阅相关维基。
+
+安装完成后，由于此时处于 chroot 环境，所以暂时无法运行此工具，等之后重启后可进行可视化配置，下文会说。
+
+之后添加开机启动服务
 
 .. code-block:: shell
 
@@ -876,6 +930,12 @@ openrc 这里我推荐使用 :gepkg:`app-admin/syslog-ng` ，执行
 
 这时候的 Gentoo Linux 只有一个命令行界面，先使用 root 用户登陆到系统。
 
+登陆后完成上述没有进行完的网络配置，执行 :code:`nmtui` 进入到可视化的配置界面，根据提示把网络配置完成。
+
+.. tip::
+
+  网络配置完成后，如果还是想通过 SSH 登陆到此电脑后执行命令，依旧参考上述 `关于 sshd 设置的提示`_ 。只不过运行 sshd 的命令需要根据此时的环境来， openrc 下和上述相同， systemd 下则使用命令 :code:`systemctl start sshd` 。
+
 完成基础配置
 -----------------------------
 
@@ -886,14 +946,16 @@ openrc 这里我推荐使用 :gepkg:`app-admin/syslog-ng` ，执行
 
 .. code-block:: shell
 
-  # openrc 用户
+  # 通用操作
   # 将时区信息写入指定文件
   echo 'Asia/Shanghai' >/etc/timezone
+  # 删除旧的常规文件以避免警告
+  rm /etc/localtime
   # 更新时区信息
   emerge --config sys-libs/timezone-data
 
-  # systemd 用户
-  timedatectl set-timezone Asia/Shanghai
+  # systemd 用户提选的替换操作
+  #timedatectl set-timezone Asia/Shanghai
 
 如果你需要添加其它的时区，对应的时区名字可以在 :file:`/usr/share/zoneinfo/` 目录下找到，将其替换到 :file:`Asia/Shanghai` 的位置后执行命令即可。
 
@@ -1012,7 +1074,7 @@ openrc 这里我推荐使用 :gepkg:`app-admin/syslog-ng` ，执行
 
    .. note::
 
-     也还有其它的时间同步软件，比如 :gepkg:`net-misc/ntp` , :gepkg:`net-misc/openntpd` 等，可以根据需要选择。
+     也还有其它的时间同步软件，比如 :file:`net-misc/ntp` , :file:`net-misc/openntpd` 等，可以根据需要选择。
 
 2. 确保与硬件时钟的同步。即在系统启动时将硬件时钟同步到系统时间，并在关闭系统时（或运行过程中定时）将系统时间同步回硬件时钟。
 
@@ -1110,6 +1172,8 @@ openrc 这里我推荐使用 :gepkg:`app-admin/syslog-ng` ，执行
      **但，当完整地将同步功能交给内核后** （根据上文进行判断），建议关闭其自带的同步服务，执行
 
      .. code-block:: shell
+
+       #!!! 以下内容判断后操作
 
        # 删除 hwclock 开机启动
        rc-update delete hwclock boot
@@ -1251,7 +1315,6 @@ make.conf
     # 但它们的同步上游的频率都很低（截至发文时确认为 11 小时一次）
     # 所以若使用 git 方式同步，在网络流畅的情况，个人更建议直接同步官方镜像：
     #   https://github.com/gentoo-mirror/gentoo.git
-    # 若网络不流畅又想同步官方镜像，可以了解 https://fastgit.org 的反代
 
   之后执行，
 
@@ -1335,7 +1398,7 @@ Wayland
 
 .. code-block:: shell
 
-  usermod -G video 「用户名」
+  groupmod -a video -U 「用户名」
 
 
 切换 Profile
@@ -1364,6 +1427,10 @@ Wayland
   # 根据本文上下文环境，这里我选择 amd64/17.1/desktop/plasma 以准备好 KDE Plasma 的前期环境
   eselect profile set 8
 
+.. warning::
+
+  这里不要跨初始化环境选择 Profile ，systemd 与 openrc 的 Profile 切换不会很轻松。
+
 且，虽然 :file:`desktop` profile 下已经配置启动了基本的 ALSA 声音接口功能，但个人建议再启用 PulseAudio 声音服务器以获得更多功能。只需编辑 :file:`/etc/portage/make.conf` 文件，设置
 
 .. code-block:: shell
@@ -1383,9 +1450,9 @@ Wayland
 
   在进行安装完整的 KDE Plasma 之前，可以选择是否安装二进制包而不是自己从源码开始编译。
 
-  关于 KDE Plasma 二进制包的提供是目前 Gentoo 的一种实验性质的方案，它的存在能显著缩短整体安装时间，降低机器负载，但目前对二进制包是不存在文件校验的，所以使用它有些许潜在风险。
+  关于 KDE Plasma 二进制包的提供是目前 Gentoo 的一种实验性质的方案，它的存在能显著缩短整体安装时间，降低机器负载，但目前对二进制包是不存在文件校验的，所以使用它有些许潜在风险。同时，使用二进制包表示将不会对本机有编译优化。（其它的也有可能导致一些需要编译的包出现编译问题）
 
-  另外，如果本地一些包的 `USE 标记`_ 有变动，那么对于该包， Portage 目前会回退到自行编译安装的状态，在尽可能安装二进制包的同时，也完全不影响正常的使用。
+  另外，如果本地一些包的 `USE 标记`_ 有变动或者一些包的依赖有了变动，那么对于该包， Portage 目前默认会回退到自行编译安装的状态（也推荐这样），在尽可能安装二进制包的同时，也完全不影响正常的使用。
 
   如果你决定启用这个尚处于实验状态的方案，那么需创建一个文件 :file:`/etc/portage/binrepos.conf` ，并添加以下内容：
 
@@ -1393,18 +1460,18 @@ Wayland
 
     [binhost]
     priority = 9999
-    sync-uri = "https://mirrors.bfsu.edu.cn/gentoo/experimental/amd64/binpkg/default/linux/17.1/x86-64/"
+    sync-uri = https://mirrors.bfsu.edu.cn/gentoo/experimental/amd64/binpkg/default/linux/17.1/x86-64/
     # 这里可以配置成任意所选镜像地址
 
   再编辑 :file:`/etc/portage/make.conf` 文件，设置：
 
   .. code-block:: shell
 
-    EMERGE_DEFAULT_OPTS="--binpkg-respect-use=y --getbinpkg=y"
+    EMERGE_DEFAULT_OPTS="--binpkg-changed-deps=y --binpkg-respect-use=y --getbinpkg=y"
 
   即可。
 
-  *无论是否配置二进制包安装，都不影响正常使用。*
+  *无论是否配置二进制包安装，都不影响下续步骤*
 
 先更新一下当前的 Portage 数据库，使其为最新，执行
 
@@ -1422,8 +1489,12 @@ Wayland
   # 执行此命令将 plasma-meta 这个元包添加到 world set 中， world set 后文会介绍
   emerge -Ow kde-plasma/plasma-meta
 
+  # 处理下桌面环境下的依赖关系
+  echo "media-libs/freetype harfbuzz" >>/etc/portage/package.use/desktop
+  # （随着时间的推移，可能后续会有其它依赖关系问题，若出现，访问本文开头群组寻求帮助）
+
   # 再整体更新一下整个系统
-  emerge -ajvuDN @world
+  emerge -ajvuDN --keep-going @world
 
 此过程会比较漫长，由具体机器的性能而定。如果更新过程中失败，有可能是因为内存太低导致的，尝试去除上述命令选项中的 :code:`j` 重新更新。
 
@@ -1447,7 +1518,7 @@ Wayland
 
   如果安装的是其它未硬性依赖 X server 的 DM/DE/WM，那么还需要手动安装上 X server，否则 X 软件无法运行。
 
-  *Wayland 不在此警告考虑范围内。*
+  *Wayland 不在此警告考虑范围内*
 
 上述安装完毕后，可选安装 KDE Plasma 的应用元包，执行
 
@@ -1471,7 +1542,7 @@ Wayland
 配置 DM 启动
 +++++++++++++++
 
-到此时，必要的软件都安装完毕了，接下来需要配置 DM 的开机启动，并启动它
+到此时，用于启动桌面环境的必要组件都安装完毕了，接下来需要配置 DM 的开机启动，并启动它
 
 openrc 下
   先编辑 :file:`/etc/conf.d/display-manager` ，设置
@@ -1513,7 +1584,28 @@ systemd 下
 必要的桌面应用
 +++++++++++++++
 
-以下操作需要在桌面的终端或者 TTY 下，以 root 权限进行，如果是在桌面终端的话，打开终端后，执行 :code:`su -` 或其它等同命令进入 root 用户下。
+以下操作需要在桌面的终端或者 TTY 下，以 root 权限进行。
+
+如果是在桌面终端的话，打开终端后，执行 :code:`su -` 或其它等同命令进入 root 用户下；如果之前安装并配置了 :file:`app-admin/sudo` 工具，那么也可以以普通用户在下述的每一条命令前添加上 :code:`sudo「空格」` 后执行。
+
+中文字体
+~~~~~~~~~~
+
+在应用之前，最好先安装好中文字体，官方仓库提供有中文字体的包有
+
+* media-fonts/arphicfonts
+* media-fonts/noto-cjk
+* media-fonts/source-han-sans
+* media-fonts/wqy-microhei
+* 等
+
+自行选择安装即可，比如，
+
+.. code-block:: shell
+
+  emerge -vj media-fonts/noto-cjk
+
+也可以将其它的字体文件复制到目录 :file:`~/.local/share/fonts/` 下，然后执行 :code:`fc-cache` 创建字体缓存。
 
 输入法
 ~~~~~~~~~~
@@ -1522,7 +1614,7 @@ systemd 下
 
 所以这里有两个选择：
 
-1. 使用官方提供的 fcitx4 ，这样直接安装就好，执行
+1. 使用官方提供的 fcitx4 ，执行
 
    .. code-block:: shell
 
@@ -1547,10 +1639,24 @@ systemd 下
      # 添加额外的仓库
      # 先安装必要的工具
      emerge -vj app-eselect/eselect-repository
+
      # 然后启用仓库
      # 启用过程中，可能会因为网络原因导致比较慢，请耐心等待
      eselect repository enable ryans
      # 这里启用了我的个人仓库
+
+     # 更新以获取下仓库内容
+     emerge --sync ryans
+     # 如果一直卡在这里，那说明当前网络访问 github.com 不流畅
+     # 　　　　　　　　　这时候有一种方法是：
+     # 　　　　　　　　　　　　访问 https://fastgit.org （我不对该网站做任何保证）
+     # 　　　　　　　　　　　　修改 /etc/portage/repos.conf/eselect-repo.conf 文件，
+     # 　　　　　　　　　　　　替换对应链接的域名为上述网站内指定值
+     # 　　　　　　　　　　　　并再次同步
+
+     # 添加关键字用于安装
+     echo "app-i18n/*::ryans" >>/etc/portage/package.accept_keywords
+     echo "x11-libs/xcb-imdkit::ryans" >>/etc/portage/package.accept_keywords
 
      # 之后安装
      emerge -vj app-i18n/fcitx-rime:5
@@ -1562,12 +1668,17 @@ systemd 下
      #emerge -vj app-eselect/eselect-repository
      # 然后启用仓库
      #eselect repository enable gentoo-zh
-     # 之后安装
+     # 之后获取仓库（如若卡同步，见上）
+     #emerge --sync gentoo-zh
+     # 添加关键字用于安装
+     echo "app-i18n/*::gentoo-zh" >>/etc/portage/package.accept_keywords
+     echo "x11-libs/xcb-imdkit::gentoo-zh" >>/etc/portage/package.accept_keywords
+     # 再安装
      #emerge -vj app-i18n/fcitx5 app-i18n/fcitx5-gtk app-i18n/fcitx5-configtool
      # 然后根据自己的需要安装输入法，比如 app-i18n/fcitx5-rime ，
      # 　　　　　　　　　　　　　　　　或 app-i18n/fcitx5-chinese-addons 下提供的
 
-无论选择哪个版本、哪个仓库，安装完成后，均执行此配置，编辑 :file:`~/.xsession` 文件（不存在则创建一个），然后添加以下内容：
+无论选择哪个版本、哪个仓库，安装完成后，均执行此配置，这里另开一个终端，以普通用户编辑 :file:`~/.xsession` 文件（这里为普通用户的家目录下，不存在则创建一个），然后添加以下内容：
 
 .. code-block:: shell
 
@@ -1576,22 +1687,37 @@ systemd 下
   export GTK_IM_MODULE=fcitx
   export SDL_IM_MODULE=fcitx
 
-之后，登出 KDE Plasma，后重新登陆，此时输入法将可用。
+之后，登出 KDE Plasma，后重新登陆，此时只需做最后的配置，以安装的为 :file:`fcitx-rime:5` 为例，
+
+1. 右击托盘区输入法图标，选择 :file:`Configure`
+2. 点击右下角 :file:`Add Input Method`
+3. search 框下输入 :code:`rime`
+4. 选中 Rime 后点击右下角的 :file:`Add`
+5. :file:`Apply` 后退出界面
+6. 右击托盘区输入法图标，选择 :file:`Input Method` --> :file:`Rime`
+
+之后， Rime 会进入一个部署状态，等待片刻后即可使用。默认情况下， Rime 输出的为繁体中文，常规有两个方法切换成简体，
+
+* 临时选择简体，按下 :kbd:`Ctrl` + :kbd:`\`` 后在弹出的选框中选择。
+* 永久修改，这里区分 fcitx 的版本，版本 4 对应目录 :file:`~/.config/fcitx/rime/` ；而版本 5 对应目录 :file:`~/.local/share/fcitx5/rime/` ，在对应目录下（这里的 :file:`~` 依旧是普通用户的家目录）创建文件 :file:`luna_pinyin.custom.yaml` 并添加以下内容：
+
+.. code-block:: yaml
+
+  patch:
+  switches:
+    - name: ascii_mode
+      reset: 0
+      states: [ 中文, 西文 ]
+    - name: full_shape
+      states: [ 半角, 全角 ]
+    - name: simplification
+      reset: 1
+      states: [ 漢字, 汉字 ]
+
+后重启 fcitx 即可（详情见 `Rime 的 CustomizationGuide`_ ）。
 
 浏览器
 ~~~~~~~~~~
-
-在选择浏览器之前，最好先安装好中文字体，官方仓库提供有中文字体的包有
-
-* media-fonts/arphicfonts
-* media-fonts/noto-cjk
-* media-fonts/source-han-sans
-* media-fonts/wqy-microhei
-* 等
-
-自行选择安装即可，命令依旧是 :code:`emerge -vj <包名>` 。
-
-也可以将其它的字体文件复制到目录 :file:`~/.local/share/fonts/` 下，然后执行 :code:`fc-cache` 创建字体缓存。
 
 关于浏览器的选择，有很多，比如
 
@@ -1603,7 +1729,7 @@ systemd 下
 * www-client/microsoft-edge-beta （Edge 官方二进制包， beta 分支）
 * 等
 
-可以自行选择安装。
+可以自行选择安装。命令依旧是 :code:`emerge -vj <包名>` 。安装个别浏览器时，可能会因为许可问题导致无法安装，如何解决看下文的 `软件的许可`_ 一节。
 
 其它的应用自行发掘。这里有推荐应用列表：
 
@@ -1611,6 +1737,10 @@ systemd 下
 * https://wiki.archlinux.org/title/List_of_applications
 
 至此，桌面配置告一段落。
+
+.. note::
+
+  未重启系统之前，可能会出现 KDE Plasma 下看不到重启/关机等操作的情况，重启系统（需 root 权限）后一般就正常了。
 
 使用 Portage
 -----------------------------
@@ -1656,7 +1786,7 @@ Portage 是 Gentoo Linux 的包管理系统，本文自开始至此，大部分�
     emerge -ac
 
 emerge 常用选项
-+++++++++++++++
++++++++++++++++++++
 
 先解释上述基础命令中的选项，其中
 
@@ -1681,14 +1811,14 @@ emerge 常用选项
 .. _`USE 标记`:
 
 USE 标记
-+++++++++++++++
++++++++++++++++++++
 
 USE 标记是 Portage 系统的一个核心功能，很多包都会有可选的 USE 标记，正如上文有地方会写入到 :file:`package.use` 文件夹下的内容。Portage 使用它来管理每个包的功能，是一个很重要的特性。
 
 USE 的配置可以分为全局的和局部的：
 
 全局配置
-  自定义的全局配置可以编辑 :file:`/etc/portage/make.conf` 文件下的 USE 变量，这个变量是一个增量型的，它会与默认的 :file:`/usr/share/portage/config/make.globals` 文件下的 USE 配置，以及选定的 profile 下的 USE 配置组合，可以使用如下命令查看当前应用的全局 USE：
+  自定义的全局配置可以编辑 :file:`/etc/portage/make.conf` 文件下的 USE 变量，这个变量是一个增量型的，它会与默认的 :file:`/usr/share/portage/config/make.globals` 文件下的 USE 配置，以及选定的 profile 下的 USE 配置组合，可以使用如下命令查看当前应用的全局 USE 标记：
 
   .. code-block:: shell
 
@@ -1728,7 +1858,7 @@ Portage 有一个 USE Expand 功能，即把指定变量的值扩展成 USE，�
 .. _`下文`:
 
 关键字
-+++++++++++++++
++++++++++++++++++++
 
 *ACCEPT_KEYWORDS* 这个是一个针对 CPU 架构及软件的稳定/测试分支的变量。 `在上文我有写到`_ 为何不建议全局 :file:`~amd64` 关键字，这里详细说明这个变量。
 
@@ -1739,6 +1869,10 @@ Portage 会默认启用针对当前 CPU 架构的关键字，即： AMD64(x86_64
 上述默认启用的关键字是一个稳定关键字，这里以 :file:`arch` 来表示，而还有一个测试关键字 :file:`~arch` ，即在稳定关键字前加一个 :code:`~` 符号。
 
 默认情况下，系统都会接受当前架构的稳定关键字，你可以根据需要添加或者删除所需的关键字。
+
+.. note::
+
+  对于非官方的的 Portage 仓库，软件包一般都采用测试关键字，这算是对主仓库包的一种保护措施。
 
 自定义 *ACCEPT_KEYWORDS* 变量同样分为全局和局部，全局配置依旧在 :file:`/etc/portage/make.conf` 文件内。
 
@@ -1763,8 +1897,10 @@ Portage 会默认启用针对当前 CPU 架构的关键字，即： AMD64(x86_64
 
 无论是全局配置还是局部配置，其都是一个增量值，如需去掉所有之前配置的关键字，同样使用 :code:`-` 符号。
 
+.. _`软件的许可`:
+
 软件的许可
-+++++++++++++++
++++++++++++++++++++
 
 Portage 下的软件包很多，每个包所使用的许可也不尽相同。默认情况下，基础的 profile 配置已经接受了各种自由许可，使得安装自由软件不再需要额外的许可步骤。
 
@@ -1788,9 +1924,8 @@ Portage 下的软件包很多，每个包所使用的许可也不尽相同。默
 
 请根据自己的喜好，自行选择。
 
-
 emerge 默认选项
-+++++++++++++++
++++++++++++++++++++
 
 emerge 支持配置一组默认选项，用于在每次运行 emerge 时采用。这个储存默认选项的变量名为 :file:`EMERGE_DEFAULT_OPTS` ，在 :file:`make.conf` 文件下设置。
 
@@ -1814,13 +1949,33 @@ emerge 支持配置一组默认选项，用于在每次运行 emerge 时采用�
 
   EMERGE_DEFAULT_OPTS="--autounmask --autounmask-keep-masks --autounmask-write=n -j -l 12 --keep-going -v"
   # 其中的 12 请根据实际情况修改
+  # 如果配置了上文的 binhost ，那么对应选项也添加进入
 
 其它的选项请自行发现。
 
 Portage 的内容太多，以上仅列出了几个经常会使用到的配置。更多内容，请通过执行 :code:`man portage` , :code:`man emerge` , :code:`man make.conf` 查询，或者访问 Gentoo Linux 官方维基。
 
+关于配置文件的更新
++++++++++++++++++++
+
+有时候在更新了某些软件包后你会发现出现了一个类似如下的提示信息：
+
+::
+
+  * IMPORTANT: 2 config files in '/etc' need updating.
+  * See the CONFIGURATION FILES and CONFIGURATION FILES UPDATE TOOLS
+  * sections of the emerge man page to learn how to update config files.
+
+正如提示所说，完全可以自行查阅手册获取帮助，这里简单说明一下。
+
+一般出现这种情况的直接原因是你通过归属于一个软件包的文件修改了其默认配置，导致新安装的文件与现存文件不符，于是 Portage 出于保护现存文件的目的，将新文件重命名为了对应目录下的 :file:`._cfgxxxx_<原名>` 文件，这是一个很常见的情况。
+
+而每当出现这种情况后，需要做的操作就是人工介入，判断一下保留哪个文件，还是将两个文件合并。而自带用于进行此操作的对应命令有 :code:`dispatch-conf` 与 :code:`etc-update` 。
+
+以 :code:`dispatch-conf` 为例，root 权限下执行后，它会逐个文件列出改动，然后提示你进行操作，比如按 :kbd:`z` 保留旧的配置文件，按 :kbd:`u` 使用新安装的配置文件替换旧的，等等。
+
 常用工具
-+++++++++++++++
++++++++++++++++++++
 
 单纯 Portage 自带的工具对于日常管理其会显得有些吃力，这里推荐几个比较有用的软件用于辅助管理 Portage。
 
@@ -1872,7 +2027,7 @@ Portage 的内容太多，以上仅列出了几个经常会使用到的配置。
   Portage File List，可用于在线查询文件所归属的包，命令为 :code:`e-file <文件名>` 。
 
 多版本管理
-+++++++++++++++
++++++++++++++++++++
 
 Gentoo Linux 支持同一软件多版本同时存在于系统上，这归功于 Portage 系统的 slotting 机制。当你执行命令 :code:`eix dev-lang/python` 会发现它有好多行可用版本，最前圆括号内的内容即对应的 slot 名，不同 slot 下的版本可同时安装到系统上（ slot 名内 :file:`/` 符号后的内容表示其 sub-slot，同 slot 但不同 sub-slot 的版本无法共存）。比如，:file:`sys-devel/gcc` , :file:`sys-devel/clang` , :file:`dev-lang/lua` 等等都支持多版本共存。
 
@@ -1889,7 +2044,7 @@ Gentoo Linux 支持同一软件多版本同时存在于系统上，这归功于 
 其它的类似，执行 :code:`eselect help` 以查看当前所有支持的模块。不是所有的多版本共存的包都会有 eselect 模块，它们并不存在强制的依赖关系。执行 :code:`eix -I2` 可以显示当前系统下安装的可多版本共存的包。
 
 Proxy
-+++++++++++++++
++++++++++++++++++++
 
 并不是所有的 distfile 都能从镜像站下载，当遇到 distfile 下载不下来（或者 git 仓库克隆不下来）需要使用代理的时候，如何为 Portage 正确地配置 Proxy 呢。关于这个问题，我之前有一篇文章详细谈到了： https://bitbili.net/set-proxy-for-gentoo-portage.html
 
@@ -1947,7 +2102,7 @@ sys-kernel/gentoo-kernel-bin
 
   # 创建/修改配置文件
   make localmodconfig
-  # 此步骤就是自行配置内核中可麻烦可简单的一个步骤
+  # 此命令基于当前环境快速创建了一个可用配置文件
   # 详细看后文说明
 
   # 编译内核
@@ -2067,6 +2222,7 @@ Gentoo Linux 提供了一个工具叫 :gepkg:`sys-kernel/genkernel` 可用于创
 .. _`NVIDIA/nvidia-drivers`: https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers
 .. _`::gentoo-zh`: https://github.com/gentoo-mirror/gentoo-zh
 .. _`个人仓库`: https://github.com/gentoo-mirror/ryans
+.. _`Rime 的 CustomizationGuide`: https://github.com/rime/home/wiki/CustomizationGuide
 .. _`Package sets`: https://wiki.gentoo.org/wiki/Package_sets
 .. _`ebuild repository`: https://wiki.gentoo.org/wiki/Ebuild_repository
 .. _`开发手册`: https://devmanual.gentoo.org/
