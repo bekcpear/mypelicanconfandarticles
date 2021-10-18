@@ -1376,9 +1376,9 @@ Wayland
 
   如若你的显卡是较新的 N 卡，开源驱动还未支持，请参阅官方的 `NVIDIA/nvidia-drivers`_ 一文以安装闭源驱动。
 
-对于 X 而言，它还需要配置对应的 2D 驱动，这里以现代化的 A 卡为例，编辑 :file:`/etc/portage/make.conf` 文件，添加以下内容：
-
 .. _`显卡的配置`:
+
+对于 X 而言，它还需要配置对应的 2D 驱动，这里以现代化的 A 卡为例，编辑 :file:`/etc/portage/make.conf` 文件，添加以下内容：
 
 .. code-block:: shell
 
@@ -1494,7 +1494,7 @@ Wayland
   # （随着时间的推移，可能后续会有其它依赖关系问题，若出现，访问本文开头群组寻求帮助）
 
   # 先安装一个 rust-bin 以避免待会儿依赖安装需要编译的 rust
-  # （因为完整编译 rust 会很慢，除明确需要外没太大必要）
+  # （因为完整编译 rust 会很久，除明确需要外没太大必要）
   emerge -vj1 dev-lang/rust-bin
 
   # 再整体更新一下整个系统
@@ -1708,16 +1708,17 @@ systemd 下
 
 .. code-block:: yaml
 
+  # 注意缩进
   patch:
-  switches:
-    - name: ascii_mode
-      reset: 0
-      states: [ 中文, 西文 ]
-    - name: full_shape
-      states: [ 半角, 全角 ]
-    - name: simplification
-      reset: 1
-      states: [ 漢字, 汉字 ]
+    switches:
+      - name: ascii_mode
+        reset: 0
+        states: [ 中文, 西文 ]
+      - name: full_shape
+        states: [ 半角, 全角 ]
+      - name: simplification
+        reset: 1
+        states: [ 漢字, 汉字 ]
 
 后重启 fcitx 即可（详情见 `Rime 的 CustomizationGuide`_ ）。
 
@@ -1745,7 +1746,7 @@ systemd 下
 
 .. note::
 
-  未重启系统之前，可能会出现 KDE Plasma 下看不到重启/关机等操作的情况，重启系统（需 root 权限）后一般就正常了。
+  未重启系统之前，有可能会出现 KDE Plasma 下看不到重启/关机等操作、声音无法使用的情况，重启系统后一般就正常了。
 
 使用 Portage
 -----------------------------
