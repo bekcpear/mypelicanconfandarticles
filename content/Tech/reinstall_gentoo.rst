@@ -23,6 +23,10 @@ Gentoo Linux 安装 —— 带硬盘加密
 
 此次，我是在已有 Windows 10 系统的情况下，用一块额外完整的硬盘安装 Gentoo， :del:`并配置双系统引导，` 同时开启硬盘加密。
 
+.. tip::
+
+  更新：我新写了一篇更通用的 `Gentoo Linux 安装及使用指南`_ 。
+
 写在前面
 ============================================================
 
@@ -287,7 +291,7 @@ MAKEOPTS，这个决定了每次并行运行的任务数，一般设置 CPU 的�
 
   cp -L /etc/resolv.conf etc/
 
-然后挂载需要的文件系统： :file:`/proc` 和 :file:`/sys` 是伪文件系统，记录了 Linux 内核向环境所暴露的信息，后者原打算用于取代前者，输出内容更加结构化。 :file:`/dev` 则是常规文件系统，部分由 Linux 设备管理器管理，包含了所有的设备文件。 
+然后挂载需要的文件系统： :file:`/proc` 和 :file:`/sys` 是伪文件系统，记录了 Linux 内核向环境所暴露的信息，后者原打算用于取代前者，输出内容更加结构化。 :file:`/dev` 则是常规文件系统，部分由 Linux 设备管理器管理，包含了所有的设备文件。
 
 .. code-block:: bash
 
@@ -341,12 +345,12 @@ MAKEOPTS，这个决定了每次并行运行的任务数，一般设置 CPU 的�
      …
     [16]   default/linux/amd64/17.1 (stable) *
      …
-    [20]   default/linux/amd64/17.1/desktop (stable) 
-    [21]   default/linux/amd64/17.1/desktop/gnome (stable) 
+    [20]   default/linux/amd64/17.1/desktop (stable)
+    [21]   default/linux/amd64/17.1/desktop/gnome (stable)
      …
-    [26]   default/linux/amd64/17.1/no-multilib (stable) 
+    [26]   default/linux/amd64/17.1/no-multilib (stable)
      …
-    [29]   default/linux/amd64/17.1/systemd (stable) 
+    [29]   default/linux/amd64/17.1/systemd (stable)
      …
 
 .. code-block:: bash
@@ -447,7 +451,7 @@ MAKEOPTS，这个决定了每次并行运行的任务数，一般设置 CPU 的�
   emerge --ask sys-apps/pciutils # 安装完成后可以使用 lspci 命令查看 pci 设备
                                  # chroot 环境下出现的一些 pcilib 警告是可以忽略的
   emerge --ask sys-kernel/genkernel # 用于生成 initramfs
-  
+
 这里还可以配合使用 :code:`lsmod` 命令查看，看安装 CD 下加载了哪些模块，帮助判断启用内核的一些功能。
 
 现在进入内核配置菜单：
@@ -615,7 +619,7 @@ MAKEOPTS，这个决定了每次并行运行的任务数，一般设置 CPU 的�
 
     mkdir /boot/efi/EFI/Boot
     cp /boot/efi/EFI/Gentoo/grubx64.efi /boot/efi/EFI/Boot/bootx64.efi
-  
+
 不急着配 Windows 双启，先重启查看是否完成：
 
 .. code-block:: bash
@@ -665,7 +669,7 @@ MAKEOPTS，这个决定了每次并行运行的任务数，一般设置 CPU 的�
 
   先说结论， 应该是目前 Linux 的 xHCI 驱动对 USB 3.1 Gen 2 接口支持不够完善导致的，但是我不够确定，所以目前我的处理措施是在睡眠计算机时确保该接口不外接设备
 
-具体问题是这样的： 
+具体问题是这样的：
 
 最开始当睡眠计算机时，出现唤醒后键盘无法输入的情况，但是鼠标正常，因为键盘附带蓝牙切换功能，所以我本以为是 USB 接口在唤醒后出现了掉电的问题导致键盘芯片可能卡住的情况。
 
@@ -674,7 +678,7 @@ MAKEOPTS，这个决定了每次并行运行的任务数，一般设置 CPU 的�
 .. code-block:: kmsg
 
   kernel: [14624.419353] usb usb1: root hub lost power or was reset
- 
+
 如此类似的提示信息。对于存储设备来说，设备掉电再唤醒后，就可能无法继续接着之前挂载点使用，于是内核出现了一个设置—— Enable USB persist by default ，这个设置不会改变 BIOS 的重置机制，且我打开了 BIOS 找了一遍也没有发现任何相关这个动作的设置，详细的说明看官方文档： https://www.kernel.org/doc/Documentation/driver-api/usb/persist.rst 也就是大致解决了掉电后无法平滑访问 USB 存储设备的问题。了解之后判断且尝试后发现，这个选项不会导致上述问题的出现。
 
 后来机缘巧合换了一个 USB 接口，突然发现正常了，然后我从 USB 接口入手去排错，尝试了很多次后，发现了最开始说明的情况，即，当系统睡眠时，USB 3.1 Gen 2 口若连接有设备，唤醒后，会出现类似下述报错， 对应 kworker 进入 D state ，在这个状态下，它会一直等待且不会被中断，最明显的表现就是这个 USB 接口无法使用，且 :code:`lsusb` 命令会卡住，无法获取任何信息。并且关机时会卡在最后 Remount / read only... 的位置无法正常关机，同样也会无法正常再次睡眠，应该就是因为内核整个卡住了...
@@ -713,7 +717,7 @@ MAKEOPTS，这个决定了每次并行运行的任务数，一般设置 CPU 的�
 .. admonition:: T/S
 
   yubikey 相关问题： 1）无法使用 u2f 功能，每次都无法验证； 2）ykman 获取不到设备信息
-  
+
   1）原因是需要额外的 udev 规则，参阅： https://forums.gentoo.org/viewtopic-p-8504230.html?sid=580f7e5e2cf387e1806d2ec02cc14019 ； 2）则是因为 Gentoo 下默认不会安装 pcsc 驱动，自行安装 :gepkg:`app-crypt/ccid` 即可，同时注意 openrc 用户需在 :file:`/etc/rc.conf` 下添加 :code:`rc_hotplug="pcscd"` .
 
 .. admonition:: T/S
@@ -750,9 +754,9 @@ MAKEOPTS，这个决定了每次并行运行的任务数，一般设置 CPU 的�
   .. code-block:: dmesg
 
     Bluetooth: hci0: urb 00000000b85d4849 failed to resubmit (2)
-  
+
   睡眠计算机唤醒后还可能出现 modprobe ... blocked 内核错误信息。
-  
+
   后排查和内核的一个 autosuspend 的配置相关： :code:`CONFIG_BT_HCIBTUSB_AUTOSUSPEND` 这个设置关掉后，目前还没出现相应问题。
 
 备份 LUKS 加密头
@@ -779,14 +783,14 @@ LUKS 磁盘上的数据是通过一个主密钥加密和解密的，而这个主
 
   truncate -s 0 /swapfile
   chattr +C /swapfile
-  btrfs property set /swapfile compression none 
+  btrfs property set /swapfile compression none
   dd if=/dev/zero of=/swapfile bs=1M count=327688 status=progress
   swapon /swapfile
 
 这样子创建了一个 32G 的 swap ，配置到 fstab 下就不说了。在这里需要解决的问题是如何从这个文件中恢复休眠的系统。
 
-显示需要获取这个文件在对应分区下的偏移量，而 BtrFS 还有别于其他文件系统，不能使用 :code:`filefrag` 命令获取，需要其他工具；在 `ArchLinux Wiki 上`_ ，列出了这么一个工具可以用于获取，也同时说明了如何配置。即： 
- 
+显示需要获取这个文件在对应分区下的偏移量，而 BtrFS 还有别于其他文件系统，不能使用 :code:`filefrag` 命令获取，需要其他工具；在 `ArchLinux Wiki 上`_ ，列出了这么一个工具可以用于获取，也同时说明了如何配置。即：
+
 .. code-block:: bash
 
   ./btrfs_map_physical /swapfile # 获取返回的第一行偏移量数据 OFFSET
@@ -880,7 +884,7 @@ Gentoo 下默认的也是推荐的 initramfs 生成工具 genkernel 并不支持
 1. 一次意外断电后，出现了蓝牙无法使用的问题，最后还是因为固件没有加载好，`intel/ibt-18-16-1.*` ；进入 Windows 后重启再回到 Linux 可用，是因为 Windows 帮忙加载了固件；目前比较迷惑的是为什么之前是直接断电后进入 Linux 使用是正常，只有再这次意外断电后才出现了问题。
 2. 看门狗芯片，目前测试下来，使用的是 it87_wdt 这个驱动；用户空间下的 watchdog 守护进程可用于接管内核对看门狗的写入，同时提供更多的功能，比如在系统无响应之后，先尝试修复系统响应，无效再重启系统，但是目前我不知道如何做这个修复。当开启了看门狗，但是未调用用户空间的程序对看门狗进行写操作时，应该是需要开启内核下这个配置： :code:`CONFIG_WATCHDOG_HANDLE_BOOT_ENABLED=y` ，以保证在用户进程接管前系统不会重启。这样子就可以灵活很多。
 3. @preserved-rebuild 里面的包，是根据保留的 lib 自动生成的，相关代码存放于 :file:`/usr/lib/python3.7/site-packages/portage/_sets/libs.py` ，而保留的 lib 的信息存放路径默认为 :file:`/var/lib/portage/preserved_libs_registry` 。出现这个保留的 lib 的原因是默认开启了 :code:`preserve-libs` 功能，默认配置路径为 :file:`/usr/share/portage/config/make.globals` ，同时，也有提供了一个 :file:`preserve-libs.eclass` 可用于在未开启上述功能时使用。
-4. 我的 GPU， Radeon RX Vega 64 是不支持 vp9 硬解的， Raven Ridge 时期的 APU 因为使用 VCN 核心才支持 vp9 硬解，而 Vega 64 使用的是 VCE 和 UVD 编解码芯片，并不支持 vp9. 
+4. 我的 GPU， Radeon RX Vega 64 是不支持 vp9 硬解的， Raven Ridge 时期的 APU 因为使用 VCN 核心才支持 vp9 硬解，而 Vega 64 使用的是 VCE 和 UVD 编解码芯片，并不支持 vp9.
 
 
 
@@ -892,6 +896,7 @@ TODO:
 * others
 
 
+.. _`Gentoo Linux 安装及使用指南`: https://bitbili.net/gentoo-linux-installation-and-usage-tutorial.html
 .. _`官方的 wiki`: https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/About
 .. _`镜像站点`: https://www.gentoo.org/downloads/mirrors/#CN
 .. _`清华的 TUNA 源`: https://mirrors.tuna.tsinghua.edu.cn/gentoo/releases/amd64/autobuilds/current-install-amd64-minimal/
