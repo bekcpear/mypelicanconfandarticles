@@ -4,7 +4,7 @@ Gentoo Linux 安装及使用指南
 
 :slug: gentoo-linux-installation-and-usage-tutorial
 :date: 2021-10-03 11:35
-:modified: 2021-10-18 08:16
+:modified: 2021-10-18 12:50
 :lang: zh_hans
 :color: #463c65
 :tags: Gentoo, Linux, tutorial, installation, usage
@@ -1231,11 +1231,16 @@ make.conf
   FFLAGS="${COMMON_FLAGS}"   # 传递给 FORTRAN 77 编译器的变量
   # 可以根据实际需要添加/修改，并传递给编译器
 
-  #MAKEOPTS="-j17"
-  # 这是用来告知编译器同时执行任务数的变量（这里演示设置了 17 个并行任务数）
-  # 通常设置为总线程数+1（会在编译一些大任务时占满 CPU 时间）
+  #MAKEOPTS="-j16"
+  # 这是用来告知编译器同时执行任务数的变量（这里演示设置了 16 个并行任务数）
+  # 通常设置为总线程数（会在编译一些大任务时占满 CPU 时间）
   # 当 CPU 线程够多（>=24）的时候，推荐可以小于总线程 1-2 个任务
   # 当 CPU 线程够多，但内存不足时，推荐设置为更小值
+  # 　     　　　　　　　　　　　　Gentoo Wiki 推荐取「内存大小/2G」与「CPU 线程数」中的较小者
+  # 　     　　　　　　　　　　　　但就我个人使用情况经验来说，要看 CPU 线程数多少，
+  # 　     　　　　　　　　　　　　　　　　　　　　　　　　　　大于 10 线程我就建议替换上述比较为：
+  # 　     　　　　　　　　　　　　　　　　　　　　　　　　　　「内存大小/1G」与「CPU 线程数」中的较小者，
+  # 　     　　　　　　　　　　　　　　　　　　　　　　　　　　然后再根据日常使用情况进行调整。
   # 请自行配置后删除注释符
   # 如果变量未进行设置
   # 那么 portage 会根据当前 CPU 的线程数自动赋予一个值
