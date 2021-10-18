@@ -4,7 +4,7 @@ Gentoo Linux 安装及使用指南
 
 :slug: gentoo-linux-installation-and-usage-tutorial
 :date: 2021-10-03 11:35
-:modified: 2021-10-18 06:50
+:modified: 2021-10-18 08:16
 :lang: zh_hans
 :color: #463c65
 :tags: Gentoo, Linux, tutorial, installation, usage
@@ -1493,8 +1493,13 @@ Wayland
   echo "media-libs/freetype harfbuzz" >>/etc/portage/package.use/desktop
   # （随着时间的推移，可能后续会有其它依赖关系问题，若出现，访问本文开头群组寻求帮助）
 
+  # 先安装一个 rust-bin 以避免待会儿依赖安装需要编译的 rust
+  # （因为完整编译 rust 会很慢，除明确需要外没太大必要）
+  emerge -vj1 dev-lang/rust-bin
+
   # 再整体更新一下整个系统
   emerge -ajvuDN --keep-going @world
+  # 等待依赖计算完成后按回车以开始更新
 
 此过程会比较漫长，由具体机器的性能而定。如果更新过程中失败，有可能是因为内存太低导致的，尝试去除上述命令选项中的 :code:`j` 重新更新。
 
