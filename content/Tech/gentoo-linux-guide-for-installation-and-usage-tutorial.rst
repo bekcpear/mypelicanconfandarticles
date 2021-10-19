@@ -4,7 +4,7 @@ Gentoo Linux 安装及使用指南
 
 :slug: gentoo-linux-installation-and-usage-tutorial
 :date: 2021-10-03 11:35
-:modified: 2021-10-18 12:50
+:modified: 2021-10-20 05:23
 :lang: zh_hans
 :color: #463c65
 :tags: Gentoo, Linux, tutorial, installation, usage
@@ -67,6 +67,10 @@ Gentoo Linux 安装及使用指南
 
 2. 将 :file:`.iso` 文件写入到 U 盘。
 
+   .. tip::
+
+     如果是虚拟机，那么此章步骤 2 和 3 会不同，直接把 livecd 挂载到虚拟机的光驱，选择光驱启动即可，其它步骤一致。
+
    * Windows 上可以使用工具 `Rufus`_ 进行写入（写入前配置默认无需更改，即 MBR 分区，BIOS 或 UEFI，FAT32 系统）
    * Linux 上则可以使用自带的 :code:`dd` 命令来写入，具体命令为
 
@@ -88,8 +92,6 @@ Gentoo Linux 安装及使用指南
 
      启动时，请注意提示信息， BIOS 模式下会多一个手动启动的提示，需要在 15s 内选择，否则会正常启动硬盘下的系统。
 
-     如果是虚拟机，那么直接把 livecd 挂载到虚拟机的光驱，选择光驱启动即可，其它步骤一致。
-
 配置安装环境
 ==================================================
 
@@ -101,7 +103,7 @@ Gentoo Linux 安装及使用指南
 有线
 +++++++++++++++
 
-1. 网络环境带 DHCP 服务的（比如家用路由器连接的），livecd 默认会运行 dhcpcd 服务，不出意外，进入环境后直接可以联网。
+1. 网络环境带 DHCP 服务的（比如家用路由器连接的），livecd 默认会运行 dhcpcd 服务，不出意外，进入环境后直接可以联网。可通过下述的 `ping 测试`_ 判断。
 2. 网络环境无 DHCP 服务或 DHCP 无效需要手动配置网络的，需要知道网关 IP，可用的网络地址，然后执行如下命令：
 
    .. code-block:: shell
@@ -204,6 +206,8 @@ DNS 及测试
 
 写入 DNS 配置，这里我选用的阿里云的公共 DNS 地址，也可以改成其它的。
 
+.. _`ping 测试`:
+
 再执行
 
 .. code-block:: shell
@@ -252,7 +256,13 @@ DNS 及测试
 
 如果不熟悉，请看以下内容
 
-执行 :code:`lsblk` 列出当前所有的块设备，硬盘对应的名称一般为 :file:`sdX` ， :file:`nvmeXnX` 这种（虚拟机下可能为 :file:`vdX` ），其中 :file:`X` 为英文字母或阿拉伯数字。
+执行
+
+.. code-block:: shell
+
+  lsblk
+
+列出当前所有的块设备，硬盘对应的名称一般为 :file:`sdX` ， :file:`nvmeXnX` 这种（虚拟机下可能为 :file:`vdX` ），其中 :file:`X` 为英文字母或阿拉伯数字。
 
 确定好需要操作的块设备，这里假设为 :file:`sdX` ，然后执行自带的 :code:`fdisk` 命令进行分区（分区工具很多，这里仅以该工具为例）
 
@@ -267,6 +277,8 @@ DNS 及测试
 .. note::
 
   在执行写入分区表操作（即 :code:`w` 命令）前，分区表不会实际更改，如若出错，可以执行 :code:`q` 退出交互界面重新进入再次操作
+
+  如果使用的是已经被分过区的硬盘，那么创建过程中可能会出现红色的类似 :file:`Partition #3 contains a ext4 signature` 这样的提示信息，之后会让你选择 :file:`[Y]es/[N]o` ，输入 :file:`Yes` 回车覆盖数据即可。
 
 .. code-block:: shell
 
@@ -436,7 +448,15 @@ DNS 及测试
 
     rc-service sshd start
 
-  启用 sshd 服务后，就可以通过其它电脑连接到此 LiveCD 环境了。
+  启用 sshd 服务后，为 LiveCD 环境的 root 用户设置一个密码，
+
+  .. code-block:: shell
+
+    # 如果不想设置复杂密码，可以编辑 /etc/security/passwdqc.conf 文件
+    # 将 enforce=everyone 改成 enforce=none 保存后再设置
+    passwd root
+
+  之后就可以通过其它电脑/主机连接到此 LiveCD 环境了。
 
 首先调整好当前的系统时间，偏差的时间会导致后续一些问题（比如编译过程依赖系统时间）。执行
 
@@ -1506,7 +1526,11 @@ Wayland
   emerge -ajvuDN --keep-going @world
   # 等待依赖计算完成后按回车以开始更新
 
-此过程会比较漫长，由具体机器的性能而定。如果更新过程中失败，有可能是因为内存太低导致的，尝试去除上述命令选项中的 :code:`j` 重新更新。
+此过程会比较漫长，由具体机器的性能而定。万一更新过程中失败，有可能为
+
+1. 偶然问题，尝试对出问题软件包单独安装，使用命令 :code:`emerge -vj1 <包名>` 进行；成功后再次运行上述更新命令
+2. 因为内存太低导致的，尝试去除上述命令选项中的 :code:`j` 重新更新
+3. 其它问题，请查看提醒的相应编译日志，如不能解决，可加文章开头群组寻求帮助
 
 .. note::
 
@@ -1688,6 +1712,12 @@ systemd 下
      # 然后根据自己的需要安装输入法，比如 app-i18n/fcitx5-rime ，
      # 　　　　　　　　　　　　　　　　或 app-i18n/fcitx5-chinese-addons 下提供的
 
+   .. warning::
+
+     当使用非官方的 Fcitx5 时，因为没有镜像收录，所以源码需从 Github 下载，这时可能遇到因网络问题导致无法下载的情况（可以从 :file:`/var/log/emerge-fetch.log` 文件查看源码包下载情况），如果遇到这种情况那么请自行通过各种途径下载好对应的 :file:`.tar.gz` 格式（或类似）软件包，然后移动到 :file:`/var/cache/distfiles/` 目录下。
+
+     软件包需更名为对应的包名加完整的版本号（执行上述 :code:`emerge -vj <包名>` 命令后可以看到完整的版本号），比如当显示的包名为 :file:`app-i18n/fcitx-gtk-5.0.8:5::ryans` 那么就更名下载的源码包为 :file:`fcitx-gtk-5.0.8.tar.gz` （ :file:`/` 符号后以及 :file:`:` 符号前的内容），以此类推。
+
 无论选择哪个版本、哪个仓库，安装完成后，均执行此配置，这里另开一个终端，以普通用户编辑 :file:`~/.xsession` 文件（这里为普通用户的家目录下，不存在则创建一个），然后添加以下内容：
 
 .. code-block:: shell
@@ -1825,6 +1855,8 @@ USE 标记
 +++++++++++++++++++
 
 USE 标记是 Portage 系统的一个核心功能，很多包都会有可选的 USE 标记，正如上文有地方会写入到 :file:`package.use` 文件夹下的内容。Portage 使用它来管理每个包的功能，是一个很重要的特性。
+
+在日常使用过程中，也会发现包与包之间关于对 USE 标记的依赖问题，比如当一个包 A 依赖另一个包 B 的 USE 非默认时，会出现无法安装的问题，此时需要对 B 包配置其 USE 标记。
 
 USE 的配置可以分为全局的和局部的：
 
