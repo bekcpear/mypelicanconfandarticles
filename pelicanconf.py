@@ -11,7 +11,7 @@ SITELOGO = '/static/logo/logo.svg'
 SITELOGOPNG = '/static/logo/fav.png'
 OPEN_GRAPH_IMAGE = '/static/logo/logoMaskable.png'
 SITEDESC = "一个格物致知的技术博客。"
-MIGVERSION = '2021.10.15.879'
+MIGVERSION = '2021.10.22.911'
 MYPROFILE = "https://github.com/bekcpear"
 
 
@@ -55,6 +55,7 @@ MARKDOWN = {'extension_configs': {
 
 PLUGIN_PATHS = ['plugins']
 PLUGINS = ["plantuml",
+           'bilibili',
            'neighbors',
            'twitter_bootstrap_rst_directives',
            'tag_cloud',

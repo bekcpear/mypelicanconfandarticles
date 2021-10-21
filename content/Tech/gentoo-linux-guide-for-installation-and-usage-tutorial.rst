@@ -27,7 +27,10 @@ Gentoo Linux 安装及使用指南
 * 本文唯一原始链接： https://bitbili.net/gentoo-linux-installation-and-usage-tutorial.html
 * 本文源码在 `这里`_ ，欢迎纠错
 * 如有问题可以上 https://t.me/gentoo_zh 提问/反馈
-* 这里有一个完整参照本文安装的视频： `《 5 分钟速看 Gentoo Linux 完整安装进 KDE Plasma 》`_
+
+.. tip::
+
+  这里有一个完整参照本文安装的视频： `《 5 分钟速看 Gentoo Linux 完整安装进 KDE Plasma 》- bilibili`_
 
 正文开始：
 
@@ -2253,7 +2256,7 @@ Gentoo Linux 提供了一个工具叫 :gepkg:`sys-kernel/genkernel` 可用于创
 .. _`Gentoo Linux 安装 —— 带硬盘加密`: https://bitbili.net/reinstall_gentoo.html
 .. _`Gentoo Wiki 页`: https://wiki.gentoo.org/wiki/Main_Page
 .. _`这里`: https://github.com/bekcpear/mypelicanconfandarticles/blob/master/content/Tech/gentoo-linux-guide-for-installation-and-usage-tutorial.rst
-.. _`《 5 分钟速看 Gentoo Linux 完整安装进 KDE Plasma 》`: https://www.bilibili.com/video/BV1vq4y1976R/
+.. _`《 5 分钟速看 Gentoo Linux 完整安装进 KDE Plasma 》- bilibili`: https://www.bilibili.com/video/BV1wv411u7ZU/
 .. _`北外镜像地址`: https://mirrors.bfsu.edu.cn/gentoo/
 .. _`镜像列表`: https://www.gentoo.org/downloads/mirrors/#CN
 .. _`Rufus`: https://rufus.ie/zh/
