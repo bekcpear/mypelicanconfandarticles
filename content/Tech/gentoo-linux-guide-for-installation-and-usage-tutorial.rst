@@ -4,7 +4,7 @@ Gentoo Linux 安装及使用指南
 
 :slug: gentoo-linux-installation-and-usage-tutorial
 :date: 2021-10-03 11:35
-:modified: 2021-10-20 05:23
+:modified: 2021-10-21 09:47
 :lang: zh_hans
 :color: #463c65
 :tags: Gentoo, Linux, tutorial, installation, usage
@@ -27,6 +27,7 @@ Gentoo Linux 安装及使用指南
 * 本文唯一原始链接： https://bitbili.net/gentoo-linux-installation-and-usage-tutorial.html
 * 本文源码在 `这里`_ ，欢迎纠错
 * 如有问题可以上 https://t.me/gentoo_zh 提问/反馈
+* 这里有一个完整参照本文安装的视频： `《 5 分钟速看 Gentoo Linux 完整安装进 KDE Plasma 》`_
 
 正文开始：
 
@@ -1693,8 +1694,8 @@ systemd 下
      echo "x11-libs/xcb-imdkit::ryans" >>/etc/portage/package.accept_keywords
 
      # 之后安装
-     emerge -vj app-i18n/fcitx-rime:5
-     # 这里安装了 rime 这个输入法，其它的关于 fcitx5 主体、配置工具之类的，都会自动依赖
+     emerge -vj app-i18n/fcitx-meta:5
+     # 这里安装了 fcitx 的元包，它会自动依赖安装 fcitx5 主体、 RIME 输入法、配置工具等
      # 我的仓库未提供 fcitx5-chinese-addons 这个包，如有需要，使用 ::gentoo-zh 的仓库，见下
 
      # 如果你选择 ::gentoo-zh 这个仓库的话，因为包名和依赖不同，所以安装命令为（自行删除命令前注释符）
@@ -1708,9 +1709,8 @@ systemd 下
      #echo "app-i18n/*::gentoo-zh" >>/etc/portage/package.accept_keywords
      #echo "x11-libs/xcb-imdkit::gentoo-zh" >>/etc/portage/package.accept_keywords
      # 再安装
-     #emerge -vj app-i18n/fcitx5 app-i18n/fcitx5-gtk app-i18n/fcitx5-configtool
-     # 然后根据自己的需要安装输入法，比如 app-i18n/fcitx5-rime ，
-     # 　　　　　　　　　　　　　　　　或 app-i18n/fcitx5-chinese-addons 下提供的
+     #emerge -vj app-i18n/fcitx5-meta
+     # 这个仓库的会默认安装上 fcitx5-chinese-addons ，里面包含有中文输入法
 
    .. warning::
 
@@ -1734,7 +1734,7 @@ systemd 下
 3. search 框下输入 :code:`rime`
 4. 选中 Rime 后点击右下角的 :file:`Add`
 5. :file:`Apply` 后退出界面
-6. 右击托盘区输入法图标，选择 :file:`Input Method` --> :file:`Rime`
+6. 右击托盘区输入法图标，选择 :file:`Restart`
 
 之后， Rime 会进入一个部署状态，等待片刻后即可使用。默认情况下， Rime 输出的为繁体中文，常规有两个方法切换成简体，
 
@@ -2253,6 +2253,7 @@ Gentoo Linux 提供了一个工具叫 :gepkg:`sys-kernel/genkernel` 可用于创
 .. _`Gentoo Linux 安装 —— 带硬盘加密`: https://bitbili.net/reinstall_gentoo.html
 .. _`Gentoo Wiki 页`: https://wiki.gentoo.org/wiki/Main_Page
 .. _`这里`: https://github.com/bekcpear/mypelicanconfandarticles/blob/master/content/Tech/gentoo-linux-guide-for-installation-and-usage-tutorial.rst
+.. _`《 5 分钟速看 Gentoo Linux 完整安装进 KDE Plasma 》`: https://www.bilibili.com/video/BV1vq4y1976R/
 .. _`北外镜像地址`: https://mirrors.bfsu.edu.cn/gentoo/
 .. _`镜像列表`: https://www.gentoo.org/downloads/mirrors/#CN
 .. _`Rufus`: https://rufus.ie/zh/
