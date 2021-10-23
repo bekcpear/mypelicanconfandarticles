@@ -5,7 +5,7 @@ PELICANOPTS?=
 BASEDIR=$(CURDIR)
 INPUTDIR=$(BASEDIR)/content
 OUTPUTDIR=$(BASEDIR)/output
-NODEJSDIR=$(BASEDIR)/bitbiliTheme/js
+NODEJSDIR=$(BASEDIR)/bitbiliTheme
 CONFFILE=$(BASEDIR)/pelicanconf.py
 CONFFILETEST=$(BASEDIR)/pelicanconf-t.py
 PUBLISHCONF=$(BASEDIR)/publishconf.py
@@ -79,17 +79,24 @@ stopserver:
 theme:
 	(cd theme && (scons -Q || make) )
 
-js:
+css:
 	cd $(NODEJSDIR) && \
-		rm dist/* && \
+		yarn sass -s compressed src/css/index.scss:static/css/index.min.css && \
+		yarn sass -s compressed src/css/style.scss:static/css/style.min.css && \
+		yarn sass -s compressed src/css/page.scss:static/css/page.min.css
+
+js: css
+	cd $(NODEJSDIR) && \
+		find dist/ -name '*js' -delete && \
 		yarn run minifyJS && \
 		yarn run copyWBJS
-	cp $(NODEJSDIR)/dist/main.min.js $(NODEJSDIR)/../static/js/
 	cp $(NODEJSDIR)/dist/workbox-window.prod.mjs* $(INPUTDIR)/static/
 
 js-after:
 	cd $(NODEJSDIR) && \
 		yarn run generateSW
+	cp -a $(NODEJSDIR)/dist/sw.js $(OUTPUTDIR)/
+	cp -a $(NODEJSDIR)/dist/sw.js $(OUTPUTDIR)/service-worker.js
 
 copy_static:
 	cp -a $(INPUTDIR)/demos $(OUTPUTDIR)/
@@ -97,8 +104,6 @@ copy_static:
 	cp -a $(INPUTDIR)/images $(OUTPUTDIR)/
 	cp -a $(INPUTDIR)/nocimages $(OUTPUTDIR)/
 	cp -a $(INPUTDIR)/mis $(OUTPUTDIR)/
-	cp -a $(NODEJSDIR)/dist/sw.js $(OUTPUTDIR)/
-	cp -a $(NODEJSDIR)/dist/sw.js $(OUTPUTDIR)/service-worker.js
 
 publishtest: rmdrafts js
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONFTEST) $(PELICANOPTS)
