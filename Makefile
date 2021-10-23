@@ -5,6 +5,7 @@ PELICANOPTS?=
 BASEDIR=$(CURDIR)
 INPUTDIR=$(BASEDIR)/content
 OUTPUTDIR=$(BASEDIR)/output
+NODEJSDIR=$(BASEDIR)/bitbiliTheme/js
 CONFFILE=$(BASEDIR)/pelicanconf.py
 CONFFILETEST=$(BASEDIR)/pelicanconf-t.py
 PUBLISHCONF=$(BASEDIR)/publishconf.py
@@ -41,6 +42,7 @@ drafts:
 
 rmdrafts:
 	[ ! -d content/drafts ] || rm -rf content/drafts
+	rm -rf $(OUTPUTDIR)/*
 
 rmcc:
 	find content/ -iname "*.zht.rst" -delete
@@ -77,28 +79,41 @@ stopserver:
 theme:
 	(cd theme && (scons -Q || make) )
 
-publishtest: rmdrafts
+js:
+	cd $(NODEJSDIR) && \
+		rm dist/* && \
+		yarn run minifyJS && \
+		yarn run copyWBJS
+	cp $(NODEJSDIR)/dist/main.min.js $(NODEJSDIR)/../static/js/
+	cp $(NODEJSDIR)/dist/workbox-window.prod.mjs* $(INPUTDIR)/static/
+
+js-after:
+	cd $(NODEJSDIR) && \
+		yarn run generateSW
+
+copy_static:
+	cp -a $(INPUTDIR)/demos $(OUTPUTDIR)/
+	cp -a $(INPUTDIR)/static $(OUTPUTDIR)/
+	cp -a $(INPUTDIR)/images $(OUTPUTDIR)/
+	cp -a $(INPUTDIR)/nocimages $(OUTPUTDIR)/
+	cp -a $(INPUTDIR)/mis $(OUTPUTDIR)/
+	cp -a $(NODEJSDIR)/dist/sw.js $(OUTPUTDIR)/
+	cp -a $(NODEJSDIR)/dist/sw.js $(OUTPUTDIR)/service-worker.js
+
+publishtest: rmdrafts js
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONFTEST) $(PELICANOPTS)
 	$(MAKE) rsthtml
-	mkdir -p output/demos output/static output/images output/nocimages output/mis
-	rsync --delete -rlcv content/demos/ output/demos/
-	rsync --delete -rlcv content/static/ output/static/
-	rsync --delete -rlcv content/images/ output/images/
-	rsync --delete -rlcv content/nocimages/ output/nocimages/
-	rsync --delete -rlcv content/mis/ output/mis/
+	$(MAKE) js-after
+	$(MAKE) copy_static
 
-publish: rmdrafts
+publish: rmdrafts js
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONF) $(PELICANOPTS)
 	$(MAKE) rsthtml
-	mkdir -p output/demos output/static output/images output/nocimages output/mis
-	rsync --delete -rlcv content/demos/ output/demos/
-	rsync --delete -rlcv content/static/ output/static/
-	rsync --delete -rlcv content/images/ output/images/
-	rsync --delete -rlcv content/nocimages/ output/nocimages/
-	rsync --delete -rlcv content/mis/ output/mis/
+	$(MAKE) js-after
+	$(MAKE) copy_static
 
 rsthtml:
-	(cd output && find -iname "*.rst" | parallel -I@ pygmentize -f html -o @.html @)
+	(cd $(OUTPUTDIR) && find -iname "*.rst" | parallel -I@ pygmentize -f html -o @.html @)
 
 ssh_upload:
 	$(MAKE) publish

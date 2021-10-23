@@ -978,7 +978,7 @@ openrc 这里我推荐使用 :gepkg:`app-admin/syslog-ng` ，执行
   # 更新时区信息
   emerge --config sys-libs/timezone-data
 
-  # systemd 用户提选的替换操作
+  # systemd 用户可选的替换操作
   #timedatectl set-timezone Asia/Shanghai
 
 如果你需要添加其它的时区，对应的时区名字可以在 :file:`/usr/share/zoneinfo/` 目录下找到，将其替换到 :file:`Asia/Shanghai` 的位置后执行命令即可。

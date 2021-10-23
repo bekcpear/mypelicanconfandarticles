@@ -16,21 +16,18 @@ sed -i.bak -e "s/MIGVERSION\s=\s'[\.0-9]*'/MIGVERSION = '${verdate}.${vernum}'/"
 
 make publish
 
-rsync -rlcv ./sw-precache-config.js ./output/
-rsync -rlcv ./service-worker-min.tmpl ./output/
-rsync -rlcv ./keybase.txt ./output/
-rsync -rlcv ./content/static/count.js ./output/
-rsync -rlcv ./content/static/robots.txt ./output/
-rsync -rlcv ./content/static/BingSiteAuth.xml ./output/
-rsync -rlcv ./version ./output/version.txt
+cp ./keybase.txt ./output/
+cp ./content/static/count.js ./output/
+cp ./content/static/robots.txt ./output/
+cp ./content/static/BingSiteAuth.xml ./output/
+cp ./version ./output/version.txt
 
 # some fixes
-rsync -rlcv ./content/fixes/set_proxy_for_gentoo_portage.html ./output/
+cp ./content/fixes/set_proxy_for_gentoo_portage.html ./output/
 
 
 pushd ./output/
 rm -f theme/css/*.scss
-../node_modules/.bin/sw-precache --config sw-precache-config.js
 popd
 
 rsync --delete -rlcv output/ ~/syncthingData/bitbili/output
