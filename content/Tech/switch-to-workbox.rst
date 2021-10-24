@@ -10,7 +10,6 @@
 :mykeywords: frontend,前端,service-worker,workbox,sw-precache
 :description: 记录把 service worker 切换到 Workbox
 :noindent: true
-:status: draft
 :summary:
 
 .. contents::
