@@ -4,7 +4,7 @@ Gentoo Linux 安装及使用指南
 
 :slug: gentoo-linux-installation-and-usage-tutorial
 :date: 2021-10-03 11:35
-:modified: 2021-10-21 09:47
+:modified: 2021-11-06 01:33
 :lang: zh_hans
 :color: #463c65
 :tags: Gentoo, Linux, tutorial, installation, usage
@@ -30,7 +30,10 @@ Gentoo Linux 安装及使用指南
 
 .. tip::
 
-  这里有一个完整参照本文安装的视频： `《 5 分钟速看 Gentoo Linux 完整安装进 KDE Plasma 》- bilibili`_
+  这里有一个完整参照本文安装的视频——《 5 分钟速看 Gentoo Linux 完整安装进 KDE Plasma 》：
+
+  * `bilibili （需要登录才能查看高清版）`_
+  * `我的公开链接下载`
 
 正文开始：
 
@@ -2241,6 +2244,7 @@ Gentoo Linux 提供了一个工具叫 :gepkg:`sys-kernel/genkernel` 可用于创
 
 建议，
 
+* 善用搜索
 * 不在不明白某个配置/选项含义时使用它
 * 每次安装新的系统服务/系统工具时，都去查阅下 Gentoo wiki 对应词条
 * emerge 完成后，出现的提示信息要看
@@ -2256,7 +2260,8 @@ Gentoo Linux 提供了一个工具叫 :gepkg:`sys-kernel/genkernel` 可用于创
 .. _`Gentoo Linux 安装 —— 带硬盘加密`: https://bitbili.net/reinstall_gentoo.html
 .. _`Gentoo Wiki 页`: https://wiki.gentoo.org/wiki/Main_Page
 .. _`这里`: https://github.com/bekcpear/mypelicanconfandarticles/blob/master/content/Tech/gentoo-linux-guide-for-installation-and-usage-tutorial.rst
-.. _`《 5 分钟速看 Gentoo Linux 完整安装进 KDE Plasma 》- bilibili`: https://www.bilibili.com/video/BV1wv411u7ZU/
+.. _`bilibili （需要登录才能查看高清版）`: https://www.bilibili.com/video/BV1wv411u7ZU/
+.. _`我的公开链接下载`: https://public.cwittlut.dev/share/VGhEB0fI/Videos/Gentoo/5%20%E5%88%86%E9%92%9F%E9%80%9F%E7%9C%8B%20Gentoo%20Linux%20%E5%AE%8C%E6%95%B4%E5%AE%89%E8%A3%85%E8%BF%9B%20KDE%20Plasma.mp4
 .. _`北外镜像地址`: https://mirrors.bfsu.edu.cn/gentoo/
 .. _`镜像列表`: https://www.gentoo.org/downloads/mirrors/#CN
 .. _`Rufus`: https://rufus.ie/zh/
