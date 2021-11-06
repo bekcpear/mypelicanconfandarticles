@@ -4,7 +4,7 @@ Gentoo Linux 安装及使用指南
 
 :slug: gentoo-linux-installation-and-usage-tutorial
 :date: 2021-10-03 11:35
-:modified: 2021-11-06 01:33
+:modified: 2021-11-06 17:14
 :lang: zh_hans
 :color: #463c65
 :tags: Gentoo, Linux, tutorial, installation, usage
@@ -1306,12 +1306,12 @@ make.conf
 
 默认情况下， Portage 自带一个官方的数据库同步配置，位于 :file:`/usr/share/portage/config/repos.conf` ，会以 rsync 方式从官方服务器同步数据（手动）。
 
-而还有一种同步方式—— git，两者各有优劣：
+而还有一种同步方式—— git，两者的优劣区别很小：
 
-* rsync 方式提供了更安全的本地校验，但本地同步时速度较慢；镜像站同步上游频率正常
-* git 方式无法在日常使用过程中检测到本地文件改动，但本地同步时速度快；官方镜像点与原始仓库同步最及时，但国内镜像站同步上游频率低
+* rsync 方式可以使用命令校验本地改动，但本地同步时速度较慢；镜像站同步上游频率正常
+* git 方式可以使用命令结合人工介入判断以校验本地改动，本地同步时速度快；官方镜像点与原始仓库同步最及时，但国内镜像站同步上游频率低
 
-无论选择哪种同步方式，均可。为了使得更新更迅速，建议自定义一个靠近自己的镜像站点。方法为，
+无论选择哪种同步方式，均可（目前我推荐使用 git 方式）。为了使得更新更迅速，建议自定义一个靠近自己的镜像站点。方法为，
 
 先创建一个自定义配置文件 :file:`/etc/portage/repos.conf/gentoo.conf` ，后根据同步类型进行操作，
 
@@ -1347,6 +1347,8 @@ make.conf
     # 但它们的同步上游的频率都很低（截至发文时确认为 11 小时一次）
     # 所以若使用 git 方式同步，在网络流畅的情况，个人更建议直接同步官方镜像：
     #   https://github.com/gentoo-mirror/gentoo.git
+    sync-git-verify-commit-signature = yes
+    # 设置校验最上层 commit 的签名，默认是不校验的
 
   之后执行，
 
