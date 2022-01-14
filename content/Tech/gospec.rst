@@ -12,7 +12,7 @@ Go 编程语言规范【译】
 :license: 本文由本人独立翻译自 The Go Programming Language Specification (https://go.dev/ref/spec)，原文采用 Creative Commons Attribution 3.0 协议，文档内代码采用 BSD 协议 (https://go.dev/LICENSE)。 本文采用 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 许可协议，文档内代码继用相同协议，如果你需要发布本文（或衍生品），也需要注明本文原始链接 (https://bitbili.net/golang_spec.html) 及译者 cwittlut (原 bekcpear)。
 :description: 最新版 Go 编程语言规范， The Go Programming Language Specification 的中文译文，译者 cwittlut (原 bekcpear)。
 :summary:
-:color: #7fd5ea
+:color: #007d9c
 :noindent: true
 
 .. contents::

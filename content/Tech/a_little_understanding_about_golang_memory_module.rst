@@ -7,7 +7,7 @@
 :lang: zh_hans
 :tags: golang, reference, gochannel
 :description: Go 语言 channel 在发送/接收时如何动作
-:color: #7fd5ea
+:color: #007d9c
 :summary:
 
 .. contents::
