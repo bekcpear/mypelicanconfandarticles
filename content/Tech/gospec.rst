@@ -9,7 +9,7 @@ Go 编程语言规范【译】
 :tags: doc, golang, 翻译
 :mykeywords: golang,go,语言,规范,翻译
 :notoriginal: true
-:license: 本文由本人独立翻译自 The Go Programming Language Specification (https://golang.org/ref/spec)，原文采用 Creative Commons Attribution 3.0 协议，文档内代码采用 BSD 协议 (https://golang.org/LICENSE)。 本文采用 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 许可协议，文档内代码继用相同协议，如果你需要发布本文（或衍生品），也需要注明本文原始链接 (https://bitbili.net/golang_spec.html) 及译者 cwittlut (原 bekcpear)。
+:license: 本文由本人独立翻译自 The Go Programming Language Specification (https://go.dev/ref/spec)，原文采用 Creative Commons Attribution 3.0 协议，文档内代码采用 BSD 协议 (https://go.dev/LICENSE)。 本文采用 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 许可协议，文档内代码继用相同协议，如果你需要发布本文（或衍生品），也需要注明本文原始链接 (https://bitbili.net/golang_spec.html) 及译者 cwittlut (原 bekcpear)。
 :description: 最新版 Go 编程语言规范， The Go Programming Language Specification 的中文译文，译者 cwittlut (原 bekcpear)。
 :summary:
 :color: #7fd5ea
@@ -17,7 +17,7 @@ Go 编程语言规范【译】
 
 .. contents::
 
-* **对应英文原版 为 2021 年 07 月 26 日 版本:** https://golang.org/ref/spec
+* **对应英文原版 为 2021 年 07 月 26 日 版本:** https://go.dev/ref/spec
 * **本文完整翻译了官方英文版，且后续会尽全力同步更新**
 
 .. PELICAN_END_SUMMARY
@@ -37,7 +37,7 @@ Go 编程语言规范【译】
 
 .. PELICAN_BEGIN_SUMMARY
 
-这是一篇 Go 编程语言的参考手册。访问 `golang.org`_ 以获取更多信息及其它文档。
+这是一篇 Go 编程语言的参考手册。访问 `go.dev`_ 以获取更多信息及其它文档。
 
 Go 是一个在设计时便考虑到系统编程的通用语言。它是强类型的、带垃圾回收的且明确支持了并发编程。程序是由包来构建的，包的特性允许对其依赖进行高效管理。
 
@@ -4542,7 +4542,7 @@ Run-time panics
 :code:`对应提交： 507cc341ec2cb96b0199800245f222146f799266`
 
 .. _`我的 Github`: https://github.com/bekcpear/mypelicanconfandarticles/blob/master/content/Tech/gospec.rst
-.. _`golang.org`: https://golang.org/
+.. _`go.dev`: https://go.dev/
 .. _`Extended Backus-Naur form`: https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form
 .. _`ISO/IEC 14977:1996 PDF 压缩档`: http://standards.iso.org/ittf/PubliclyAvailableStandards/s026153_ISO_IEC_14977_1996(E).zip
 .. _`UTF-8`: http://en.wikipedia.org/wiki/UTF-8
@@ -4552,7 +4552,7 @@ Run-time panics
 .. _`Unicode 的`: https://www.unicode.org/versions/Unicode6.3.0/
 .. _`补码`: https://en.wikipedia.org/wiki/Two's_complement
 .. _`「截断除法」`: http://en.wikipedia.org/wiki/Modulo_operation
-.. _`反射接口`: https://golang.org/pkg/reflect/#StructTag
+.. _`反射接口`: https://pkg.go.dev/reflect#StructTag
 .. _`Talk:Significand`: https://en.wikipedia.org/wiki/Talk%3ASignificand
 .. _`知乎-原码、反码、补码的产生、应用以及优缺点有哪些？`: https://www.zhihu.com/question/20159860
-.. _`有效使用`: https://golang.org/pkg/unsafe#Pointer
+.. _`有效使用`: https://pkg.go.dev/unsafe#Pointer
