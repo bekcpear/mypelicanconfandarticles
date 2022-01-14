@@ -1858,7 +1858,7 @@ LiteralType 的潜在类型必须是结构体、数组、分片或者映射类�
   f := func(x, y int) int { return x + y }
   func(ch chan int) { ch <- ACK }(replyChan)
 
-  **FLAG: (replayChan) https://stackoverflow.com/questions/16008604/why-add-after-closure-body-in-golang**
+  // 译注： (replayChan) https://stackoverflow.com/questions/16008604/why-add-after-closure-body-in-golang
 
 函数字面值是 *闭包* ：它们可以引用外层函数定义的变量。然后这些变量就在外层函数和函数字面值间共享了，并且只要能被访问就可以一直存活。
 
