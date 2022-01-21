@@ -494,6 +494,10 @@ DNS 及测试
 
 openrc 是 Gentoo Linux 官方维护且默认的初始化程序，而 systemd 则是如今大多数发行版使用的初始化程序，各有优劣，二者均可，自行选择。
 
+.. tip::
+
+  `2021-10-18 起`_ ，官方开始上传 openrc/systemd 所对应 desktop profile 的 stage3 文件，如果目的是为了安装桌面环境，那么可以从这两个里面进行选择以缩短安装时间。
+
 .. warning::
 
   以下 stage3 这里不推荐选择：
@@ -2268,6 +2272,7 @@ Gentoo Linux 提供了一个工具叫 :gepkg:`sys-kernel/genkernel` 可用于创
 .. _`镜像列表`: https://www.gentoo.org/downloads/mirrors/#CN
 .. _`Rufus`: https://rufus.ie/zh/
 .. _`对应的 wiki`: https://wiki.gentoo.org/wiki/Profile_(Portage)
+.. _`2021-10-18 起`: https://gitweb.gentoo.org/proj/releng.git/commit/?id=59328ba4341123278bf87d14a802333602d83b7e
 .. _`glibc 的 git 仓库`: https://sourceware.org/git/?p=glibc.git;a=blob;f=posix/regcomp.c;h=887e5b50684e22f501011a9cac52ebe1a0bb3894;hb=HEAD#l877
 .. _`官方内核配置文档`: https://wiki.gentoo.org/wiki/Kernel#Configuration
 .. _`rsync 镜像列表`: https://www.gentoo.org/support/rsync-mirrors/
