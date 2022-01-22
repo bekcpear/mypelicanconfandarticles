@@ -17,13 +17,13 @@ Go 编程语言规范【译】
 
 .. contents::
 
-* **对应英文原版 为 2021 年 10 月 15 日 版本:** https://go.dev/ref/spec
+* **对应英文原版 为 2021 年 10 月 15 日 版本：** https://go.dev/ref/spec , :github:`golang/go@d60a4e69f16f5bc958094af206ac7e47f6bc8b04:doc/go_spec.html`
 * **本文完整翻译了官方英文版，且后续会尽全力同步更新**
 
 .. PELICAN_END_SUMMARY
 
-* **本文唯一原始链接为** https://bitbili.net/golang_spec.html , :github:`golang/go@d60a4e69f16f5bc958094af206ac7e47f6bc8b04:doc/go_spec.html`
-* **源码存放在** `我的 Github`_ **上**
+* **本文唯一原始链接为** https://bitbili.net/golang_spec.html
+* **源码存放在我的 Github 上：** :github:`bekcpear/mypelicanconfandarticles@master:/content/Tech/gospec.rst`
 
 - *翻译中针对可能有歧义/不明确/翻译后不易于理解的单词将直接使用原词汇*
 - *为了行文工整，代码块内可能使用英文表述*
@@ -4552,7 +4552,6 @@ Run-time panics
 
 如果结构体或数组没有包含大于零大小的字段（或元素，对数组而言），那么它大小为零。两个不同的零大小的变量在内存中可能拥有同一个地址。
 
-.. _`我的 Github`: https://github.com/bekcpear/mypelicanconfandarticles/blob/master/content/Tech/gospec.rst
 .. _`go.dev`: https://go.dev/
 .. _`Extended Backus-Naur form`: https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form
 .. _`ISO/IEC 14977:1996 PDF 压缩档`: http://standards.iso.org/ittf/PubliclyAvailableStandards/s026153_ISO_IEC_14977_1996(E).zip
