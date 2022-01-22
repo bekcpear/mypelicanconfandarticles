@@ -22,7 +22,7 @@ Go 编程语言规范【译】
 
 .. PELICAN_END_SUMMARY
 
-* **本文唯一原始链接为** https://bitbili.net/golang_spec.html
+* **本文唯一原始链接为** https://bitbili.net/golang_spec.html , :github:`golang/go@d60a4e69f16f5bc958094af206ac7e47f6bc8b04:doc/go_spec.html`
 * **源码存放在** `我的 Github`_ **上**
 
 - *翻译中针对可能有歧义/不明确/翻译后不易于理解的单词将直接使用原词汇*
@@ -4551,8 +4551,6 @@ Run-time panics
   译注，这边我一开始很纠结为什么 complex128 类型的对准值是 8 字节，后来发现 complex64 的对准值是 4 字节，所以大胆猜测它是拆开来算的
 
 如果结构体或数组没有包含大于零大小的字段（或元素，对数组而言），那么它大小为零。两个不同的零大小的变量在内存中可能拥有同一个地址。
-
-:code:`对应提交： d60a4e69f16f5bc958094af206ac7e47f6bc8b04`
 
 .. _`我的 Github`: https://github.com/bekcpear/mypelicanconfandarticles/blob/master/content/Tech/gospec.rst
 .. _`go.dev`: https://go.dev/
