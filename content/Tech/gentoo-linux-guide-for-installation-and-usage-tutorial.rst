@@ -2005,6 +2005,7 @@ emerge 支持配置一组默认选项，用于在每次运行 emerge 时采用�
   EMERGE_DEFAULT_OPTS="--autounmask --autounmask-keep-masks --autounmask-write=n -j -l 12 --keep-going -v"
   # 其中的 12 请根据实际情况修改
   # 如果配置了上文的 binhost ，那么对应选项也添加进入
+  # 设置默认 -v 选项会导致 emerge -ac 时输出额外非必要信息，不喜可取消默认 -v 选项
 
 其它的选项请自行发现。
 
