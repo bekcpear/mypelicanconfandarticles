@@ -18,7 +18,7 @@ Gentoo Linux 安装及使用指南
 
 很早以前，我就有写了一篇安装 Gentoo Linux 的文章（ `Gentoo Linux 安装 —— 带硬盘加密`_ ），只是那篇文章存在局限性。因为一些原因，我打算写一篇更详细更完整，适合新手且可以无缝进阶的 Gentoo Linux 安装及使用指南。
 
-.. _`开头`:
+.. .. _`开头`:
 
 * 本文面向新手，十分精简，配置正确
 * 本文以 AMD64(x86_64) 平台为例进行说明
@@ -26,9 +26,9 @@ Gentoo Linux 安装及使用指南
 * 本文以一条相对单一的路线指导安装使用 Gentoo Linux，亦可前往 `Gentoo Wiki 页`_ 以获取更多更详细内容。
 * 本文唯一原始链接： https://bitbili.net/gentoo-linux-installation-and-usage-tutorial.html
 * 本文源码在 `这里`_ ，欢迎纠错
-* 如有问题可以上 https://t.me/gentoo_zh 提问/反馈
+* _`如有问题` 可以上 https://t.me/gentoo_zh 提问/反馈
 
-.. tip::
+.. hint::
 
   这里有一个完整参照本文安装的视频——《 5 分钟速看 Gentoo Linux 完整安装进 KDE Plasma 》：
 
@@ -74,7 +74,7 @@ Gentoo Linux 安装及使用指南
 
 2. 将 :file:`.iso` 文件写入到 U 盘。
 
-   .. tip::
+   .. hint::
 
      如果是虚拟机，那么此章步骤 2 和 3 会不同，直接把 livecd 挂载到虚拟机的光驱，选择光驱启动即可，其它步骤一致。
 
@@ -436,7 +436,7 @@ DNS 及测试
 
 .. _`关于 sshd 设置的提示`:
 
-.. tip::
+.. hint::
 
   如果你通过的是虚拟机安装，或者同一网络下有其它电脑可以使用，那么使用 ssh 连接上本机，通过复制粘贴命令来操作会更加方便，而 LiveCD 环境下的 sshd 配置为，执行，
 
@@ -494,11 +494,11 @@ DNS 及测试
 
 openrc 是 Gentoo Linux 官方维护且默认的初始化程序，而 systemd 则是如今大多数发行版使用的初始化程序，各有优劣，二者均可，自行选择。
 
-.. tip::
+.. hint::
 
   `2021-10-18 起`_ ，官方开始上传 openrc/systemd 所对应 desktop profile 的 stage3 文件，如果目的是为了安装桌面环境，那么可以从这两个里面进行选择以缩短安装时间。
 
-.. warning::
+.. attention::
 
   以下 stage3 这里不推荐选择：
 
@@ -632,7 +632,7 @@ chroot 到目标系统
 
 该命令会从之前配置好的镜像地址下载最近打包好的 portage 数据库到本地，并解压后使用。 *portage* 是 Gentoo Linux 的包管理器，这个数据库是安装各种软件的基础。
 
-.. warning::
+.. hint::
 
   如果这里发现下载速度明显很慢，那可能是上述 `配置镜像地址`_ 未配置到合适的镜像点，建议重新配置。
 
@@ -963,7 +963,7 @@ openrc 这里我推荐使用 :gepkg:`app-admin/syslog-ng` ，执行
 
 登陆后完成上述没有进行完的网络配置，执行 :code:`nmtui` 进入到可视化的配置界面，根据提示把网络配置完成。
 
-.. tip::
+.. hint::
 
   网络配置完成后，如果还是想通过 SSH 登陆到此电脑后执行命令，依旧参考上述 `关于 sshd 设置的提示`_ 。只不过运行 sshd 的命令需要根据此时的环境来， openrc 下和上述相同， systemd 下则使用命令 :code:`systemctl start sshd` 。
 
@@ -1028,7 +1028,7 @@ openrc 这里我推荐使用 :gepkg:`app-admin/syslog-ng` ，执行
 
 .. _`about-locale-name`:
 
-.. tip::
+.. hint::
 
   如果你在好奇，为何默认存在的 Locale 名是 :file:`C.UTF8` ，而我要你添加的却是 :file:`zh_CN.UTF-8` ，那个小短横（ :file:`-` ）到底需不需要，我在这里说明。
 
@@ -1465,7 +1465,7 @@ Wayland
   # 根据本文上下文环境，这里我选择 amd64/17.1/desktop/plasma 以准备好 KDE Plasma 的前期环境
   eselect profile set 8
 
-.. warning::
+.. attention::
 
   这里不要跨初始化环境选择 Profile ，systemd 与 openrc 的 Profile 切换不会很轻松。
 
@@ -1484,7 +1484,7 @@ Wayland
 
 此处以安装 KDE Plasma 为例，
 
-.. tip::
+.. hint::
 
   在进行安装完整的 KDE Plasma 之前，可以选择是否安装二进制包而不是自己从源码开始编译。
 
@@ -1545,7 +1545,7 @@ Wayland
 2. 因为内存太低导致的，尝试去除上述命令选项中的 :code:`j` 重新更新
 3. 其它问题，请查看提醒的相应编译日志，如不能解决，可加文章开头群组寻求帮助
 
-.. note::
+.. hint::
 
   如果你打算安装 WM，那么以 Awesome Window Manager 为例，profile 可以选择纯 :file:`desktop` profile 以获得最基础的桌面配置，然后安装 :gepkg:`x11-wm/awesome` 即可。
 
@@ -1555,7 +1555,7 @@ Wayland
 
   顺便说一下 Display Manager (DM)，它用于提供图形化的登陆界面以登陆到 DE 或者 WM，它有多种，比如 KDE 默认的 sddm， Gnome 默认的 GDM，等等。
 
-.. warning::
+.. note::
 
   上述的操作会自动依赖上 X server: :gepkg:`x11-base/xorg-server` ，其依赖路径是::
 
@@ -1724,7 +1724,7 @@ systemd 下
      #emerge -vj app-i18n/fcitx5-meta
      # 这个仓库的会默认安装上 fcitx5-chinese-addons ，里面包含有中文输入法
 
-   .. warning::
+   .. attention::
 
      当使用非官方的 Fcitx5 时，因为没有镜像收录，所以源码需从 Github 下载，这时可能遇到因网络问题导致无法下载的情况（可以从 :file:`/var/log/emerge-fetch.log` 文件查看源码包下载情况），如果遇到这种情况那么请自行通过各种途径下载好对应的 :file:`.tar.gz` 格式（或类似）软件包，然后移动到 :file:`/var/cache/distfiles/` 目录下。
 
@@ -2248,6 +2248,8 @@ Gentoo Linux 提供了一个工具叫 :gepkg:`sys-kernel/genkernel` 可用于创
 
 * 若想进一步学习 Gentoo Linux 的知识，请访问文章 `开头`_ 所指出的 Gentoo Wiki 页面。里面的内容非常之丰富。
 * 若对 Gentoo Linux 下的 Portage 包管理器感兴趣，请访问 `开发手册`_ 。
+
+.. _`开头`: `如有问题`_
 
 建议，
 

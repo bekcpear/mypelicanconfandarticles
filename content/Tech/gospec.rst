@@ -7,7 +7,7 @@ Go 编程语言规范【译】
 :modified: 2022-02-15 04:50
 :lang: zh_hans
 :tags: doc, golang, 翻译
-:mykeywords: golang,go,语言,规范,翻译
+:mykeywords: golang,go,语言,规范,翻译,中文版,中文
 :notoriginal: true
 :license: 本文由本人独立翻译自 The Go Programming Language Specification (https://go.dev/ref/spec)，原文采用 Creative Commons Attribution 3.0 协议，文档内代码采用 BSD 协议 (https://go.dev/LICENSE)。 本文采用 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 许可协议，文档内代码继用相同协议，如果你需要发布本文（或衍生品），也需要注明本文原始链接 (https://bitbili.net/golang_spec.html) 及译者 cwittlut (原 bekcpear)。
 :description: 最新版 Go 编程语言规范， The Go Programming Language Specification 的中文译文，译者 cwittlut (原 bekcpear)。
@@ -21,15 +21,18 @@ Go 编程语言规范【译】
   :github:`golang/go@badbc52d82b1f97861bf30457014fc9ea19dfcb2:doc/go_spec.html`
 * **本文完整翻译了官方英文版，且后续会尽全力同步更新**
 
-.. warning::
+.. important::
 
-  本文适用于 Go 1.18 及以上版本，目前尚为草案，对于适用之前不支持泛型的版本的文档，请移步：
+  本文适用于支持泛型的 Go 1.18 及以上版本，目前尚为草案；
+
+  对于之前的文档，请移步：
   `Go 1.17 编程语言规范 【译】`_
 
 .. PELICAN_END_SUMMARY
 
 * **本文唯一原始链接为** https://bitbili.net/golang_spec.html
-* **源码存放在我的 Github 上：** :github:`bekcpear/mypelicanconfandarticles@master:/content/Tech/gospec.rst`
+* **源码存放在我的 Github 上：**
+  :github:`bekcpear/mypelicanconfandarticles@master:/content/Tech/gospec.rst`
 
 - *翻译中针对可能有歧义/不明确/翻译后不易于理解的单词将直接使用原词汇*
 - *为了行文工整，代码块内可能使用英文表述*
@@ -40,7 +43,9 @@ Go 编程语言规范【译】
 
 .. TODO(gri) remove this before the final release
 
-*[For reviewers: Sections where we know of missing prose are marked like this. The markers will be removed before the release.]*
+..
+
+  *[For reviewers: Sections where we know of missing prose are marked like this. The markers will be removed before the release.]*
 
 介绍
 ========================================
@@ -79,12 +84,21 @@ Go 是一个在设计时便考虑到系统编程的通用语言。它是强类�
 
 :code:`a … b` 这样子的格式表示从 :code:`a` 连续到 :code:`b` 的字符集。水平省略号 :code:`…` 也会用在其它一些地方非正式地表示枚举或者不再进一步说明的代码片段。 字符 :code:`…` （与三个单独字符 :code:`...` 不同）并不是 Go 语言里的 token。
 
+.. role:: html-role(raw)
+  :format: html
+
 .. note::
   译注： :ruby:`扩展巴科斯-瑙尔范式|extended Backus-Naur form` 是一种 :ruby:`元语法|metasyntax` 符号标记法，可以用于表示 :ruby:`上下文无关文法|Context-free grammar` 。
 
   针对本文简单说明，其产生式规则由非终结符和终结符所构成，左侧是一个非终结符，右侧则是该非终结符所代表的终结符和非终结符。终结符包括字母数字字符、标点符号和空格字符，其不可再分；非终结符最终指代某种序列组合的多个终结符。
 
-  本文用到的上述未说明的范式符号说明： :code:`=` 定义； :code:`,` 级联； :code:`.` 表示表达式终结； :code:`" .. "` 表示除双引号外的终结符； :code:`\` .. \`` 表示除反引号外的终结符； :code:`? .. ?` 表示特殊序列，用于解释 EBNF 标准以外的文本。
+  本文用到的上述未说明的范式符号说明：
+  :code:`=` 定义；
+  :code:`,` 级联；
+  :code:`.` 表示表达式终结；
+  :code:`" .. "` 表示除双引号外的终结符；
+  :code:`\` .. \`` 表示除反引号外的终结符；
+  :code:`? .. ?` 表示特殊序列，用于解释 EBNF 标准以外的文本。
 
   又注：根据维基百科 `extended Backus-Naur form`_ 上说明来看，原文的 EBNF 格式并不规范，所以我对原文表达式进行最小程度修改。更详细的 EBNF 说明可以下载 `ISO/IEC 14977:1996 PDF 压缩档`_ 查看。
 
@@ -421,10 +435,15 @@ Rune 字面值代表了一个 rune `常量`_ ，一个确定了 Unicode 码位�
 
 字符串字面值代表了通过串联字符序列而获得的字符串 `常量`_ 。它有两种形式： :ruby:`原始|raw` 字符串字面值和 :ruby:`解释型|interpreted` 字符串字面值。
 
-原始字符串字面值是在反引号之间的字符序列，就像 :code:`\`foo\`` 。除了反引号外的任何字符都可以出现在该引号内。原始字符串字面值的值就是由在引号内未被解释过的（隐式 UTF-8 编码的）字符所组成的字符串；比如，反斜杠在这里没有其它特殊的意义，并且可以包含新行。原始字符串字面值中的回车字符（ :code:`'\\r'` ）是会被从原始字符串值中所丢弃。
+原始字符串字面值是在反引号之间的字符序列，就像 :code:`\`foo\`` 。
+除了反引号外的任何字符都可以出现在该引号内。
+原始字符串字面值的值是由在引号内未被解释过的（隐式 UTF-8 编码的）字符所组成的字符串；
+尤其是，反斜杠在这里没有特殊意义，且字符串可以包含新行（LF）。
+原始字符串字面值中的回车字符（ :code:`'\\r'` ）会被从原始字符串值中所丢弃。
 
 .. note::
-  译注： 经测试，手动输入的 :code:`'\\r'` 字符是可以正常显示为 :code:`'\\r'` 的，那么理解下来，丢弃的是键盘键入的回车。
+  译注： 经测试，手动输入的 :code:`'\\r'` 字符是可以正常显示为 :code:`'\\r'`
+  的（毕竟反斜杠在这里无意义），那么理解下来，丢弃的是键盘键入的回车（CR，比如 Windows 上）。
 
 解释型字符串字面值是在双引号之间的字符序列，就像 :code:`"bar"` 。除了新行和未被转义的双引号之外的所有字符都可以出现在该引号内。引号之间的文本组成了字符串字面值的值，反斜杠转义以及限制都和 `rune`_ 字面值一样（不同的是，在解释型字符串字面值中， :code:`\\'` 是非法的， :code:`\\"` 是合法的）。三个数字的八进制数（ :code:`\\nnn` ）和两个数字的十六进制数（ :code:`\\xnn` ）的转义代表着所生成字符串的独立字节；所有其它的转义代表了单独字符的 UTF-8 编码（可能是多字节的）。因此字符串字面值内的 :code:`\\377` 和 :code:`\\xFF` 代表着值为 :code:`0xFF=255` 的单一字节，而 :code:`ÿ`, :code:`\\u00FF`, :code:`\\U000000FF` 和 :code:`\\xc3\\xbf` 代表着字符 U+00FF 以 UTF-8 编码的双字节 :code:`0xc3 0xbf` 。
 
@@ -438,7 +457,7 @@ Rune 字面值代表了一个 rune `常量`_ ，一个确定了 Unicode 码位�
 
   `abc`                // 同 "abc"
   `\n
-  n`                   // 同 "\\n\n\\n"
+  \n`                  // 同 "\\n\n\\n"
   "\n"
   "\""                 // 同 `"`
   "Hello, world!\n"
@@ -459,8 +478,6 @@ Rune 字面值代表了一个 rune `常量`_ ，一个确定了 Unicode 码位�
   "\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e"  // 明确的 UTF-8 字节
 
 当源代码以两个码位来代表一个字符，比如包含一个重音符和一个字母的组合形式，如果是在 rune 字面值中的话会使得结果出错（因为其并不是一个单一码位），而如果是在字符串字面值中的话则会显示为两个码位。
-
-.. _`常量`:
 
 .. _`默认类型`:
 
@@ -560,7 +577,7 @@ Rune 字面值代表了一个 rune `常量`_ ，一个确定了 Unicode 码位�
 
 语言本身 `预先声明`_ 了一些特定的类型名。其它的命名类型则使用 `类型声明`_ 或者 `类型形参列表`_ 引入。 *复合类型* ——数组、结构体、指针、函数、接口、分片、映射和信道类型——可以由类型字面值构成。
 
-预先声明的类型、定义好的类型以及类型参数都被称为 *命名类型* 。如果在别名声明中给出的类型是命名类型，那么该别名表示命名类型。
+预先声明的类型、定义好的类型以及类型形参都被称为 *命名类型* 。如果在别名声明中给出的类型是命名类型，那么该别名表示命名类型。
 
 .. _`布尔`:
 
@@ -1006,9 +1023,6 @@ Rune 字面值代表了一个 rune `常量`_ ，一个确定了 Unicode 码位�
     Reader   // 在 ReadCloser 的方法集中包含 Reader 的方法
     Close()  // 非法： Reader.Close 的签名和 Close 的不同
   }
-
-.. role:: html-role(raw)
-  :format: html
 
 泛型接口
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
