@@ -921,7 +921,7 @@ Grub 安装器
 
 这段仅针对 openrc 用户，systemd 则有自带的日志服务。
 
-openrc 这里我推荐使用 :gepkg:`app-admin/syslog-ng` ，执行
+openrc 这里我推荐使用 :genpkg:`app-admin/syslog-ng` ，执行
 
 .. code-block:: shell
 
@@ -1080,7 +1080,7 @@ openrc 这里我推荐使用 :gepkg:`app-admin/syslog-ng` ，执行
 
 为保证时间的精准，
 
-1. 启用对网络的时间同步服务。这里我推荐使用 :gepkg:`net-misc/chrony` 这个同步软件，执行
+1. 启用对网络的时间同步服务。这里我推荐使用 :genpkg:`net-misc/chrony` 这个同步软件，执行
 
    .. code-block:: shell
 
@@ -1547,9 +1547,9 @@ Wayland
 
 .. hint::
 
-  如果你打算安装 WM，那么以 Awesome Window Manager 为例，profile 可以选择纯 :file:`desktop` profile 以获得最基础的桌面配置，然后安装 :gepkg:`x11-wm/awesome` 即可。
+  如果你打算安装 WM，那么以 Awesome Window Manager 为例，profile 可以选择纯 :file:`desktop` profile 以获得最基础的桌面配置，然后安装 :genpkg:`x11-wm/awesome` 即可。
 
-  安装完毕后，建议安装 :gepkg:`x11-misc/sddm` 这个 Display Manager 用于启动 Awesome WM，至于之前的 KDE Plasma，它已经默认依赖了 sddm。
+  安装完毕后，建议安装 :genpkg:`x11-misc/sddm` 这个 Display Manager 用于启动 Awesome WM，至于之前的 KDE Plasma，它已经默认依赖了 sddm。
 
   相对于 KDE Plasma， Awesome WM 的依赖要少太多太多，安装快速，但功能也极简单。
 
@@ -1557,7 +1557,7 @@ Wayland
 
 .. note::
 
-  上述的操作会自动依赖上 X server: :gepkg:`x11-base/xorg-server` ，其依赖路径是::
+  上述的操作会自动依赖上 X server: :genpkg:`x11-base/xorg-server` ，其依赖路径是::
 
     plasma-meta -> sddm -> xorg-server
 
@@ -2035,7 +2035,7 @@ Portage 的内容太多，以上仅列出了几个经常会使用到的配置。
 
 单纯 Portage 自带的工具对于日常管理其会显得有些吃力，这里推荐几个比较有用的软件用于辅助管理 Portage。
 
-:gepkg:`app-portage/eix`
+:genpkg:`app-portage/eix`
   这个可以说是非常有用的软件，主要用于查询 Portage 数据库，其优势在于更快的速度、更人性化的显示格式以及更方便的查询模式。
 
   使用前需执行 :code:`eix-update` 以更新 eix 数据库，安装它之后，可以使用 :code:`eix-sync` 命令来更新 Portage 数据库，更新完毕后会自动更新 eix 数据库，并显示更新前后的软件包对比情况。
@@ -2054,7 +2054,7 @@ Portage 的内容太多，以上仅列出了几个经常会使用到的配置。
 
   等等，执行 :code:`man eix` 查看更多用法。
 
-:gepkg:`app-portage/gentoolkit`
+:genpkg:`app-portage/gentoolkit`
   包含了 Gentoo 的一些管理脚本，常用的命令有用于查询依赖关系，文件归属，软件包内容的 :code:`equery` ，以及用于清理 distfile 的 :code:`eclean-dist` 。比如
 
   .. code-block:: shell
@@ -2076,10 +2076,10 @@ Portage 的内容太多，以上仅列出了几个经常会使用到的配置。
 
   等等，请自行发现。
 
-:gepkg:`app-portage/portage-utils`
+:genpkg:`app-portage/portage-utils`
   包含了 Portage 的帮助工具，与上面 gentoolkit 的功能有重合，他们具有互补性，常用的命令有用于分析 emerge 日志的 :code:`qlop` 。它是用 C 写的，速度更快。
 
-:gepkg:`app-portage/pfl`
+:genpkg:`app-portage/pfl`
   Portage File List，可用于在线查询文件所归属的包，命令为 :code:`e-file <文件名>` 。
 
 多版本管理
@@ -2129,7 +2129,7 @@ sys-kernel/gentoo-kernel-bin
 
 在 :file:`::gentoo` 这个官方仓库内，能被定为稳定的内核版本，目前只有 :ruby:`长期支持|Long-term support` (LTS) 版本。但这并不意味着该仓库下的 test 版本内核就不稳定，以上三个版本的内核的 test 分支均可使用，追溯的是上游的主线版。
 
-在这里，我以 :gepkg:`sys-kernel/gentoo-sources` 为例。
+在这里，我以 :genpkg:`sys-kernel/gentoo-sources` 为例。
 
 .. _`内核配置`:
 
@@ -2223,7 +2223,7 @@ sys-kernel/gentoo-kernel-bin
 
 了解了其功能，现在开始说如何制作它。
 
-Gentoo Linux 提供了一个工具叫 :gepkg:`sys-kernel/genkernel` 可用于创建 initramfs ，并且有别于其它的 initramfs 创建工具， genkernel 会单独编译一个独立的 initramfs 环境（而非直接使用当前系统环境），并打包压缩。这会使得其相对于其它的工具（比如 dracut）创建过程更慢。
+Gentoo Linux 提供了一个工具叫 :genpkg:`sys-kernel/genkernel` 可用于创建 initramfs ，并且有别于其它的 initramfs 创建工具， genkernel 会单独编译一个独立的 initramfs 环境（而非直接使用当前系统环境），并打包压缩。这会使得其相对于其它的工具（比如 dracut）创建过程更慢。
 
 简单的使用例子 `上文已有`_ ，其配置文件位于 :file:`/etc/genkernel.conf` ，里面对每个变量的设置都有详细的说明。
 

@@ -94,7 +94,7 @@ Gentoo 的默认设置
 
 对于需要临时添加代理以使用的情况，目前我知道两种方式：
 
-1. 使用 :gepkg:`net-misc/proxychains` 软件，适用所有下载方式。
+1. 使用 :genpkg:`net-misc/proxychains` 软件，适用所有下载方式。
 
    配置好代理列表后，通过如下命令使用：
 

@@ -442,7 +442,7 @@ MAKEOPTS，这个决定了每次并行运行的任务数，一般设置 CPU 的�
 
 这里可能需要在 :file:`/etc/portage/package.license` 下添加接受许可。
 
-完成之后就可以开始配置编译内核了，有两种方式，一个手动配置，一个使用 :gepkg:`sys-kernel/genkernel` 工具来配置。我是选择手动配置的，虽然一开始真的看得整个人都是懵的，不过熟练了就好了。手动配置可以大大减少不需要的模块的安装和编译，也有利于启动速度，还可以后续继续熟悉优化内核配置，且把显卡驱动直接编译进内核后，在输入 LUKS 加密分区的密码时，就已经加载完成显卡驱动，屏幕看得也会舒服很多。
+完成之后就可以开始配置编译内核了，有两种方式，一个手动配置，一个使用 :genpkg:`sys-kernel/genkernel` 工具来配置。我是选择手动配置的，虽然一开始真的看得整个人都是懵的，不过熟练了就好了。手动配置可以大大减少不需要的模块的安装和编译，也有利于启动速度，还可以后续继续熟悉优化内核配置，且把显卡驱动直接编译进内核后，在输入 LUKS 加密分区的密码时，就已经加载完成显卡驱动，屏幕看得也会舒服很多。
 
 先安装两个工具：
 
@@ -495,7 +495,7 @@ MAKEOPTS，这个决定了每次并行运行的任务数，一般设置 CPU 的�
 
   **有一点要注意的是，参考 Gentoo 官方的 AMDGPU 配置文档，里面的固件列表是不全的，虽然文档也说明了，但一开始没仔细看，被坑死了；针对我这块显卡，我直接把 vega 开头的固件全部丢进去后.. 才启动，也不去深究哪个是哪个了，极大可能是 vega10/20_vce/uvd.bin**
 
-关于 Microcode， 我的是 AMD 的 CPU，在全局开启 initramfs USE 的情况下，安装 :gepkg:`sys-kernel/linux-firmware` 时，会自动在 :file:`/boot` 目录下，创建一个 CPIO 格式微码文件 :file:`amd-uc.img` ，在 initrd 中使用，需要在 initramfs 前加载，具体规则看下方 initramfs 说明链接， :code:`grub-mkconfig` 会自动识别添加。如果是 Intel 的 CPU，则不会创建这个文件，需要手动创建，或者直接编译进内核，或者使用 :code:`genkernel` 命令生成。
+关于 Microcode， 我的是 AMD 的 CPU，在全局开启 initramfs USE 的情况下，安装 :genpkg:`sys-kernel/linux-firmware` 时，会自动在 :file:`/boot` 目录下，创建一个 CPIO 格式微码文件 :file:`amd-uc.img` ，在 initrd 中使用，需要在 initramfs 前加载，具体规则看下方 initramfs 说明链接， :code:`grub-mkconfig` 会自动识别添加。如果是 Intel 的 CPU，则不会创建这个文件，需要手动创建，或者直接编译进内核，或者使用 :code:`genkernel` 命令生成。
 
 查的部分一些资料，并不全：
 
@@ -542,7 +542,7 @@ MAKEOPTS，这个决定了每次并行运行的任务数，一般设置 CPU 的�
 2. btrfs 分区的 UUID 是解密后磁盘映射的 UUID
 3. 别忘了添上子卷 ID
 
-然后配置网络，这里直接安装 :gepkg:`net-misc/dhcpcd` 自动获取路由器的地址，无线网卡配置等最后再配置。如果仅能使用无线网卡，可以跳到后文去看。
+然后配置网络，这里直接安装 :genpkg:`net-misc/dhcpcd` 自动获取路由器的地址，无线网卡配置等最后再配置。如果仅能使用无线网卡，可以跳到后文去看。
 
 设置硬件时钟 因为是和 Windows 双系统， Windows 写入 BIOS 的是本地时间且不可手动修改，所以需要设置 clock="local" 在 :file:`/etc/conf.d/hwclock`
 
@@ -566,12 +566,12 @@ MAKEOPTS，这个决定了每次并行运行的任务数，一般设置 CPU 的�
 
 这个步骤可以安装一些需要的特定工具，比如：
 
-* 管理加密分区工具 :gepkg:`sys-fs/cryptsetup`
-* 计划任务工具如 :gepkg:`sys-process/cronie`
-* 必要的日志工具如 :gepkg:`app-admin/sysklogd`
-* 主文件系统工具，比如我是 btrfs 格式分区则用 :gepkg:`sys-fs/btrfs-progs`
-* 无线网络配置工具， :gepkg:`net-wireless/iw` 用于网络发现和开放或 WEP 加密网络的连接， :gepkg:`net-wireless/wpa_supplicant` 用于 WPA/WPA2 加密网络的连接。
-* 如果主机拨号的话，也需要 PPPoE 客户端 :gepkg:`net-dialup/ppp` ，并在内核下配置对应选项。
+* 管理加密分区工具 :genpkg:`sys-fs/cryptsetup`
+* 计划任务工具如 :genpkg:`sys-process/cronie`
+* 必要的日志工具如 :genpkg:`app-admin/sysklogd`
+* 主文件系统工具，比如我是 btrfs 格式分区则用 :genpkg:`sys-fs/btrfs-progs`
+* 无线网络配置工具， :genpkg:`net-wireless/iw` 用于网络发现和开放或 WEP 加密网络的连接， :genpkg:`net-wireless/wpa_supplicant` 用于 WPA/WPA2 加密网络的连接。
+* 如果主机拨号的话，也需要 PPPoE 客户端 :genpkg:`net-dialup/ppp` ，并在内核下配置对应选项。
 
 主要就是日志工具的启用， DHCP 客户端的启用，其它后面再装也可以：
 
@@ -584,7 +584,7 @@ MAKEOPTS，这个决定了每次并行运行的任务数，一般设置 CPU 的�
 步骤九： 完成系统引导的配置
 ============================================================
 
-我选用 grub 作为引导程序，因为是 UEFI 固件启动，所以需要设定全局的 grub 参数，并安装 :gepkg:`sys-boot/grub` ：
+我选用 grub 作为引导程序，因为是 UEFI 固件启动，所以需要设定全局的 grub 参数，并安装 :genpkg:`sys-boot/grub` ：
 
 .. code-block:: bash
 
@@ -718,7 +718,7 @@ MAKEOPTS，这个决定了每次并行运行的任务数，一般设置 CPU 的�
 
   yubikey 相关问题： 1）无法使用 u2f 功能，每次都无法验证； 2）ykman 获取不到设备信息
 
-  1）原因是需要额外的 udev 规则，参阅： https://forums.gentoo.org/viewtopic-p-8504230.html?sid=580f7e5e2cf387e1806d2ec02cc14019 ； 2）则是因为 Gentoo 下默认不会安装 pcsc 驱动，自行安装 :gepkg:`app-crypt/ccid` 即可，同时注意 openrc 用户需在 :file:`/etc/rc.conf` 下添加 :code:`rc_hotplug="pcscd"` .
+  1）原因是需要额外的 udev 规则，参阅： https://forums.gentoo.org/viewtopic-p-8504230.html?sid=580f7e5e2cf387e1806d2ec02cc14019 ； 2）则是因为 Gentoo 下默认不会安装 pcsc 驱动，自行安装 :genpkg:`app-crypt/ccid` 即可，同时注意 openrc 用户需在 :file:`/etc/rc.conf` 下添加 :code:`rc_hotplug="pcscd"` .
 
 .. admonition:: T/S
 
