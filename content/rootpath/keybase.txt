@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/bekcpear
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://bitbili.net
+  * I am bekcpear (https://keybase.io/bekcpear) on keybase.
+  * I have a public key ASCP1z1KIbFvmzpbE6Temqg_OwT0dbGUyHyg_BD5yATDfAo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01015e0b69d04e20330f4a57d10efee60b9e0afa98cca4f5b349bd02f6bf6907f9b00a",
+      "host": "keybase.io",
+      "kid": "01208fd73d4a21b16f9b3a5b13a4de9aa83f3b04f475b194c87ca0fc10f9c804c37c0a",
+      "uid": "45a85c23efc77704bee73bc441e08a19",
+      "username": "bekcpear"
+    },
+    "merkle_root": {
+      "ctime": 1600434851,
+      "hash": "dc92decf7f60dcc0a172dcab151a06dbc967584fc2f63daf00225b1922f61177511f238b5fe803e4310e22454c1f25314a8598da74f3a2867b85681652406d6f",
+      "hash_meta": "48e3c11038f521c2804499b6530bc8c8ac60470b9949e6fcfc08aaf9e08f4268",
+      "seqno": 17604990
+    },
+    "service": {
+      "entropy": "npRiTzeoqdpXgJdLKXK63Ag8",
+      "hostname": "bitbili.net",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "5.5.1"
+  },
+  "ctime": 1600434877,
+  "expire_in": 504576000,
+  "prev": "ff91f7e74d26a0fb9f95422b996ec3adcba71ca0243f9b1d29f2f69b704300ca",
+  "seqno": 46,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgj9c9SiGxb5s6WxOk3pqoPzsE9HWxlMh8oPwQ+cgEw3wKp3BheWxvYWTESpcCLsQg/5H3500moPuflUIrmW7DrcunHKAkP5sdKfL2m3BDAMrEIJNYZZJBS6f9S9MIt3byr9TlS9yaiJ1gxn9MP+zy/lwfAgHCo3NpZ8RA2QJsNvoW7sL3V6NFqrer09/llwCmoiXzmGprV/Qk5gK3gkJO5iKoke2M571n+8Ezz0NHHEdqPOhgxl00uFcyD6hzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIFSGJPbiPjWl9UMKbt7mIBqo+JZSaTIxPBSAXwrBo4xIo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/bekcpear
+
+==================================================================

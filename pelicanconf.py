@@ -2,28 +2,48 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
-AUTHOR = 'cwittlut'
-SITENAME = 'bitbili'
-SITENAMEL = 'bitbili.net'
-SITEURL = 'https://bitbili.net'
-MAINSITEURL = 'https://bitbili.net'
-SITELOGO = '/static/logo/logo.svg'
-SITELOGOPNG = '/static/logo/fav.png'
-OPEN_GRAPH_IMAGE = '/static/logo/logoMaskable.png'
-SITEDESC = "一个格物致知的技术博客。"
-MIGVERSION = '2021.11.06.928'
-MYPROFILE = "https://github.com/bekcpear"
+# Theme settings
+THEME      = './bitbiliNewTheme/dist'
 
+import os
+import sys
+sys.path.append(os.path.join(os.curdir, 'bitbiliNewTheme/config'))
+from bitbiliNewThemeConfig import *
 
-PAGE_URL = "{slug}.html"
-PAGE_SAVE_AS = "{slug}.html"
+# Main settings
+AUTHOR              = SITE["author"]["username"]
+DEFAULT_DATE_FORMAT = '%Y 年 %m 月 %d 日（周%a）'
+DEFAULT_LANG        = "zh_hans"
+DEFAULT_PAGINATION  = 6
+LOCALE              = 'zh_CN.utf8'
+PAGE_URL            = "{slug}.html"
+PAGE_SAVE_AS        = PAGE_URL
+STATIC_PATHS        = []
+SITENAME            = SITE["name"]
+SITESUBTITLE        = SITE["desc"]
+SITEURL             = SITE["url"]
+#SUMMARY_MAX_LENGTH  = 60
+TIMEZONE            = "Asia/Shanghai"
 
-THEME = 'bitbiliTheme'
-MAINCOLOR = '#eb1847'
-MAINCSSFILE = 'style.min.css'
-INDEXCSSFILE = 'index.min.css'
+AVATAR              = SITE['author']['profile']['avatar']
 
-PATH = 'content'
+PYGMENTS_STYLE      = 'github'
+ABOUT_PAGE          = "about.html"
+BLOGROLL_PAGE       = "blogroll.html"
+
+SITE_VERSION        = "2022.02.17.959 (未更新值)"
+
+# Others
+RELATIVE_URLS            = False
+CHECK_MODIFIED_METHOD    = "md5"
+LOAD_CONTENT_CACHE       = True
+CACHE_CONTENT            = True
+OUTPUT_SOURCES           = True
+OUTPUT_SOURCES_EXTENSION = '.rst'
+TYPOGRIFY                = False
+
+GOOGLE_ANALYTICS_UNIVERSAL = 'UA-135034932-1'
+
 ARTICLE_EXCLUDES = [
     'Drafts',
     'mis',
@@ -34,35 +54,23 @@ ARTICLE_EXCLUDES = [
     'nocimages'
 ]
 
-TIMEZONE = 'Asia/Shanghai'
-
-DEFAULT_PAGINATION = 9
-#SUMMARY_MAX_LENGTH = 60
-
-DEFAULT_LANG = 'zh_hans'
-LOCALE = 'en_US.utf8'
-
-DEFAULT_DATE_FORMAT = '%Y 年 %m 月 %d 日/%w'
-
-STATIC_PATHS = []
-
-MARKDOWN = {'extension_configs': {
-    'admonition': {},
-    'toc': {},
-    'codehilite': {'css_class': 'highlight', 'linenums': False },
-    'extra': {}
-    }}
-
 PLUGIN_PATHS = ['plugins']
 PLUGINS = ["plantuml",
            'bilibili',
            'neighbors',
            'twitter_bootstrap_rst_directives',
            'tag_cloud',
-           'extract_toc',
            'sitemap',
            'summary',
+           'extract_toc',
+           'pin_to_top',
            'related_posts']
+RELATED_POSTS_TEXT = '相关文章'
+
+PIN_TO_TOP = [
+        'golang_spec',
+        'gentoo-linux-installation-and-usage-tutorial',
+        ]
 
 SITEMAP = {
     'format': 'xml',
@@ -78,68 +86,3 @@ SITEMAP = {
         'pages': 'monthly'
     }
 }
-
-USE_LESS = False
-
-RELATED_POSTS_TEXT = "相关文章"
-
-# Uncomment following line if you want document-relative URLs when developing
-RELATIVE_URLS = False
-CHECK_MODIFIED_METHOD = "md5"
-LOAD_CONTENT_CACHE = True
-CACHE_CONTENT = True
-
-# Feed generation is usually not desired when developing
-#FEED_RSS = None
-#FEED_ALL_RSS = None
-#CATEGORY_FEED_RSS = None
-#TAG_FEED_RSS = None
-
-DISQUS_SITENAME = 'whatever'
-DISQUS_DISPLAY_COUNTS = True
-GOOGLE_ANALYTICS_URL = 'https://www.google-analytics.com'
-GOOGLE_ANALYTICS_UNIVERSAL_ASYNC = 'UA-135034932-1'
-GOOGLE_ANALYTICS_UNIVERSAL_PROPERTY = 'auto'
-
-# Theme options
-
-SERVICEWORKER = True
-DOCUTIL_CSS = False
-TYPOGRIFY = False
-PYGMENTS_STYLE = 'github'
-GITHUB_USER = 'bekcpear'
-GITHUB_SHOW_USER_LINK = True
-GITHUB_REPO = ''
-DISPLAY_BREADCRUMBS = True
-DISPLAY_PAGES_ON_MENU = True
-DISPLAY_CATEGORY_IN_BREADCRUMBS = True
-CC_LICENSE = ""
-CC_LICENSE_NAME = ""
-CC_LICENSE_COMMERCIAL = False
-CC_LICENSE_DERIVATIVES = "sharealike"
-DISPLAY_TAGS_INLINE = True
-TAG_CLOUD_BADGE = True
-OUTPUT_SOURCES = True
-OUTPUT_SOURCES_EXTENSION = '.rst'
-
-DIRECT_TEMPLATES = (('index', 'categories', 'authors', 'archives',
-                     'tags'))
-
-AVATAR = 'https://avatars1.githubusercontent.com/u/6622239'
-ABOUT_PAGE = "about.html"
-BLOGROLL_PAGE = "blogroll.html"
-
-BREADCRUMBLIST_OL   = ''
-BREADCRUMBLIST_LI   = ''
-BREADCRUMBLIST_A    = ''
-BREADCRUMBLIST_NAME = ''
-BREADCRUMBLIST_IMG  = ''
-#BREADCRUMBLIST_OL   = 'itemscope itemtype="http://schema.org/BreadcrumbList"'
-#BREADCRUMBLIST_LI   = 'itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"'
-#BREADCRUMBLIST_A    = 'itemscope itemtype="http://schema.org/Thing" itemprop="item"'
-#BREADCRUMBLIST_NAME = 'itemprop="name"'
-#BREADCRUMBLIST_IMG  = 'itemprop="image"'
-
-# Uncomment following line if you want document-relative URLs when developing
-#RELATIVE_URLS = True
-

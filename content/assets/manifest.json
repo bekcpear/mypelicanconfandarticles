@@ -3,25 +3,26 @@
   "short_name": "bitbili",
   "lang": "zh-Hans",
   "start_url": "/",
+  "id": "/",
   "display": "standalone",
   "theme_color": "#eb1847",
-  "background_color": "#fff",
+  "background_color": "#232323",
   "description": "一个格物致知的技术博客。",
   "icons": [
     {
-      "src": "\/static\/logo\/logoMaskable.png",
+      "src": "\/assets\/logo\/logoMaskable.png",
       "sizes": "300x300",
       "type": "image\/png",
-      "purpose": "any maskable"
+      "purpose": "maskable"
     },
     {
-      "src": "\/static\/logo\/logoMonochrome.png",
+      "src": "\/assets\/logo\/logoMonochrome.png",
       "sizes": "300x300",
       "type": "image\/png",
       "purpose": "monochrome"
     },
     {
-      "src": "\/static\/logo\/fav.png",
+      "src": "\/assets\/logo\/fav.png",
       "sizes": "600x600",
       "type": "image\/png",
       "purpose": "any"

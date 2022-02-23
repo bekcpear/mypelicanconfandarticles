@@ -5,6 +5,7 @@
 :slug: blogroll
 :date: 2017-06-13
 :lang: zh_hans
+:draft: true
 
 **这里会放一些我喜欢的博客**
 

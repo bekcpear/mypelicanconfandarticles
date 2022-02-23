@@ -13,13 +13,12 @@ Depend on:
 
 * Pelcian
 * Ditaa
-* sw-precache or workbox-cli
 * some Pelican plugins
 * dev-python/beautifulsoup
 * sys-process/parallel -- Tange, O. (2020, July 22). GNU Parallel 20200722 ('Privacy Shield'). Zenodo. https://doi.org/10.5281/zenodo.3956817
 
 [blog]: https://bitbili.net
-[theme]: https://github.com/bekcpear/bitbiliTheme
+[theme]: https://github.com/bekcpear/bitbiliNewTheme
 [by-sa]: https://creativecommons.org/licenses/by-sa/4.0/
 [fc]: https://github.com/farseerfc/pelican-plugins
 [git]: https://github.com/bekcpear/pelican-plugins
