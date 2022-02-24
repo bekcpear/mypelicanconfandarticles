@@ -23,7 +23,7 @@
     },
     {
       "src": "\/assets\/logo\/fav.png",
-      "sizes": "600x600",
+      "sizes": "300x300",
       "type": "image\/png",
       "purpose": "any"
     }

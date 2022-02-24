@@ -63,6 +63,11 @@ copy_static:
 publishtest: rmdrafts cleanout js
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONFTEST) $(PELICANOPTS)
 	$(MAKE) rsthtml
+	$(MAKE) copy_static
+
+publishtest-sw: rmdrafts cleanout js
+	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONFTEST) $(PELICANOPTS)
+	$(MAKE) rsthtml
 	$(MAKE) sw
 	$(MAKE) copy_static
 

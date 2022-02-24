@@ -1,6 +1,8 @@
 #!/bin/bash
 #
 
+set -e
+
 t=$(find /usr -path '*/docutils/parsers/rst/__init__.py' -exec grep 'tools\.ietf\.org' '{}' \; 2>/dev/null | wc -l)
 
 if [ $t -lt 2 ]; then
