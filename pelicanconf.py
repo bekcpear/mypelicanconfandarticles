@@ -64,6 +64,7 @@ PLUGINS = ["plantuml",
            'summary',
            'extract_toc',
            'pin_to_top',
+           'rst_with_html5',
            'related_posts']
 RELATED_POSTS_TEXT = '相关文章'
 

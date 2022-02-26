@@ -8,7 +8,7 @@
 /content/assets/logo/
 /keybase.txt
 /publishconf_test.py
-/pelicanconf_test.py
+/pelicanconf_test.py*
 /node_modules
 /*.bak
 *.swp
