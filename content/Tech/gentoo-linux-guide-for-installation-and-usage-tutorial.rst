@@ -4,7 +4,7 @@ Gentoo Linux 安装及使用指南
 
 :slug: gentoo-linux-installation-and-usage-tutorial
 :date: 2021-10-03 11:35
-:modified: 2021-11-06 17:14
+:modified: 2022-03-21 13:40
 :lang: zh_hans
 :color: #463c65
 :tags: Gentoo, Linux, tutorial, installation, usage
@@ -2004,11 +2004,15 @@ emerge 支持配置一组默认选项，用于在每次运行 emerge 时采用�
 
   EMERGE_DEFAULT_OPTS="--autounmask --autounmask-keep-masks --autounmask-write=n -j -l 12 --keep-going -v"
   # 其中的 12 请根据实际情况修改
-  # 如果配置了上文的 binhost ，那么对应选项也添加进入，
-  # 　　　　　　　　         　这里需要注意的是，
-  # 　　　　　　　　         　由于 --binpkg-respect-use=y 会隐式禁用默认启用的 --autounmask-use=y ，
-  # 　　　　　　　　         　故建议再添加上 --autounmask-use=y 选项。
+  # 如果配置了上文的 binhost ，那么对应选项也添加进入。
   # 设置默认 -v 选项会导致 emerge -ac 时输出额外非必要信息，不喜可取消默认 -v 选项
+
+.. hint::
+
+  若与 binhost 选项进行组合时需要注意： `@Ventusliberum`_ 发现，由于 :var:`--binpkg-respect-use=y` 会隐式地设置
+  :var:`--autounmask-use=n` ，且优先级更高，所以目前无法两者并存，参见： https://bugs.gentoo.org/777111
+  ，相关代码为：
+  :github:`gentoo/portage@0480258c13997a5eb468692b85edca2ee56cfdd9:lib/_emerge/create_depgraph_params.py#L62-L66`
 
 其它的选项请自行发现。
 
@@ -2280,6 +2284,7 @@ Gentoo Linux 提供了一个工具叫 :genpkg:`sys-kernel/genkernel` 可用于�
 .. _`对应的 wiki`: https://wiki.gentoo.org/wiki/Profile_(Portage)
 .. _`2021-10-18 起`: https://gitweb.gentoo.org/proj/releng.git/commit/?id=59328ba4341123278bf87d14a802333602d83b7e
 .. _`glibc 的 git 仓库`: https://sourceware.org/git/?p=glibc.git;a=blob;f=posix/regcomp.c;h=887e5b50684e22f501011a9cac52ebe1a0bb3894;hb=HEAD#l877
+.. _`@Ventusliberum`: https://github.com/dafeinayius
 .. _`官方内核配置文档`: https://wiki.gentoo.org/wiki/Kernel#Configuration
 .. _`rsync 镜像列表`: https://www.gentoo.org/support/rsync-mirrors/
 .. _`桌面环境`: https://wiki.gentoo.org/wiki/Desktop_environment
