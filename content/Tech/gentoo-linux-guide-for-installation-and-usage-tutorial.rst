@@ -1695,11 +1695,9 @@ systemd 下
      # 更新以获取下仓库内容
      emerge --sync ryans
      # 如果一直卡在这里，那说明当前网络访问 github.com 不流畅
-     # 　　　　　　　　　这时候有一种方法是：
-     # 　　　　　　　　　　　　访问 https://fastgit.org （我不对该网站做任何保证）
-     # 　　　　　　　　　　　　修改 /etc/portage/repos.conf/eselect-repo.conf 文件，
-     # 　　　　　　　　　　　　替换对应链接的域名为上述网站内指定值
-     # 　　　　　　　　　　　　并再次同步
+     # 　　　　　　　　　这时候可以修改 /etc/portage/repos.conf/eselect-repo.conf 文件，
+     # 　　　　　　　　　　　　替换同步地址为 https://git.onfoo.top/gentoo-mirror/ryans.git
+     # 　　　　　　　　　　　　后再次同步
 
      # 添加关键字用于安装
      echo "app-i18n/*::ryans" >>/etc/portage/package.accept_keywords
