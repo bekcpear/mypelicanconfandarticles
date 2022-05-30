@@ -4,7 +4,7 @@ Gentoo Linux 安装及使用指南
 
 :slug: gentoo-linux-installation-and-usage-tutorial
 :date: 2021-10-03 11:35
-:modified: 2022-03-21 13:40
+:modified: 2022-05-30 18:53
 :lang: zh_hans
 :color: #463c65
 :tags: Gentoo, Linux, tutorial, installation, usage
@@ -1721,8 +1721,17 @@ systemd 下
      #echo "app-i18n/*::gentoo-zh" >>/etc/portage/package.accept_keywords
      #echo "x11-libs/xcb-imdkit::gentoo-zh" >>/etc/portage/package.accept_keywords
      # 再安装
-     #emerge -vj app-i18n/fcitx5-meta
-     # 这个仓库的会默认安装上 fcitx5-chinese-addons ，里面包含有中文输入法
+     #emerge -vj app-i18n/fcitx-meta:5
+     # 这个仓库的会默认安装上 fcitx-chinese-addons:5 ，里面包含有中文输入法
+
+   .. attention::
+
+     个人仓库 :var:`::ryans` 下的 fcitx:5 系列包打过补丁，与主仓库
+     :var:`::gentoo` 下的 fcitx:4 系列包不冲突，但收录不完全；而目前
+     :var:`::gentoo-zh` 下的 fcitx:5 系列包与 :var:`::gentoo` 下的 fcitx:4
+     系列包冲突，但收录包多（目前的想法是后续给 :var:`::gentoo`
+     主仓库下的 fcitx:4 打图标补丁解决依赖冲突，或者干脆等 fcitx4 停止维护后被 drop）。
+     如何选择请根据需要而定。
 
    .. attention::
 
