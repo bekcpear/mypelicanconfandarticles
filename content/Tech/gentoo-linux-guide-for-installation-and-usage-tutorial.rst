@@ -4,7 +4,7 @@ Gentoo Linux 安装及使用指南
 
 :slug: gentoo-linux-installation-and-usage-tutorial
 :date: 2021-10-03 11:35
-:modified: 2022-05-30 18:53
+:modified: 2022-09-12 14:14
 :lang: zh_hans
 :color: #463c65
 :tags: Gentoo, Linux, tutorial, installation, usage
@@ -1705,9 +1705,10 @@ systemd 下
      # 　　　　　　　　　　　　替换同步地址为 https://git.onfoo.top/gentoo-mirror/ryans.git
      # 　　　　　　　　　　　　后再次同步
 
-     # 添加关键字用于安装
-     echo "app-i18n/*::ryans" >>/etc/portage/package.accept_keywords
-     echo "x11-libs/xcb-imdkit::ryans" >>/etc/portage/package.accept_keywords
+     # 添加关键字用于安装（详见下述「关键字」一节）
+     mkdir -p /etc/portage/package.accept_keywords
+     echo "app-i18n/*::ryans" >>/etc/portage/package.accept_keywords/fcitx5
+     echo "x11-libs/xcb-imdkit::ryans" >>/etc/portage/package.accept_keywords/fcitx5
 
      # 之后安装
      emerge -vj app-i18n/fcitx-meta:5
