@@ -4,7 +4,9 @@ PELICANOPTS?=
 
 BASEDIR=$(CURDIR)
 INPUTDIR=$(BASEDIR)/content
+VERSIONFILE=$(BASEDIR)/content/rootpath/version
 OUTPUTDIR=$(BASEDIR)/output
+COMMONJS=${OUTPUTDIR}/assets/js/common.js
 NODEJSDIR=$(BASEDIR)/bitbiliNewTheme
 CONFFILE=$(BASEDIR)/pelicanconf.py
 CONFFILETEST=$(BASEDIR)/pelicanconf_test.py
@@ -43,6 +45,9 @@ js: css
 	cd $(NODEJSDIR) && \
 		yarn run doWebpack
 
+hashversion:
+	$(BASEDIR)/hashversion.sh $(VERSIONFILE) $(COMMONJS)
+
 sw:
 	cd $(NODEJSDIR) && \
 		yarn run generateSW
@@ -68,13 +73,15 @@ publishtest: rmdrafts cleanout js
 publishtest-sw: rmdrafts cleanout js
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONFTEST) $(PELICANOPTS)
 	$(MAKE) rsthtml
+	$(MAKE) hashversion
 	$(MAKE) sw
 	$(MAKE) copy_static
 
 publish: rmdrafts cleanout js
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONF) $(PELICANOPTS)
 	$(MAKE) rsthtml
+	$(MAKE) hashversion
 	$(MAKE) sw
 	$(MAKE) copy_static
 
-.PHONY: html help clean cleanout publish publishtest rmdrafts rsthtml
+.PHONY: html help clean cleanout publish publishtest rmdrafts rsthtml css js hashversion
