@@ -10,19 +10,19 @@
   "description": "一个格物致知的技术博客。",
   "icons": [
     {
-      "src": "\/assets\/logo\/logoMaskable.png",
+      "src": "\/assets\/logo\/logoMaskable.png?v=2",
       "sizes": "300x300",
       "type": "image\/png",
       "purpose": "maskable"
     },
     {
-      "src": "\/assets\/logo\/logoMonochrome.png",
-      "sizes": "300x300",
+      "src": "\/assets\/logo\/logoMonochrome.png?v=2",
+      "sizes": "512x512",
       "type": "image\/png",
       "purpose": "monochrome"
     },
     {
-      "src": "\/assets\/logo\/fav.png",
+      "src": "\/assets\/logo\/fav.png?v=3",
       "sizes": "300x300",
       "type": "image\/png",
       "purpose": "any"
