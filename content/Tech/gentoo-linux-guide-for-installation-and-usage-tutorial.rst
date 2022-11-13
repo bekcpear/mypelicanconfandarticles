@@ -1514,7 +1514,7 @@ Wayland
 
   .. code-block:: shell
 
-    EMERGE_DEFAULT_OPTS="--binpkg-changed-deps=y --binpkg-respect-use=y --getbinpkg=y"
+    EMERGE_DEFAULT_OPTS="--binpkg-changed-deps=y --binpkg-respect-use=y --getbinpkg=y --rebuilt-binaries=y --usepkg-exclude 'sys-kernel/gentoo-kernel-bin sys-kernel/gentoo-sources virtual/*'"
 
   即可。
 
