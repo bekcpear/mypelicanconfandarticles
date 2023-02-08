@@ -22,3 +22,5 @@ make publish
 cp ./content/fixes/set_proxy_for_gentoo_portage.html ./output/
 
 rsync --delete -rlcv output/ ~/syncthingData/bitbili/output
+git -C ~/syncthingData/bitbili/ add .
+git -C ~/syncthingData/bitbili/ commit -m "update ${verdate}.${vernum}"

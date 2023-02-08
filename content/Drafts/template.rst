@@ -2,7 +2,7 @@
 T
 ==================================================
 
-:slug: //separate words with a '_' symbol
+:slug: //separate words with a '_'/'-' symbol
 :date: 2019-03-09 21:03
 :modified: 2019-03-09 21:03
 :lang: zh_hans
