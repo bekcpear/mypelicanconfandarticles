@@ -4,7 +4,7 @@ Gentoo Linux 安装及使用指南
 
 :slug: gentoo-linux-installation-and-usage-tutorial
 :date: 2021-10-03 11:35
-:modified: 2022-09-12 14:14
+:modified: 2023-10-22 02:20
 :lang: zh_hans
 :color: #463c65
 :tags: Gentoo, Linux, tutorial, installation, usage
@@ -485,21 +485,26 @@ DNS 及测试
 在这里，你需要确定你想要安装 Gentoo Linux 的哪个 *profile* ，关于 *profile* 的详细说明可以看 `对应的 wiki`_ ，简单说明即，它是一个完整的系统配置集合，不同的 *profile* 在安装完成后可以自行切换，但在安装过程中，只能使用下载好的 stage3 所用的 *profile* 进行。常用的几个 *profile* 属性说明：
 
 * openrc: 带此单词表示，其默认的初始化程序为 openrc
-* systemd: 带此单词表示，其默认的初始化程序为 systemd，而不带该单词所有 *profile* ，默认初始化程序都是 openrc （即 Gentoo Linux 官方默认）
+* systemd: 带此单词表示，其默认的初始化程序为 systemd，而不带该单词所有 *profile* ，默认初始化程序都是 openrc
 * nomultilib: 带此单词表示，其不包含 32 位的系统库文件，即无法执行 32 位程序
 * selinux: 带此单词表示，其默认包含 SELinux 相关配置，启用 SELinux
 * hardened: 带此单词表示，其默认包含强化安全性相关的配置
 
 正常使用情况下，推荐如下两个 stage3 进行下载：
 
+* current-stage3-amd64-systemd-mergedusr
 * current-stage3-amd64-openrc
-* current-stage3-amd64-systemd
 
 openrc 是 Gentoo Linux 官方维护且默认的初始化程序，而 systemd 则是如今大多数发行版使用的初始化程序，各有优劣，二者均可，自行选择。
 
 .. hint::
 
   `2021-10-18 起`_ ，官方开始上传 openrc/systemd 所对应 desktop profile 的 stage3 文件，如果目的是为了安装桌面环境，那么可以从这两个里面进行选择以缩短安装时间。
+
+.. attention::
+
+  systemd `自 v255 版本起`_ 将不再对 splict-usr 和 unmerged-usr 系统提供支持，
+  如需 systemd profile 请选择带 mergedusr 字样的。
 
 .. attention::
 
@@ -578,7 +583,7 @@ openrc 是 Gentoo Linux 官方维护且默认的初始化程序，而 systemd �
 
   mirrorselect -i -o >>/mnt/gentoo/etc/portage/make.conf
 
-会打开一个界面供选择镜像地址，比如在中国的话，可选 aliyun/netease/tsinghua 的（发文时， aliyun 的还是老延迟），使用空格选中，回车保存。
+会打开一个界面供选择镜像地址，比如在中国的话，可选 tsinghua/ustc/aliyun/netease 的，使用空格选中，回车保存。
 
 .. note::
 
@@ -1401,17 +1406,17 @@ Gentoo Linux 既可以作为服务器，也可以作为个人电脑来使用。
 X? Wayland?
 +++++++++++++++
 
-无论选择安装哪种环境，都需要显示服务器作为依托。而现今 Linux 下主流的显示服务器有两种， X Window System 以及 Wayland。其中 X Window System 是最早开发的也是现如今稳定使用的；而 Wayland 则是未来。
+无论选择安装哪种环境，都需要显示服务器作为依托。而现今 Linux 下主流的显示服务器有两种， X Window System 以及 Wayland。
 
-简单比较：
+简单比较（2023 年，十月）：
 
 X Window System
-  当前基本所有的图形化软件都是针对其开发的，扩展性强，兼容性好；但各窗口间无隔离，安全性较差。
+  它是最早开发的也是现如今依旧能稳定使用的，至近两年前，基本所有的图形化软件都是针对其开发的，扩展性强，兼容性好；但各窗口间无隔离，安全性较差。
 
 Wayland
-  它是一个协议，实现该协议的显示服务器（也叫 Wayland 混成）有多种，目前大部分软件对 Wayland 的支持都不够成熟或者不支持；但它性能比 X 更好，窗口有隔离安全性更好，各软件也都在忙着兼容它。
+  它是一个协议，实现该协议的显示服务器（也叫 Wayland 混成）有多种，目前大部分软件对 Wayland 的支持已经较为成熟；它性能比 X 更好，窗口有隔离安全性也更好。
 
-就当下（2021 年，十月）的情况来看，依旧是选择 X 更合适，在不久的将来则是 Wayland 会对 X 实现完全替代。现在着重说配置 X 环境，后续等 Wayland 更成熟后再更新。
+现如今（2023 年，十月）， Wayland 已经可以替代 X 作为日用。
 
 显卡驱动
 +++++++++++++++
@@ -1462,9 +1467,9 @@ Wayland
   # 　　　       　　　　　　 amd64/17.1/desktop/gnome
   # 　　　       　　　　　　 amd64/17.1/desktop/plasma
   # 　　　       　　　　　　 等
-  # 　　　systemd 下，可以选择 amd64/17.1/desktop/systemd
-  # 　　　        　　　　　　 amd64/17.1/desktop/gnome/systemd
-  # 　　　        　　　　　　 amd64/17.1/desktop/plasma/systemd
+  # 　　　systemd 下，可以选择 amd64/17.1/desktop/systemd/mergedusr
+  # 　　　        　　　　　　 amd64/17.1/desktop/gnome/systemd/mergedusr
+  # 　　　        　　　　　　 amd64/17.1/desktop/plasma/systemd/mergedusr
   # 　　　        　　　　　　 等
 
   # 如若只想安装轻量级的窗口管理器，那么可以选择类似 amd64/17.1/desktop 一样的纯 desktop profile
@@ -1472,13 +1477,13 @@ Wayland
 
   # 根据本文上下文环境，这里我选择 amd64/17.1/desktop/plasma 以准备好 KDE Plasma 的前期环境
   # 随着时间的推移，序号可能会不同，请根据需要选择
-  eselect profile set 8
+  eselect profile set 9
 
 .. attention::
 
   这里不要跨初始化环境选择 Profile ，systemd 与 openrc 的 Profile 切换不会很轻松。
 
-且，虽然 :file:`desktop` profile 下已经配置启动了基本的 ALSA 声音接口功能，但个人建议再启用 PulseAudio 声音服务器以获得更多功能。只需编辑 :file:`/etc/portage/make.conf` 文件，设置
+且，虽然 :file:`desktop` profile 下已经配置启动了基本的 ALSA 声音接口功能，但一般建议再启用 :code:`pulseaudio` USE 以获得更多功能（通过 libpulse 库）。只需编辑 :file:`/etc/portage/make.conf` 文件，设置
 
 .. code-block:: shell
 
@@ -1533,6 +1538,8 @@ Wayland
 
 .. code-block:: shell
 
+  # 如需添加 Wayland 支持，请在 /etc/portage/make.conf 下的 USE 变量中加上 wayland
+
   # 执行此命令将 plasma-meta 这个元包添加到 world set 中，关于 world set 后文使用 Portage 一节有指引
   emerge -Ow kde-plasma/plasma-meta
 
@@ -1566,7 +1573,7 @@ Wayland
 
 .. note::
 
-  上述的操作会自动依赖上 X server: :genpkg:`x11-base/xorg-server` ，其依赖路径是::
+  默认情况下，上述的操作会自动依赖上 X server: :genpkg:`x11-base/xorg-server` ，其依赖路径是::
 
     plasma-meta -> sddm -> xorg-server
 
@@ -1633,7 +1640,7 @@ systemd 下
     systemctl --now enable sddm.service
     # 以启用，如果是其它的 DM 也是启用对应的服务即可。
 
-之后，确保 DM 界面选定了 Plasma (X11) 这个 Session，再选择对应的普通用户，输入密码后登陆。
+之后，确保 DM 界面选定了所需的 Plasma Session，再选择对应的普通用户，输入密码后登陆。
 
 动画过渡后，就进入了人性化的桌面环境。
 
@@ -1705,8 +1712,8 @@ systemd 下
      emerge --sync ryans
      # 如果一直卡在这里，那说明当前网络访问 github.com 不流畅
      # 　　　　　　　　　这时候可以修改 /etc/portage/repos.conf/eselect-repo.conf 文件，
-     # 　　　　　　　　　　　　替换同步地址为 https://git.onfoo.top/gentoo-mirror/ryans.git
-     # 　　　　　　　　　　　　后再次同步
+     # 　　　　　　　　　　　　替换同步地址为 https://gitlab.com/cwittlut/ryans.git
+     # 　　　　　　　　　　　　后再次尝试同步。
 
      # 添加关键字用于安装（详见下述「关键字」一节）
      mkdir -p /etc/portage/package.accept_keywords
@@ -1743,11 +1750,16 @@ systemd 下
 
    .. attention::
 
-     当使用非官方的 Fcitx5 时，因为没有镜像收录，所以源码需从 Github 下载，这时可能遇到因网络问题导致无法下载的情况（可以从 :file:`/var/log/emerge-fetch.log` 文件查看源码包下载情况），如果遇到这种情况那么请自行通过各种途径下载好对应的 :file:`.tar.gz` 格式（或类似）软件包，然后移动到 :file:`/var/cache/distfiles/` 目录下。
+     当使用非官方的 Fcitx5 时，因为没有镜像收录，所以源码需从 Github 下载（ryans 仓库没有这个问题），这时可能遇到因网络问题导致无法下载的情况（可以从 :file:`/var/log/emerge-fetch.log` 文件查看源码包下载情况），如果遇到这种情况那么请自行通过各种途径下载好对应的 :file:`.tar.gz` 格式（或类似）软件包，然后移动到 :file:`/var/cache/distfiles/` 目录下。
 
      软件包需更名为对应的包名加完整的版本号（执行上述 :code:`emerge -vj <包名>` 命令后可以看到完整的版本号），比如当显示的包名为 :file:`app-i18n/fcitx-gtk-5.0.8:5::ryans` 那么就更名下载的源码包为 :file:`fcitx-gtk-5.0.8.tar.gz` （ :file:`/` 符号后以及 :file:`:` 符号前的内容），以此类推。
 
-无论选择哪个版本、哪个仓库，安装完成后，均执行此配置，这里另开一个终端，以普通用户编辑 :file:`~/.xsession` 文件（这里为普通用户的家目录下，不存在则创建一个），然后添加以下内容：
+无论选择哪个版本、哪个仓库，安装完成后，均执行此配置，这里另开一个终端，以普通用户身份添加输入法的环境变量，
+
+* X 用户可以添加到 :file:`~/.xsession` 文件内（不存在则创建一个）
+* Wayland 用户根据不同的 DE/WM 有不同的添加位置，比如 KDE 可以添加到 :file:`~/.config/plasma-workspace/env/fcitx.sh` 文件内（不存在则创建一个）
+
+添加的内容为：
 
 .. code-block:: shell
 
@@ -2299,6 +2311,7 @@ Gentoo Linux 提供了一个工具叫 :genpkg:`sys-kernel/genkernel` 可用于�
 .. _`镜像列表`: https://www.gentoo.org/downloads/mirrors/#CN
 .. _`Rufus`: https://rufus.ie/zh/
 .. _`对应的 wiki`: https://wiki.gentoo.org/wiki/Profile_(Portage)
+.. _`自 v255 版本起`: https://github.com/systemd/systemd/pull/27999
 .. _`2021-10-18 起`: https://gitweb.gentoo.org/proj/releng.git/commit/?id=59328ba4341123278bf87d14a802333602d83b7e
 .. _`glibc 的 git 仓库`: https://sourceware.org/git/?p=glibc.git;a=blob;f=posix/regcomp.c;h=887e5b50684e22f501011a9cac52ebe1a0bb3894;hb=HEAD#l877
 .. _`@Ventusliberum`: https://github.com/dafeinayius
