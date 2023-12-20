@@ -542,7 +542,7 @@ openrc 是 Gentoo Linux 官方维护且默认的初始化程序，而 systemd �
 .. note::
 
   可选步骤
-    如果想要进行更加严格的验证，可替换下载原 :file:`.DIGESTS` 文件为 :file:`stage3-amd64-openrc-{日期}.tar.xz.DIGESTS.asc` ，后退出 links 界面，执行
+    如果想要进行更加严格的验证，可替换下载原 :file:`.DIGESTS` 文件为 :file:`stage3-amd64-openrc-{日期}.tar.xz.asc` ，后退出 links 界面，执行
 
     .. code-block:: shell
 
@@ -550,7 +550,7 @@ openrc 是 Gentoo Linux 官方维护且默认的初始化程序，而 systemd �
       gpg --keyserver hkps://keys.gentoo.org --recv-keys 0x13EBBDBEDE7A12775DFDB1BABB572E0E2D182910
 
       # 校验 DIGESTS 文件
-      gpg --verify -o stage3-amd64-openrc-{日期}.tar.xz.DIGESTS{,.asc}
+      gpg --verify -o stage3-amd64-openrc-{日期}.tar.xz{,.asc}
 
     提示 :code:`Good signature from "Gentoo Linux Release Engineering (Automated Weekly Release Key) <releng@gentoo.org>"` 则校验成功，否则说明文件有损坏或被篡改（警告可不用理会）。
 
