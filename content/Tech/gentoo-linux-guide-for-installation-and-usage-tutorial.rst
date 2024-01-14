@@ -1673,88 +1673,31 @@ systemd 下
 输入法
 ~~~~~~~~~~
 
-作为中文用户，肯定需要款输入法，我推荐使用 fcitx （还有一款叫 ibus ，但是我不熟，就不介绍了）。目前稳定维护的 fcitx 版本是 5 ，但是官方仓库 :file:`::gentoo` 目前只有 4 （也能用，就是不怎么维护了）。
+作为中文用户，肯定需要款输入法，我推荐使用 fcitx
+（还有一款叫 ibus ，但是我不熟，就不介绍了）。
+目前稳定维护的 fcitx 版本是 5，安装方法为：
 
-所以这里有两个选择：
+.. code-block:: shell
 
-1. 使用官方提供的 fcitx4 ，执行
+  # 这里示例一种尽可能全的方式
 
-   .. code-block:: shell
+  # 先配置下 fcitx-gtk:5 开启对 gtk2 的支持以避免有些程序无法使用（gtk3/4 默认开启了）
+  echo 'app-i18n/fcitx-gtk:5 gtk2' >>/etc/portage/package.use/fcitx
 
-     # 先配置下 fcitx4 开启对 gtk2 的支持以避免有些程序无法使用（gtk3 默认开启了）
-     echo 'app-i18n/fcitx gtk2' >>/etc/portage/package.use/fcitx
+  # 然后安装输入法框架主体
+  emerge -vj app-i18n/fcitx:5 app-i18n/fcitx-configtool:5 app-i18n/fcitx-qt:5 app-i18n/fcitx-gtk:5
+  # 其中， app-i18n/fcitx:5 是 fcitx 的主程序
+  # 　　　 app-i18n/fcitx-configtool:5 是它的配置工具
+  # 　　　 app-i18n/fcitx-qt:5 用于支持在 qt 程序上使用它
+  # 　　　 app-i18n/fcitx-gtk:5 用于支持在 gtk 程序上使用它
 
-     # 然后安装
-     emerge -vj app-i18n/fcitx:4 app-i18n/fcitx-configtool:4 app-i18n/fcitx-qt5:4 app-i18n/fcitx-libpinyin:4
-     # 其中， app-i18n/fcitx 是 fcitx 的主程序
-     # 　　　 app-i18n/fcitx-configtool 是它的配置工具
-     # 　　　 app-i18n/fcitx-qt5 用于支持在 qt 程序上使用它
-     # 　　　 app-i18n/fcitx-libpinyin 是一个输入法
+  # 最后选择一个你需要的输入法，比如 RIME 或者 其他存在于 Chinese-addons 里面的
+  # 这里以安装 RIME 为例
+  emerge -vj app-i18n/fcitx-rime:5
+  # 之后等待安装完成即可。
+  # 如果不需要 rime，则可以考虑安装 app-i18n/fcitx-chinese-addons:5 这个包。
 
-2. 使用更新的 fcitx5 。因为官方仓库目前没有，所以这里需要使用额外的仓库。
-
-   据我所知目前提供 fcitx5 的 Gentoo 仓库有 `::gentoo-zh`_ 以及我自己的 `个人仓库`_ 。
-
-   具体方法为：
-
-   .. code-block:: shell
-
-     # 添加额外的仓库
-     # 先安装必要的工具
-     emerge -vj app-eselect/eselect-repository
-
-     # 然后启用仓库
-     # 启用过程中，可能会因为网络原因导致比较慢，请耐心等待
-     eselect repository enable ryans
-     # 这里启用了我的个人仓库
-
-     # 更新以获取下仓库内容
-     emerge --sync ryans
-     # 如果一直卡在这里，那说明当前网络访问 github.com 不流畅
-     # 　　　　　　　　　这时候可以修改 /etc/portage/repos.conf/eselect-repo.conf 文件，
-     # 　　　　　　　　　　　　替换同步地址为 https://gitlab.com/cwittlut/ryans.git
-     # 　　　　　　　　　　　　后再次尝试同步。
-
-     # 添加关键字用于安装（详见下述「关键字」一节）
-     mkdir -p /etc/portage/package.accept_keywords
-     echo "app-i18n/*::ryans" >>/etc/portage/package.accept_keywords/fcitx5
-     echo "x11-libs/xcb-imdkit::ryans" >>/etc/portage/package.accept_keywords/fcitx5
-
-     # 之后安装
-     emerge -vj app-i18n/fcitx-meta:5
-     # 这里安装了 fcitx 的元包，它会自动依赖安装 fcitx5 主体、 RIME 输入法、配置工具等
-     # 我的仓库未提供 fcitx5-chinese-addons 这个包，如有需要，使用 ::gentoo-zh 的仓库，见下
-
-     # 如果你选择 ::gentoo-zh 这个仓库的话，因为包名和依赖不同，所以安装命令为（自行删除命令前注释符）
-     # 先安装必要的工具
-     #emerge -vj app-eselect/eselect-repository
-     # 然后启用仓库
-     #eselect repository enable gentoo-zh
-     # 之后获取仓库（如若卡同步，见上）
-     #emerge --sync gentoo-zh
-     # 添加关键字用于安装
-     #echo "app-i18n/*::gentoo-zh" >>/etc/portage/package.accept_keywords
-     #echo "x11-libs/xcb-imdkit::gentoo-zh" >>/etc/portage/package.accept_keywords
-     # 再安装
-     #emerge -vj app-i18n/fcitx-meta:5
-     # 这个仓库的会默认安装上 fcitx-chinese-addons:5 ，里面包含有中文输入法
-
-   .. attention::
-
-     个人仓库 :var:`::ryans` 下的 fcitx:5 系列包打过补丁，与主仓库
-     :var:`::gentoo` 下的 fcitx:4 系列包不冲突，但收录不完全；而目前
-     :var:`::gentoo-zh` 下的 fcitx:5 系列包与 :var:`::gentoo` 下的 fcitx:4
-     系列包冲突，但收录包多（目前的想法是后续给 :var:`::gentoo`
-     主仓库下的 fcitx:4 打图标补丁解决依赖冲突，或者干脆等 fcitx4 停止维护后被 drop）。
-     如何选择请根据需要而定。
-
-   .. attention::
-
-     当使用非官方的 Fcitx5 时，因为没有镜像收录，所以源码需从 Github 下载（ryans 仓库没有这个问题），这时可能遇到因网络问题导致无法下载的情况（可以从 :file:`/var/log/emerge-fetch.log` 文件查看源码包下载情况），如果遇到这种情况那么请自行通过各种途径下载好对应的 :file:`.tar.gz` 格式（或类似）软件包，然后移动到 :file:`/var/cache/distfiles/` 目录下。
-
-     软件包需更名为对应的包名加完整的版本号（执行上述 :code:`emerge -vj <包名>` 命令后可以看到完整的版本号），比如当显示的包名为 :file:`app-i18n/fcitx-gtk-5.0.8:5::ryans` 那么就更名下载的源码包为 :file:`fcitx-gtk-5.0.8.tar.gz` （ :file:`/` 符号后以及 :file:`:` 符号前的内容），以此类推。
-
-无论选择哪个版本、哪个仓库，安装完成后，均执行此配置，这里另开一个终端，以普通用户身份添加输入法的环境变量，
+安装完成后，需要配置一下需要的环境变量，这里可以另开一个终端，以普通用户身份添加，
 
 * X 用户可以添加到 :file:`~/.xsession` 文件内（不存在则创建一个）
 * Wayland 用户根据不同的 DE/WM 有不同的添加位置，比如 KDE 可以添加到 :file:`~/.config/plasma-workspace/env/fcitx.sh` 文件内（不存在则创建一个）
