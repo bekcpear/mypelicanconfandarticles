@@ -18,7 +18,7 @@ Gentoo Linux 安装及使用指南
 
 很早以前，我就有写了一篇安装 Gentoo Linux 的文章（ `Gentoo Linux 安装 —— 带硬盘加密`_ ），只是那篇文章存在局限性。因为一些原因，我打算写一篇更详细更完整，适合新手且可以无缝进阶的 Gentoo Linux 安装及使用指南。
 
-.. .. _`开头`:
+.. _`开头`:
 
 * 本文面向新手，十分精简，配置正确
 * 本文以 AMD64(x86_64) 平台为例进行说明
@@ -26,7 +26,6 @@ Gentoo Linux 安装及使用指南
 * 本文以一条相对单一的路线指导安装使用 Gentoo Linux，亦可前往 `Gentoo Wiki 页`_ 以获取更多更详细内容。
 * 本文唯一原始链接： https://bitbili.net/gentoo-linux-installation-and-usage-tutorial.html
 * 本文源码在 `这里`_ ，欢迎纠错
-* _`如有问题` 可以上 https://t.me/gentoo_zh 提问/反馈
 
 .. hint::
 
@@ -2221,14 +2220,12 @@ Gentoo Linux 提供了一个工具叫 :genpkg:`sys-kernel/genkernel` 可用于�
 
 至此，内容已全部结束。
 
-*若对本文有任何问题，都欢迎访问文章开头的用户群组，找我 @cwittlut_on_TG*
+*若对本文有任何问题，都欢迎访问文章* `开头`_ *仓库，make PR or open issue*
 
 接下来，
 
 * 若想进一步学习 Gentoo Linux 的知识，请访问文章 `开头`_ 所指出的 Gentoo Wiki 页面。里面的内容非常之丰富。
 * 若对 Gentoo Linux 下的 Portage 包管理器感兴趣，请访问 `开发手册`_ 。
-
-.. _`开头`: `如有问题`_
 
 建议，
 
