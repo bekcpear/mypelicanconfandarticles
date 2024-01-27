@@ -1499,28 +1499,37 @@ Wayland
 
 .. hint::
 
-  在进行安装完整的 KDE Plasma 之前，可以选择是否安装二进制包而不是自己从源码开始编译。
+  2023 年 12 月 29 日，Gentoo 发布了一篇名为 `Gentoo goes Binary!`_ 的文章，标志着 Gentoo 官方提供的 binhost 正式开始可用。
 
-  关于 KDE Plasma 二进制包的提供是目前 Gentoo 的一种实验性质的方案，它的存在能显著缩短整体安装时间，降低机器负载，但目前对二进制包是不存在文件校验的，所以使用它有些许潜在风险。同时，使用二进制包表示将不会对本机有编译优化。（其它的也有可能导致一些需要编译的包出现编译问题）
+  所以，在进行安装完整的 KDE Plasma 之前，可以选择是否安装二进制包而不是自己从源码开始编译。
+
+  Binhost 的存在能显著缩短整体安装时间，降低机器负载。不过，安装的二进制包将不会有针对本机的编译级别上的额外优化。
 
   另外，如果本地一些包的 `USE 标记`_ 有变动或者一些包的依赖有了变动，那么对于该包， Portage 目前默认会回退到自行编译安装的状态（也推荐这样），在尽可能安装二进制包的同时，也完全不影响正常的使用。
 
-  如果你决定启用这个尚处于实验状态的方案，那么需创建一个文件 :file:`/etc/portage/binrepos.conf` ，并添加以下内容：
+  如果你决定使用 binhost，那么可以编辑 :file:`/etc/portage/make.conf` 文件（或此文件夹下的子文件），设置：
 
   .. code-block:: shell
 
-    [binhost]
+    EMERGE_DEFAULT_OPTS="--binpkg-changed-deps=y --binpkg-respect-use=y --getbinpkg=y --rebuilt-binaries=y --usepkg-exclude 'acct-*/* sys-kernel/* virtual/* */*-bin'"
+
+  如果是新安装的 Gentoo，那么在最新的 stage3 包里面已经包含了有关于 binhost 镜像源的配置，位置在 :file:`/etc/portage/binrepos.conf/gentoobinhost.conf` ，若是其他没有该默认文件的场景，可以在其父目录 :file:`/etc/portage/binrepos.conf/` 内添加额外的配置文件，比如添加文件 :file:`cnbinhost0.conf` ，并填写如下内容：
+
+  .. code-block:: shell
+
+    [cnbinhost0]
     priority = 9999
-    sync-uri = https://mirrors.bfsu.edu.cn/gentoo/experimental/amd64/binpkg/default/linux/17.1/x86-64/
-    # 这里可以配置成任意所选镜像地址
+    sync-uri = https://mirrors.bfsu.edu.cn/gentoo/releases/amd64/binpackages/17.1/x86-64/
 
-  再编辑 :file:`/etc/portage/make.conf` 文件，设置：
+  对于比较新的 x86-64 架构 CPU 而言，可以考虑使用针对 x86-64-v3 微架构级别的 binhost，即：
 
   .. code-block:: shell
 
-    EMERGE_DEFAULT_OPTS="--binpkg-changed-deps=y --binpkg-respect-use=y --getbinpkg=y --rebuilt-binaries=y --usepkg-exclude 'sys-kernel/gentoo-kernel-bin sys-kernel/gentoo-sources virtual/*'"
+    [cnbinhost0]
+    priority = 9999
+    sync-uri = https://mirrors.bfsu.edu.cn/gentoo/releases/amd64/binpackages/17.1/x86-64-v3/
 
-  即可。
+  （Gentoo 还提供了其他几种不同环境的 binhost，可自行选择；这里镜像站地址只是举例，实际可自行选择就近的镜像站地址。）
 
   *无论是否配置二进制包安装，都不影响下续步骤*
 
@@ -2262,6 +2271,7 @@ Gentoo Linux 提供了一个工具叫 :genpkg:`sys-kernel/genkernel` 可用于�
 .. _`NVIDIA/nvidia-drivers`: https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers
 .. _`::gentoo-zh`: https://github.com/gentoo-mirror/gentoo-zh
 .. _`个人仓库`: https://github.com/gentoo-mirror/ryans
+.. _`Gentoo goes Binary!`: https://www.gentoo.org/news/2023/12/29/Gentoo-binary.html
 .. _`Rime 的 CustomizationGuide`: https://github.com/rime/home/wiki/CustomizationGuide
 .. _`Package sets`: https://wiki.gentoo.org/wiki/Package_sets
 .. _`ebuild repository`: https://wiki.gentoo.org/wiki/Ebuild_repository
