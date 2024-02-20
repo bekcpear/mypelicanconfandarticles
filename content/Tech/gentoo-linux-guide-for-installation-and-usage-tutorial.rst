@@ -471,7 +471,16 @@ DNS 及测试
 
 .. code-block:: shell
 
-  ntpd -q -g
+  chronyd
+
+.. note::
+
+  releng 仓库于 2023 年 5 月使用 :genpkg:`net-misc/chrony` 替换了 :genpkg:`net-misc/ntp` ：
+  https://gitweb.gentoo.org/proj/releng.git/commit/?id=96544b23bb51c2c7c9208d87e80d0ed82c66f964
+
+  感谢 B 友『占时烤地瓜』的提问： https://www.bilibili.com/video/BV1wv411u7ZU#reply208842234528
+
+  今后若又被其它方案替换，只要确保系统时间大致正确即可。
 
 成功后使用 :code:`links` 命令访问镜像服务器，执行
 
