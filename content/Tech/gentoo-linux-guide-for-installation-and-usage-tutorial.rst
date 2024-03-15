@@ -23,9 +23,15 @@ Gentoo Linux 安装及使用指南
 * 本文面向新手，十分精简，配置正确
 * 本文以 AMD64(x86_64) 平台为例进行说明
 * 本文以安装到实体机为目的（也适用于虚拟机）
-* 本文以一条相对单一的路线指导安装使用 Gentoo Linux，亦可前往 `Gentoo Wiki 页`_ 以获取更多更详细内容。
+* 本文以一条相对单一的路线指导安装使用 Gentoo Linux，亦可前往 `Gentoo Wiki 页`_ 以获取更多更详细内容
 * 本文唯一原始链接： https://bitbili.net/gentoo-linux-installation-and-usage-tutorial.html
 * 本文源码在 `这里`_ ，欢迎纠错
+* 若遇难题，可使用 `邮件列表`_ (gentoozh@googlegroups.com) 以寻求帮助
+
+  * 问题描述需尽量完整，同时避免 X-Y 问题
+  * 有日志需完整贴出，尽量避免使用图片，尽可能使用文本（尽可能使用贴到 Pastebin 的形式）
+
+.. _`邮件列表`: https://groups.google.com/g/gentoozh
 
 .. hint::
 
@@ -243,7 +249,7 @@ DNS 及测试
 
 .. note::
 
-  今年是 2021 年，碍于篇幅，MBR 的分区不再说，只专注于 GPT 分区。如果你有一台很老的电脑，上面有一个采用 MBR 分区格式的 Windows 系统，想在保留 Windows 的情况下安装 Gentoo Linux，请点击文章开头的群组以寻求帮助。
+  今年是 2021 年，碍于篇幅，MBR 的分区不再说，只专注于 GPT 分区。如果你有一台很老的电脑，上面有一个采用 MBR 分区格式的 Windows 系统，想在保留 Windows 的情况下安装 Gentoo Linux，可使用文章开头的邮件列表以寻求帮助。
 
 ***注意备份好资料***
 
@@ -908,7 +914,7 @@ Grub 安装器
   # 添加必要的 USE 标记以解决依赖关系（什么是 USE 见下文 USE 标记 一节）
   echo "net-wireless/wpa_supplicant dbus" >>/etc/portage/package.use/nm
   echo "net-misc/openssh -bindist" >>/etc/portage/package.use/nm
-  # （随着时间的推移，可能后续会有其它依赖关系问题，若出现，访问本文开头群组寻求帮助）
+  # （随着时间的推移，可能后续会有其它依赖关系问题，若出现，可使用本文开头邮件列表以寻求帮助）
 
   # 安装 NetworkManager
   # 这里为了处理依赖关系，所以稍有复杂
@@ -1562,7 +1568,7 @@ Wayland
 
   # 处理下桌面环境下的依赖关系
   echo "media-libs/freetype harfbuzz" >>/etc/portage/package.use/desktop
-  # （随着时间的推移，可能后续会有其它依赖关系问题，若出现，访问本文开头群组寻求帮助）
+  # （随着时间的推移，可能后续会有其它依赖关系问题，若出现，可使用本文开头的邮件列表以寻求帮助）
 
   # 先安装一个 rust-bin 以避免待会儿依赖安装需要编译的 rust
   # （因为完整编译 rust 会很久，除明确需要外没太大必要）
@@ -1576,7 +1582,7 @@ Wayland
 
 1. 偶然问题，尝试对出问题软件包单独安装，使用命令 :code:`emerge -vj1 <包名>` 进行；成功后再次运行上述更新命令
 2. 因为内存太低导致的，尝试去除上述命令选项中的 :code:`j` 重新更新
-3. 其它问题，请查看提醒的相应编译日志，如不能解决，可加文章开头群组寻求帮助
+3. 其它问题，请查看提醒的相应编译日志，如不能解决，可使用文章开头邮件列表以寻求帮助
 
 .. hint::
 
