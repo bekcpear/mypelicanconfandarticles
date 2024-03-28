@@ -499,17 +499,31 @@ DNS 及测试
 在这里，你需要确定你想要安装 Gentoo Linux 的哪个 *profile* ，关于 *profile* 的详细说明可以看 `对应的 wiki`_ ，简单说明即，它是一个完整的系统配置集合，不同的 *profile* 在安装完成后可以自行切换，但在安装过程中，只能使用下载好的 stage3 所用的 *profile* 进行。常用的几个 *profile* 属性说明：
 
 * openrc: 带此单词表示，其默认的初始化程序为 openrc
-* systemd: 带此单词表示，其默认的初始化程序为 systemd，而不带该单词所有 *profile* ，默认初始化程序都是 openrc
-* nomultilib: 带此单词表示，其不包含 32 位的系统库文件，即无法执行 32 位程序
+* systemd: 带此单词表示，其默认的初始化程序为 systemd （不带该单词所有 *profile* ，默认初始化程序都是 openrc）
+* desktop: 带此单词表示，其包含了一些适用于桌面环境的基础包
+* llvm: 带此单词表示，其使用 LLVM 作为默认的 toolchain
+* nomultilib: 带此单词表示，其不包含 32 位的系统库文件
 * selinux: 带此单词表示，其默认包含 SELinux 相关配置，启用 SELinux
 * hardened: 带此单词表示，其默认包含强化安全性相关的配置
 
-正常使用情况下，推荐如下两个 stage3 进行下载：
+正常使用情况下，推荐可以在如下多个 stage3 包中选择：
 
-* current-stage3-amd64-systemd-mergedusr
+* current-stage3-amd64-systemd
 * current-stage3-amd64-openrc
+* current-stage3-amd64-openrc-splitusr
+* current-stage3-amd64-nomultilib-systemd
+* current-stage3-amd64-nomultilib-openrc
+* current-stage3-amd64-llvm-systemd
+* current-stage3-amd64-llvm-openrc
 
 openrc 是 Gentoo Linux 官方维护且默认的初始化程序，而 systemd 则是如今大多数发行版使用的初始化程序，各有优劣，二者均可，自行选择。
+
+.. hint::
+
+  `2024 年 3 月底起`_ ，上传的 *profile* 版本切换到了 23.0，对于安装来说的主要改动为：
+
+  1. 由于 systemd 官方 `自 v255 版本起`_ 将不再对 splict-usr 和 unmerged-usr 系统提供支持，故自此开始的 systemd profile 只支持 merged-usr 了
+  2. openrc 的 profile 默认为 merged-usr，如果需要使用 split-usr 的 openrc 需要指定使用带 splitusr 字样的 openrc stage3
 
 .. hint::
 
@@ -517,14 +531,8 @@ openrc 是 Gentoo Linux 官方维护且默认的初始化程序，而 systemd �
 
 .. attention::
 
-  systemd `自 v255 版本起`_ 将不再对 splict-usr 和 unmerged-usr 系统提供支持，
-  如需 systemd profile 请选择带 mergedusr 字样的。
-
-.. attention::
-
   以下 stage3 这里不推荐选择：
 
-  * musl 相关，目前在 Gentoo 上处于实验状态，一些命令也可能不适用
   * uclibc 相关，适用嵌入式环境，目前在 Gentoo 上处于实验状态
   * x32 相关，目前在 Gentoo 上处于实验状态
 
@@ -729,6 +737,10 @@ Gentoo Linux 默认安装的编辑器为 :code:`nano` ，这是一个初始设�
   echo 'sys-kernel/linux-firmware linux-fw-redistributable no-source-code' >/etc/portage/package.license/linux-firmware
 
   # [2]
+  # 为方便在安装二进制内核时安装 initramfs，需添加如下 USE 配置（什么是 USE 见下文 USE 标记 一节）
+  echo 'sys-kernel/installkernel dracut' >/etc/portage/package.use/installkernel
+
+  # [3]
   # 安装固件、内核及 grub 安装器
   emerge -vj linux-firmware gentoo-kernel-bin grub
 
@@ -911,7 +923,7 @@ Grub 安装器
 
 .. code-block:: shell
 
-  # 添加必要的 USE 标记以解决依赖关系（什么是 USE 见下文 USE 标记 一节）
+  # 添加必要的 USE 标记以解决依赖关系
   echo "net-wireless/wpa_supplicant dbus" >>/etc/portage/package.use/nm
   echo "net-misc/openssh -bindist" >>/etc/portage/package.use/nm
   # （随着时间的推移，可能后续会有其它依赖关系问题，若出现，可使用本文开头邮件列表以寻求帮助）
@@ -1477,25 +1489,26 @@ Wayland
   # 以列出所有的 profiles
   # 然后进行选择
   # 例如：
-  # 　　　openrc 下，可以选择 amd64/17.1/desktop
-  # 　　　       　　　　　　 amd64/17.1/desktop/gnome
-  # 　　　       　　　　　　 amd64/17.1/desktop/plasma
+  # 　　　openrc 下，可以选择 amd64/23.0/desktop
+  # 　　　       　　　　　　 amd64/23.0/desktop/gnome
+  # 　　　       　　　　　　 amd64/23.0/desktop/plasma
   # 　　　       　　　　　　 等
-  # 　　　systemd 下，可以选择 amd64/17.1/desktop/systemd/mergedusr
-  # 　　　        　　　　　　 amd64/17.1/desktop/gnome/systemd/mergedusr
-  # 　　　        　　　　　　 amd64/17.1/desktop/plasma/systemd/mergedusr
+  # 　　　systemd 下，可以选择 amd64/23.0/desktop/systemd
+  # 　　　        　　　　　　 amd64/23.0/desktop/gnome/systemd
+  # 　　　        　　　　　　 amd64/23.0/desktop/plasma/systemd
   # 　　　        　　　　　　 等
 
-  # 如若只想安装轻量级的窗口管理器，那么可以选择类似 amd64/17.1/desktop 一样的纯 desktop profile
-  #eselect profile set 5
+  # 如若只想安装轻量级的窗口管理器，那么可以选择类似 amd64/23.0/desktop 一样的纯 desktop profile
+  #eselect profile set 23
 
-  # 根据本文上下文环境，这里我选择 amd64/17.1/desktop/plasma 以准备好 KDE Plasma 的前期环境
+  # 根据本文上下文环境，这里我选择 amd64/23.0/desktop/plasma 以准备好 KDE Plasma 的前期环境
   # 随着时间的推移，序号可能会不同，请根据需要选择
-  eselect profile set 9
+  eselect profile set 27
 
 .. attention::
 
-  这里不要跨初始化环境选择 Profile ，systemd 与 openrc 的 Profile 切换不会很轻松。
+  * 这里不要跨初始化环境选择 Profile ，systemd 与 openrc 的 Profile 切换不会很轻松
+  * 这里也不要在 merged-usr 和 split-usr 的 profile 之前进行切换，会导致软件无法安装以及其它问题
 
 且，虽然 :file:`desktop` profile 下已经配置启动了基本的 ALSA 声音接口功能，但一般建议再启用 :code:`pulseaudio` USE 以获得更多功能（通过 libpulse 库）。只需编辑 :file:`/etc/portage/make.conf` 文件，设置
 
@@ -1534,7 +1547,7 @@ Wayland
 
     [cnbinhost0]
     priority = 9999
-    sync-uri = https://mirrors.bfsu.edu.cn/gentoo/releases/amd64/binpackages/17.1/x86-64/
+    sync-uri = https://mirrors.bfsu.edu.cn/gentoo/releases/amd64/binpackages/23.0/x86-64/
 
   对于比较新的 x86-64 架构 CPU 而言，可以考虑使用针对 x86-64-v3 微架构级别的 binhost，即：
 
@@ -1542,9 +1555,10 @@ Wayland
 
     [cnbinhost0]
     priority = 9999
-    sync-uri = https://mirrors.bfsu.edu.cn/gentoo/releases/amd64/binpackages/17.1/x86-64-v3/
+    sync-uri = https://mirrors.bfsu.edu.cn/gentoo/releases/amd64/binpackages/23.0/x86-64-v3/
 
-  （Gentoo 还提供了其他几种不同环境的 binhost，可自行选择；这里镜像站地址只是举例，实际可自行选择就近的镜像站地址。）
+  | （Gentoo 还提供了其他几种不同环境的 binhost，可自行选择；这里镜像站地址只是举例，实际可自行选择就近的镜像站地址。）
+  | （更详细的有关 binpkg 使用相关的说明，请查阅 Gentoo 官方的 `二进制包指南`_ ！）
 
   *无论是否配置二进制包安装，都不影响下续步骤*
 
@@ -2276,6 +2290,7 @@ Gentoo Linux 提供了一个工具叫 :genpkg:`sys-kernel/genkernel` 可用于�
 .. _`Rufus`: https://rufus.ie/zh/
 .. _`对应的 wiki`: https://wiki.gentoo.org/wiki/Profile_(Portage)
 .. _`自 v255 版本起`: https://github.com/systemd/systemd/pull/27999
+.. _`2024 年 3 月底起`: https://gitweb.gentoo.org/proj/releng.git/commit/?id=f5a35a1e42a091a16b532b273d58aea09c6177d6
 .. _`2021-10-18 起`: https://gitweb.gentoo.org/proj/releng.git/commit/?id=59328ba4341123278bf87d14a802333602d83b7e
 .. _`glibc 的 git 仓库`: https://sourceware.org/git/?p=glibc.git;a=blob;f=posix/regcomp.c;h=887e5b50684e22f501011a9cac52ebe1a0bb3894;hb=HEAD#l877
 .. _`@Ventusliberum`: https://github.com/dafeinayius
@@ -2284,9 +2299,8 @@ Gentoo Linux 提供了一个工具叫 :genpkg:`sys-kernel/genkernel` 可用于�
 .. _`桌面环境`: https://wiki.gentoo.org/wiki/Desktop_environment
 .. _`窗口管理器`: https://wiki.gentoo.org/wiki/Window_manager
 .. _`NVIDIA/nvidia-drivers`: https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers
-.. _`::gentoo-zh`: https://github.com/gentoo-mirror/gentoo-zh
-.. _`个人仓库`: https://github.com/gentoo-mirror/ryans
 .. _`Gentoo goes Binary!`: https://www.gentoo.org/news/2023/12/29/Gentoo-binary.html
+.. _`二进制包指南`: https://wiki.gentoo.org/wiki/Binary_package_guide
 .. _`Rime 的 CustomizationGuide`: https://github.com/rime/home/wiki/CustomizationGuide
 .. _`Package sets`: https://wiki.gentoo.org/wiki/Package_sets
 .. _`ebuild repository`: https://wiki.gentoo.org/wiki/Ebuild_repository
